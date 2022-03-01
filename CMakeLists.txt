@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.5)
 # Generator Build
 PROJECT(generator)
 
-add_executable(${PROJECT_NAME} generator/main.cpp generator/main.h)
+add_executable(${PROJECT_NAME} generator/main.cpp generator/main.h generator/Point.cpp generator/Point.h)
 
 # Engine Build
 PROJECT(engine)

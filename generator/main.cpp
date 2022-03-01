@@ -1,27 +1,40 @@
 #include "main.h"
 
+void write_File(vector<Point*> vertices, string filename){
+
+    ofstream file(PATH + filename);
+
+    file << vertices.size() << endl;
+
+    for(int i = 0; i < vertices.size(); i++){
+        file << vertices[i]->getX() << " " << vertices[i]->getY() << " " << vertices[i]->getZ() << endl;
+    }
+    
+    file.close();
+}
+
 void plane(float units, int divisions, string filename){
 
-    float x, y, z, xs, zs, div;
+    float x, y, z, div;
     y = 0;
     vector<Point*> vertices;
 
-    x = units/2;
-    y = units/2;
+    z = x = units/2;
     div = units/divisions;
-    xs = x-div;
-    zs = z-div;
+    
+    for(float i = -x; i < x ; i+=div){
+        for(float j = -z; j < z; j+=div){
+            vertices.push_back(new Point(i,y,j));
+            vertices.push_back(new Point(i,y,j+div));
+            vertices.push_back(new Point(i+div,y,j+div));
 
-    for(int i = 0;;)
+            vertices.push_back(new Point(i+div,y,j+div));
+            vertices.push_back(new Point(i+div,y,j));
+            vertices.push_back(new Point(i,y,j));
+        }
+    }
 
-    vertices.push_back(new Point(-x,y,-z));
-    vertices.push_back(new Point(-x,y,-zs));
-    vertices.push_back(new Point(-xs,y,-zs));
-
-    vertices.push_back(new Point(-xs,y,-zs));
-    vertices.push_back(new Point(-xs,y,-z));
-    vertices.push_back(new Point(-x,y,-z));
-
+    write_File(vertices, filename);
 }
 
 void box(float units, int grid, string filename){

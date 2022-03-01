@@ -9,6 +9,8 @@
 
 #include "Point.h"
 
+#define PATH "../Files/"
+
 using namespace std;
 
 
