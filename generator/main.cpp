@@ -1,7 +1,27 @@
 #include "main.h"
 
 void plane(float units, int divisions, string filename){
-    cout << "Units: " << units << ", Divisions: " << divisions << ", Filename: " << filename << endl;
+
+    float x, y, z, xs, zs, div;
+    y = 0;
+    vector<Point*> vertices;
+
+    x = units/2;
+    y = units/2;
+    div = units/divisions;
+    xs = x-div;
+    zs = z-div;
+
+    for(int i = 0;;)
+
+    vertices.push_back(new Point(-x,y,-z));
+    vertices.push_back(new Point(-x,y,-zs));
+    vertices.push_back(new Point(-xs,y,-zs));
+
+    vertices.push_back(new Point(-xs,y,-zs));
+    vertices.push_back(new Point(-xs,y,-z));
+    vertices.push_back(new Point(-x,y,-z));
+
 }
 
 void box(float units, int grid, string filename){
@@ -12,7 +32,7 @@ void cone(float radius, float height, int slices, int stacks, string filename){
     cout << "Radius: " << radius << ", Height: " << height << ", Slices: " << slices << ", Stacks: " << stacks << ", Filename: " << filename << endl;
 }
 
-void sphere(float radius, int slices, int stacks, string filename) {
+void sphere(float radius, int slices, int stacks, string filename){
     cout << "Radius: " << radius << ", Slices: " << slices << ", Stacks: " << stacks << ", Filename: " << filename << endl;
 }
 
