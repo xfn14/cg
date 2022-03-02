@@ -2,18 +2,19 @@
 #define _BEZIER_PATCH_
 
 #include <iostream>
+#include <vector>
 
-#include "vector"
 #include "point.h"
 
 using namespace std;
 
 class Patch {
-    vector<Point*> points;
+    private:
+    vector<Point> controlPoints;
 
     public:
-        void addPoint(Point*);
-        vector<Point*> getPoints();
+        void addPoint(Point);
+        vector<Point> getPoints();
 };
 
 #endif

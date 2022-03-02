@@ -8,6 +8,10 @@
 #include <vector>
 
 #include "../utils/point.h"
+#include "../utils/patch.h"
+#include "../utils/model.h"
+
+#define PATH "../resources/"
 
 using namespace std;
 
