@@ -7,10 +7,8 @@
 #include <fstream>
 #include <vector>
 
-#include "Point.h"
+#include "../utils/point.h"
 
 using namespace std;
-
-
 
 #endif

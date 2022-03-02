@@ -1,13 +1,12 @@
+#include "point.h"
 
-#include "Point.h"
-
-Point :: Point(){
+Point::Point(){
     x = 0;
     y = 0;
     z = 0;
 }
 
-Point :: Point(float a, float b, float c){
+Point::Point(float a, float b, float c){
     x = a;
     y = b;
     z = c;
@@ -36,4 +35,3 @@ void Point::setY(float b){
 void Point::setZ(float c){
     z = c;
 }
-
