@@ -10,7 +10,7 @@ using namespace std;
 
 class Patch {
     private:
-    vector<Point> controlPoints;
+        vector<Point> controlPoints;
 
     public:
         void addPoint(Point);

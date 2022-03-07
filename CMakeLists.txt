@@ -10,7 +10,7 @@ PROJECT(engine)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-add_executable(${PROJECT_NAME} engine/main.cpp engine/main.h)
+add_executable(${PROJECT_NAME} engine/main.cpp engine/main.h utils/point.cpp utils/point.h libs/tinyxml2.cpp libs/tinyxml2.h engine/camera.cpp engine/camera.h engine/world.cpp engine/world.h)
 
 find_package(OpenGL REQUIRED)
 include_directories(${OpenGL_INCLUDE_DIRS})

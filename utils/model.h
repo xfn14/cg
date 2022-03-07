@@ -9,11 +9,11 @@ using namespace std;
 
 class Model {
     private:
-    vector<Patch> patches;
+        vector<Patch *> patches;
 
     public:
-        void addPatch(Patch);
-        vector<Patch> getPatches();
+        void addPatch(Patch * patch);
+        vector<Patch *> getPatches();
         void writeToFile(string path);
         int readModel(string path);
 };

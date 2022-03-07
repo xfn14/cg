@@ -14,6 +14,8 @@
 #include <string.h>
 #include <iostream>
 
+#include "world.h"
+
 using namespace std;
 
 #endif
