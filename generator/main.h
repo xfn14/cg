@@ -11,8 +11,8 @@
 #include "../utils/patch.h"
 #include "../utils/model.h"
 
-#define PATH "../resources/"
-
 using namespace std;
+
+#define PATH "../resources/"
 
 #endif

@@ -15,6 +15,7 @@ class Model {
         void addPatch(Patch);
         vector<Patch> getPatches();
         void writeToFile(string path);
+        int readModel(string path);
 };
 
 #endif
