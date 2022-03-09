@@ -9,14 +9,14 @@ void plane(float units, int divisions, string filename){
     
     for(float i = -x; i < x ; i+=div){
         for(float j = -z; j < z; j+=div){
-            Patch *patch;
-            patch->addPoint(new Point(i, y, j));
-            patch->addPoint(new Point(i, y, j + div));
-            patch->addPoint(new Point(i + div, y, j + div));
+            Patch * patch;
+            patch->addPoint(*(new Point(i, y, j)));
+            patch->addPoint(*(new Point(i, y, j + div)));
+            patch->addPoint(*(new Point(i + div, y, j + div)));
 
-            patch->addPoint(new Point(i+ div, y, j+div));
-            patch->addPoint(new Point(i + div, y, j));
-            patch->addPoint(new Point(i, y, j));
+            patch->addPoint(*(new Point(i+ div, y, j+div)));
+            patch->addPoint(*(new Point(i + div, y, j)));
+            patch->addPoint(*(new Point(i, y, j)));
 
             model.addPatch(patch);
         }

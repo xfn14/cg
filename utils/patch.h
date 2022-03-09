@@ -10,11 +10,12 @@ using namespace std;
 
 class Patch {
     private:
-        vector<Point*> controlPoints;
+        vector<Point> controlPoints;
 
     public:
-        void addPoint(Point*);
-        vector<Point*> getPoints();
+        Patch();
+        void addPoint(Point);
+        vector<Point> getPoints();
 };
 
 #endif
