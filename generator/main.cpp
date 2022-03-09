@@ -1,26 +1,27 @@
 #include "main.h"
 
 void plane(float units, int divisions, string filename){
+    Model model;   
     float x, y, z, div;
     y = 0;
-    vector<Point*> vertices;
-
     z = x = units / 2;
     div = units / divisions;
     
     for(float i = -x; i < x ; i+=div){
         for(float j = -z; j < z; j+=div){
-            vertices.push_back(new Point(i, y, j));
-            vertices.push_back(new Point(i, y, j + div));
-            vertices.push_back(new Point(i + div, y, j + div));
+            Patch *patch;
+            patch->addPoint(new Point(i, y, j));
+            patch->addPoint(new Point(i, y, j + div));
+            patch->addPoint(new Point(i + div, y, j + div));
 
-            vertices.push_back(new Point(i+ div, y, j+div));
-            vertices.push_back(new Point(i + div, y, j));
-            vertices.push_back(new Point(i, y, j));
+            patch->addPoint(new Point(i+ div, y, j+div));
+            patch->addPoint(new Point(i + div, y, j));
+            patch->addPoint(new Point(i, y, j));
+
+            model.addPatch(patch);
         }
     }
-
-    // write_File(vertices, filename);
+    model.writeToFile(filename);
 }
 
 void box(float units, int grid, string filename){

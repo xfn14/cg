@@ -1,9 +1,9 @@
 #include "patch.h"
 
-void Patch::addPoint(Point point) {
+void Patch::addPoint(Point *point) {
     controlPoints.push_back(point);
 }
 
-vector<Point> Patch::getPoints() {
+vector<Point*> Patch::getPoints() {
     return controlPoints;
 }
