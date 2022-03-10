@@ -25,7 +25,71 @@ void plane(float units, int divisions, string filename){
 }
 
 void box(float units, int grid, string filename){
-    cout << "Units: " << units << ", Grid: " << grid << ", Filename: " << filename << endl;
+    Model model;
+    float x, y, z, div;
+    x = y = z = units/2;
+    div = units/grid;
+
+    //Fundo do Cubo
+    for(int j = -x; j < x; j+=div){
+        for(int k = -z; k < z; k+=div){
+            Patch* patch;
+            patch->addPoint(*(new Point(j, -y, k)));
+            patch->addPoint(*(new Point(j, -y, k+div)));
+            patch->addPoint(*(new Point(j+div, -y, k+div)));
+
+            patch->addPoint(*(new Point(j+div, -y, k+div)));
+            patch->addPoint(*(new Point(j+div, -y, k)));
+            patch->addPoint(*(new Point(j, -y, k)));
+
+            model.addPatch(patch);
+        }
+    }
+
+    //Topo do Cubo
+    for(int j = -x; j < x; j+=div){
+        for(int k = -z; k < z; k+=div){
+            Patch* patch;
+            patch->addPoint(*(new Point(j, y, k)));
+            patch->addPoint(*(new Point(j, y, k+div)));
+            patch->addPoint(*(new Point(j+div, y, k+div)));
+
+            patch->addPoint(*(new Point(j+div, y, k+div)));
+            patch->addPoint(*(new Point(j+div, y, k)));
+            patch->addPoint(*(new Point(j, y, k)));
+
+            model.addPatch(patch);
+        }
+    }
+
+    //Lateral do Cubo
+    for(int i = -y; i < y; i+=div){
+        for(int j = -x; j < x; j+=div){
+            Patch* patch;
+            for(int k = -z; k < z; k+=div){
+                patch->addPoint(*(new Point(j, i+div, k)));
+                patch->addPoint(*(new Point(j+div, i+div, k)));
+                patch->addPoint(*(new Point(j+div, i, k)));
+
+                patch->addPoint(*(new Point(j+div, i, k)));
+                patch->addPoint(*(new Point(j, i, k)));
+                patch->addPoint(*(new Point(j, i+div, k)));
+            }
+
+            /*
+            patch->addPoint(*(new Point(-x, i+div, (-z) + div)));
+            patch->addPoint(*(new Point(-x, i+div, -z)));
+            patch->addPoint(*(new Point(-x, i, -z)));
+
+            patch->addPoint(*(new Point(-x, i, -z)));
+            patch->addPoint(*(new Point(-x, i, (-z) + div)));
+            patch->addPoint(*(new Point(-x, i+div, (-z) + div)));
+            */
+            
+        }
+    }
+
+    model.writeToFile(filename);
 }
 
 void cone(float radius, float height, int slices, int stacks, string filename){
