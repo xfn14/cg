@@ -1,6 +1,7 @@
 #include "main.h"
 
 double g_time = 0.f, scale = 0.f, frequency = 1.f;
+World world;
 
 void changeSize(int w, int h) {
     if (h == 0) h = 1;
@@ -18,14 +19,17 @@ void renderScene(void) {
 
     glLoadIdentity();
     gluLookAt(
-        0.0f, 0.0f, 5.0f,
+        0.0f, 10.0f, 10.0f,
         0.0f, 0.0f, -1.0f,
         0.0f, 1.0f, 0.0f
     );
 
-    scale = sin(frequency * 2.0 * M_PI * g_time) * 0.5 + 1.0;
-    glutWireTeapot(scale);
+    // scale = sin(frequency * 2.0 * M_PI * g_time) * 0.5 + 1.0;
+    // glutWireTeapot(scale);
     
+    for(Model model : world.getModels())
+        model.drawModel();
+
     glutSwapBuffers();
 }
 
@@ -44,10 +48,19 @@ int main(int argc, char** argv) {
     string path = argv[1];
     string xmlFile = argv[2];
     
-    World world;
-    world.parseXML(path + xmlFile);
+    world.parseXML(path, xmlFile);
     Camera camera = world.getCamera();
     cout << camera.getPosition().getY() << endl;
+
+    vector<Model> models = world.getModels();
+    for(Model model : models)
+        for(Patch * patch : model.getPatches())
+            for(Point point : patch->getPoints())
+                cout << point.getX() << " " << point.getY() << " " << point.getZ() << endl;
+
+    // Model model;
+    // model.readModel(path + "plane.3d");
+    
 
     // Window settings
     glutInit(&argc, argv);

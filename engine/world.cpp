@@ -8,20 +8,25 @@ vector<Model> World::getModels() {
     return models;
 }
 
-int World::parseXML(string path) {
-    cout << "Loading " << path << "." << endl;
+void World::addModel(Model model) {
+    models.push_back(model);
+}
+
+int World::parseXML(string path, string filename) {
+    string file = path + filename;
+    cout << "Loading " << file << "." << endl;
     XMLDocument doc;
-    if(!doc.LoadFile(path.c_str())){
+    if(!doc.LoadFile(file.c_str())){
         XMLElement * cameraElem = doc.FirstChildElement("world")->FirstChildElement("camera");
         XMLElement * groupElem = doc.FirstChildElement("world")->FirstChildElement("group");
         
         World::parseCamera(cameraElem);
-        World::parseGroup(groupElem);
+        World::parseGroup(path, groupElem);
 
-        cout << "Finished loading " << path << "." << endl;
+        cout << "Finished loading " << file << "." << endl;
         return 1;
     }
-    cout << "Failed to load " << path << "." << endl;
+    cout << "Failed to load " << file << "." << endl;
     return 0;
 }
 
@@ -57,5 +62,34 @@ void World::parseCamera(XMLElement * elem) {
     World::camera.setFar(far);
 }
 
-void World::parseGroup(XMLElement * elem) {
+void World::parseGroup(string path, XMLElement * elem) {
+    for(XMLElement * child = elem->FirstChildElement(); child != NULL; child = child->NextSiblingElement()){
+        string val = child->Value();
+        if(val == "models") {
+            parseModels(path, child);
+        } else if(child->Value() == "group")
+            parseGroup(path, child);
+    }
+}
+
+void World::parseModels(string path, XMLElement * elem) {
+    for(XMLElement * child = elem->FirstChildElement(); child != NULL; child = child->NextSiblingElement()){
+        string val = child->Value();
+        if(val == "model") {
+            string filename = child->Attribute("file");
+            Model model;
+            cout << path << filename << endl;
+            model.readModel(path + filename);
+            World::addModel(model);
+        }
+    }
+}
+
+void Model::drawModel() {
+    for(Patch * patch : getPatches()) {
+        glBegin(GL_LINE_STRIP);
+        for(Point point : patch->getPoints())
+            glVertex3f(point.getX(), point.getY(), point.getZ());
+        glEnd();
+    }
 }

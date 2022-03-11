@@ -15,6 +15,7 @@
 #include <iostream>
 
 #include "world.h"
+#include "../utils/model.h"
 
 using namespace std;
 
