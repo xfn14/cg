@@ -175,11 +175,13 @@ void cone(float radius, float height, int slices, int stacks, string filename){
     cout << "Radius: " << radius << ", Height: " << height << ", Slices: " << slices << ", Stacks: " << stacks << ", Filename: " << filename << endl;
 
     Model model;
-    float delta = (2*(float)M_PI/(float)slices);
+    float deltah = (2*(float)M_PI/(float)slices), deltav = height/stacks, deltaRaio = radius/stacks;
     float y=height/2;
+
+
     for(int i=0; i<slices; i++){
         Patch patch;
-        float angle1 = (float)i*delta, angle2 = (float)(i+1)*delta;
+        float angle1 = (float)i*deltah, angle2 = (float)(i+1)*deltah;
         //base
         patch.addPoint(*(new Point(0.0f,-y,0.0f)));
         patch.addPoint(*(new Point(radius*sinf(angle2),-y,radius*cosf(angle2))));
@@ -189,10 +191,51 @@ void cone(float radius, float height, int slices, int stacks, string filename){
         model.writeToFile(filename);
     }
 
+    float raioStack, alturaS;
+
+    for(int j=0; j<stacks; j++){
+        for(int i=0; i<slices; i++){
+            Patch patch;
+            float angle1 = (float)i*deltah, angle2 = (float)(i+1)*deltah;
+            //base
+            patch.addPoint(*(new Point(0.0f,-y,0.0f)));
+            patch.addPoint(*(new Point(radius*sinf(angle2),-y,radius*cosf(angle2))));
+            patch.addPoint(*(new Point(radius*sinf(angle1),-y,radius*cosf(angle1))));
+
+            //laterais
+            raioStack = radius - (float) j*deltaRaio;
+            alturaS = -y + (float) j*deltav;
+
+            if (j == stacks-1){
+                patch.addPoint(*(new Point(raioStack * sinf(angle1), alturaS, raioStack * cosf(angle1))));
+                patch.addPoint(*(new Point(raioStack * sinf(angle2), alturaS, raioStack * cosf(angle2))));
+                patch.addPoint(*(new Point(0, height, 0)));
+            }
+            else {
+                patch.addPoint(*(new Point(raioStack * sinf(angle1), alturaS, raioStack * cosf(angle1))));
+                patch.addPoint(*(new Point(raioStack * sinf(angle2), alturaS, raioStack * cosf(angle2))));
+                patch.addPoint(*(new Point((raioStack + deltaRaio) * sinf(angle1), alturaS+deltav, (raioStack + deltaRaio) * cosf(angle1))));
+
+                patch.addPoint(*(new Point((raioStack + deltaRaio) * sinf(angle1), alturaS+deltav, (raioStack + deltaRaio) * cosf(angle1))));
+                patch.addPoint(*(new Point(raioStack * sinf(angle2), alturaS, raioStack * cosf(angle2))));
+                patch.addPoint(*(new Point((raioStack + deltaRaio) * sinf(angle2), alturaS+deltav, (raioStack + deltaRaio) * cosf(angle2))));
+
+            }
+
+            model.addPatch(&patch);
+            model.writeToFile(filename);
+        }
+    }
+
+
 }
 
 void sphere(float radius, int slices, int stacks, string filename){
     cout << "Radius: " << radius << ", Slices: " << slices << ", Stacks: " << stacks << ", Filename: " << filename << endl;
+
+    for(int i=0; i<slices; i++){
+
+    }
 }
 
 int main(int argc, char const *argv[]) {
