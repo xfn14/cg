@@ -6,6 +6,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include "cmath"
 
 #include "../utils/point.h"
 #include "../utils/patch.h"
