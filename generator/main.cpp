@@ -6,21 +6,7 @@ void plane(float units, int divisions, string filename){
     float x, z, div;
     z = x = -(units/2);
     div = units / (float) divisions;
-    /*
-    for(float i = -x; i < x ; i+=div){
-        for(float j = -z; j < z; j+=div){
-            Patch patch;
-            patch.addPoint(*(new Point(i, 0, j)));
-            patch.addPoint(*(new Point(i, 0, j + div)));
-            patch.addPoint(*(new Point(i + div, 0, j + div)));
 
-            patch.addPoint(*(new Point(i+ div, 0, j+div)));
-            patch.addPoint(*(new Point(i, 0, j)));
-            patch.addPoint(*(new Point(i + div, 0, j)));
-
-            model.addPatch(&patch);
-        }
-    }*/
     for (int i=0; i<divisions; i++){
         for(int j=0; j<divisions; j++){
             Patch patch;
@@ -33,10 +19,10 @@ void plane(float units, int divisions, string filename){
             patch.addPoint(*(new Point(x + (float) (j+1)*div, 0, z + (float) i*div)));
             patch.addPoint(*(new Point(x + (float) j*div, 0, z + (float) i*div)));
 
-            model.addPatch(&patch);
-            model.writeToFile(filename);
+            model.addPatch(patch);
         }
     }
+    model.writeToFile(filename);
 }
 
 void box(float units, int grid, string filename){
@@ -44,66 +30,6 @@ void box(float units, int grid, string filename){
     float x, y, z, div;
     x = y = z = - units/2;
     div = units/(float) grid;
-    /*
-    //Fundo do Cubo
-    for(int j = -x; j < x; j+=div){
-        for(int k = -z; k < z; k+=div){
-            Patch* patch;
-            patch.addPoint(*(new Point(j, -y, k)));
-            patch.addPoint(*(new Point(j, -y, k+div)));
-            patch.addPoint(*(new Point(j+div, -y, k+div)));
-
-            patch.addPoint(*(new Point(j+div, -y, k+div)));
-            patch.addPoint(*(new Point(j+div, -y, k)));
-            patch.addPoint(*(new Point(j, -y, k)));
-
-            model.addPatch(patch);
-        }
-    }
-
-    //Topo do Cubo
-    for(int j = -x; j < x; j+=div){
-        for(int k = -z; k < z; k+=div){
-            Patch* patch;
-            patch.addPoint(*(new Point(j, y, k)));
-            patch.addPoint(*(new Point(j, y, k+div)));
-            patch.addPoint(*(new Point(j+div, y, k+div)));
-
-            patch.addPoint(*(new Point(j+div, y, k+div)));
-            patch.addPoint(*(new Point(j+div, y, k)));
-            patch.addPoint(*(new Point(j, y, k)));
-
-            model.addPatch(patch);
-        }
-    }
-
-    //Lateral do Cubo
-    for(int i = -y; i < y; i+=div){
-        for(int j = -x; j < x; j+=div){
-            Patch* patch;
-            for(int k = -z; k < z; k+=div){
-                patch.addPoint(*(new Point(j, i+div, k)));
-                patch.addPoint(*(new Point(j+div, i+div, k)));
-                patch.addPoint(*(new Point(j+div, i, k)));
-
-                patch.addPoint(*(new Point(j+div, i, k)));
-                patch.addPoint(*(new Point(j, i, k)));
-                patch.addPoint(*(new Point(j, i+div, k)));
-            }
-
-
-            patch.addPoint(*(new Point(-x, i+div, (-z) + div)));
-            patch.addPoint(*(new Point(-x, i+div, -z)));
-            patch.addPoint(*(new Point(-x, i, -z)));
-
-            patch.addPoint(*(new Point(-x, i, -z)));
-            patch.addPoint(*(new Point(-x, i, (-z) + div)));
-            patch.addPoint(*(new Point(-x, i+div, (-z) + div)));
-
-            
-        }
-    }
-             */
 
     for (int i=0; i < grid; i++){
         for(int j=0; j < grid; j++){
@@ -162,11 +88,11 @@ void box(float units, int grid, string filename){
             patch.addPoint(*(new Point(x + (float) j*div, y + (float) i*div, z)));
             patch.addPoint(*(new Point(x + (float) (j+1)*div, y + (float) i*div, z)));
 
-            model.addPatch(&patch);
-            model.writeToFile(filename);
+            model.addPatch(patch);
+
         }
     }
-
+    model.writeToFile(filename);
 
 }
 
@@ -179,15 +105,16 @@ void cone(float radius, float height, int slices, int stacks, string filename){
 
     float raioStack, alturaS;
 
-    for(int j=0; j<stacks; j++){
-        for(int i=0; i<slices; i++){
-            Patch patch;
-            float angle1 = (float)i*deltah, angle2 = (float)(i+1)*deltah;
-            //base
-            patch.addPoint(*(new Point(0.0f,-y,0.0f)));
-            patch.addPoint(*(new Point(radius*sinf(angle2),-y,radius*cosf(angle2))));
-            patch.addPoint(*(new Point(radius*sinf(angle1),-y,radius*cosf(angle1))));
+    for(int i=0; i<slices; i++){
 
+        Patch patch;
+        float angle1 = (float)i*deltah, angle2 = (float)(i+1)*deltah;
+        //base
+        patch.addPoint(*(new Point(0.0f,-y,0.0f)));
+        patch.addPoint(*(new Point(radius*sinf(angle2),-y,radius*cosf(angle2))));
+        patch.addPoint(*(new Point(radius*sinf(angle1),-y,radius*cosf(angle1))));
+
+        for(int j=0; j<stacks; j++){
             //laterais
             raioStack = radius - (float) j*deltaRaio;
             alturaS = -y + (float) j*deltav;
@@ -195,7 +122,7 @@ void cone(float radius, float height, int slices, int stacks, string filename){
             if (j == stacks-1){
                 patch.addPoint(*(new Point(raioStack * sinf(angle1), alturaS, raioStack * cosf(angle1))));
                 patch.addPoint(*(new Point(raioStack * sinf(angle2), alturaS, raioStack * cosf(angle2))));
-                patch.addPoint(*(new Point(0, height, 0)));
+                patch.addPoint(*(new Point(0, -y + height, 0)));
             }
             else {
                 patch.addPoint(*(new Point(raioStack * sinf(angle1), alturaS, raioStack * cosf(angle1))));
@@ -208,12 +135,11 @@ void cone(float radius, float height, int slices, int stacks, string filename){
 
             }
 
-            model.addPatch(&patch);
-            model.writeToFile(filename);
         }
+        model.addPatch(patch);
+
     }
-
-
+    model.writeToFile(filename);
 }
 
 void sphere(float radius, int slices, int stacks, string filename){
@@ -222,6 +148,27 @@ void sphere(float radius, int slices, int stacks, string filename){
     for(int i=0; i<slices; i++){
 
     }
+}
+#include <vector>
+
+void ex(){
+    Model model;
+    for(int j=0; j<3; j++) {
+        Patch patch;
+
+        patch.addPoint(*(new Point((float) j,2,3)));
+        patch.addPoint(*(new Point(2,3,4)));
+        patch.addPoint(*(new Point(3,4,5)));
+
+
+        patch.addPoint(*(new Point(3,4,5)));
+        patch.addPoint(*(new Point(4,5,6)));
+        patch.addPoint(*(new Point(5,6,7)));
+
+        model.addPatch(patch);
+        model.writeToFile("teste.txt");
+    }
+
 }
 
 int main(int argc, char const *argv[]) {
@@ -246,7 +193,7 @@ int main(int argc, char const *argv[]) {
             atoi(argv[4]),
             atoi(argv[5]),
             argv[6]
-        );
+        );ex();
         return 0;
     } else if (argc == 6 && strcmp(argv[1], "sphere") == 0) {
         sphere(

@@ -1,10 +1,10 @@
 #include "model.h"
 
-void Model::addPatch(Patch * patch) {
+void Model::addPatch(Patch  patch) {
     patches.push_back(patch);
 }
 
-vector<Patch *> Model::getPatches() {
+vector<Patch > Model::getPatches() {
     return patches;
 }
 
@@ -17,15 +17,15 @@ void Model::writeToFile(string path) {
     // Maybe meter os pontos num mapa antes de os escrever para reduzir repetidos
 
     int i, j, pointIndex = 0;
-    for(Patch * patch : patches){
-        for(j = 0; j < patch->getPoints().size(); ++j)
+    for(Patch  patch : patches){
+        for(j = 0; j < patch.getPoints().size(); ++j)
             file << pointIndex++ << " ";
         file << endl;
     }
 
     file << pointIndex << endl;
-    for(Patch * patch : patches){
-        vector<Point> controlPoints = patch->getPoints();
+    for(Patch  patch : patches){
+        vector<Point> controlPoints = patch.getPoints();
         for(j = 0; j < controlPoints.size(); ++j)
             file << controlPoints[j].getX() << " " << controlPoints[j].getY() << " " << controlPoints[j].getZ() << endl;
     }
@@ -86,7 +86,7 @@ int Model::readModel(string path) {
         Patch * patch = new Patch();
         for(int idx : crtPatch)
             patch->addPoint(points[idx]);
-        addPatch(patch);
+        addPatch(*patch);
     }
     return 1;
 }
