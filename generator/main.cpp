@@ -1,5 +1,6 @@
 #include "main.h"
 
+
 void plane(float units, int divisions, string filename){
     Model model;   
     float x, z, div;
@@ -36,8 +37,6 @@ void plane(float units, int divisions, string filename){
             model.writeToFile(filename);
         }
     }
-
-
 }
 
 void box(float units, int grid, string filename){
@@ -45,7 +44,7 @@ void box(float units, int grid, string filename){
     float x, y, z, div;
     x = y = z = - units/2;
     div = units/(float) grid;
-/*
+    /*
     //Fundo do Cubo
     for(int j = -x; j < x; j+=div){
         for(int k = -z; k < z; k+=div){
@@ -106,8 +105,8 @@ void box(float units, int grid, string filename){
     }
              */
 
-    for (int i=0; i<grid; i++){
-        for(int j=0; j<grid; j++){
+    for (int i=0; i < grid; i++){
+        for(int j=0; j < grid; j++){
             Patch patch;
             //face de cima
             patch.addPoint(*(new Point(x + (float) j*div, -y, z + (float) i*div)));
@@ -175,13 +174,13 @@ void cone(float radius, float height, int slices, int stacks, string filename){
     cout << "Radius: " << radius << ", Height: " << height << ", Slices: " << slices << ", Stacks: " << stacks << ", Filename: " << filename << endl;
 
     Model model;
-    float delta = (2*(float)M_PI/(float)slices);
+    float delta = (2 * (float) M_PI / (float) slices);
     float y=height/2;
     for(int i=0; i<slices; i++){
         Patch patch;
         float angle1 = (float)i*delta, angle2 = (float)(i+1)*delta;
         //base
-        patch.addPoint(*(new Point(0.0f,-y,0.0f)));
+        patch.addPoint(*(new Point(0.0f, -y, 0.0f)));
         patch.addPoint(*(new Point(radius*sinf(angle2),-y,radius*cosf(angle2))));
         patch.addPoint(*(new Point(radius*sinf(angle1),-y,radius*cosf(angle1))));
 
@@ -228,6 +227,5 @@ int main(int argc, char const *argv[]) {
         );
         return 0;
     }
-
     return 0;
 }

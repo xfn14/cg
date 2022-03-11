@@ -23,6 +23,7 @@ void Model::writeToFile(string path) {
         file << endl;
     }
 
+    file << pointIndex << endl;
     for(Patch * patch : patches){
         vector<Point> controlPoints = patch->getPoints();
         for(j = 0; j < controlPoints.size(); ++j)
@@ -34,12 +35,13 @@ void Model::writeToFile(string path) {
 
 int Model::readModel(string path) {
     std::ifstream file(path);
+    
     if(!file.is_open()) return 0;
 
     // Load Patches indexes
-    int numPatch;
-    file >> numPatch;
-    int i, j;
+    string np;
+    std::getline(file, np);
+    int numPatch = stoi(np), i, j;
     vector<vector<int>> patchesIndexes;
     for(i = 0; i < numPatch; ++i) {
         string line, temp = "";
@@ -57,26 +59,25 @@ int Model::readModel(string path) {
     }
 
     // Load control points
-    int numPoints, crt = 0;
-    file >> numPoints;
+    std::getline(file, np);
+    int numPoints = stoi(np), crt = 0;
     Point points[numPoints];
     for(i = 0; i < numPoints; ++i) {
         string line, temp = "";
         std::getline(file, line);
         float x, y, z;
         int n = 0;
-        for(j = 0; j < line.length(); ++j) {
-            if(line[j] == ',' || line[j] == '\n') continue;
-            else if(line[j] == '\n') {
-                points[crt].setZ(stof(temp));
-            } else if(line[j] == ' ' && temp != "") {
+        
+        for(j = 0; j < line.length()+1; ++j) {
+            if(line[j] == ',') continue;
+            else if(line[j] == ' ' && temp != "") {
                 if(n == 0) {
                     points[crt].setX(stof(temp));
                     n = 1;
                 } else points[crt].setY(stof(temp));
                 temp = "";
             } else temp.push_back(line[j]);
-        }
+        } if(temp != "") points[crt].setZ(stof(temp));
         ++crt;
     }
 
