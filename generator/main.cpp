@@ -10,14 +10,17 @@ void plane(float units, int divisions, string filename){
     for (int i=0; i<divisions; i++){
         for(int j=0; j<divisions; j++){
             Patch patch;
+
+            patch.addPoint(*(new Point(x + (float) j*div, 0, z + (float) i*div)));
+            patch.addPoint(*(new Point(x + (float) (j+1)*div, 0, z + (float) (i+1)*div)));
+            patch.addPoint(*(new Point(x + (float) (j+1)*div, 0, z + (float) i*div)));
+
             patch.addPoint(*(new Point(x + (float) j*div, 0, z + (float) i*div)));
             patch.addPoint(*(new Point(x + (float) j*div, 0, z + (float) (i+1)*div)));
             patch.addPoint(*(new Point(x + (float) (j+1)*div, 0, z + (float) (i+1)*div)));
 
 
-            patch.addPoint(*(new Point(x + (float) (j+1)*div, 0, z + (float) (i+1)*div)));
-            patch.addPoint(*(new Point(x + (float) (j+1)*div, 0, z + (float) i*div)));
-            patch.addPoint(*(new Point(x + (float) j*div, 0, z + (float) i*div)));
+
 
             model.addPatch(patch);
         }
@@ -35,9 +38,9 @@ void box(float units, int grid, string filename){
         for(int j=0; j < grid; j++){
             Patch patch;
             //face de cima
+            patch.addPoint(*(new Point(x + (float) (j+1)*div, -y, z + (float) (i+1)*div)));
             patch.addPoint(*(new Point(x + (float) j*div, -y, z + (float) i*div)));
             patch.addPoint(*(new Point(x + (float) j*div, -y, z + (float) (i+1)*div)));
-            patch.addPoint(*(new Point(x + (float) (j+1)*div, -y, z + (float) (i+1)*div)));
 
             patch.addPoint(*(new Point(x + (float) (j+1)*div, -y, z + (float) (i+1)*div)));
             patch.addPoint(*(new Point(x + (float) (j+1)*div, -y, z + (float) i*div)));
@@ -71,12 +74,12 @@ void box(float units, int grid, string filename){
             patch.addPoint(*(new Point(-x, y + (float) i*div, z + (float) j*div)));
 
             //face lateral z
-            patch.addPoint(*(new Point(x + (float) j*div, y + (float) i*div, -z)));
-            patch.addPoint(*(new Point(x + (float) j*div, y + (float) (i+1)*div, -z)));
             patch.addPoint(*(new Point(x + (float) (j+1)*div, y + (float) (i+1)*div, -z)));
+            patch.addPoint(*(new Point(x + (float) j*div, y + (float) i*div, -z)));
+            patch.addPoint(*(new Point(x + (float) (j+1)*div, y + (float) i*div, -z)));
 
             patch.addPoint(*(new Point(x + (float) (j+1)*div, y + (float) (i+1)*div, -z)));
-            patch.addPoint(*(new Point(x + (float) (j+1)*div, y + (float) i*div, -z)));
+            patch.addPoint(*(new Point(x + (float) j*div, y + (float) (i+1)*div, -z)));
             patch.addPoint(*(new Point(x + (float) j*div, y + (float) i*div, -z)));
 
             //face lateral -z
@@ -101,7 +104,7 @@ void cone(float radius, float height, int slices, int stacks, string filename){
     float deltah = (2.0f*(float)M_PI/(float)slices), deltav = height/(float) stacks, deltaRaio = radius/(float) stacks;
     float y=height/2;
 
-    float raioStack, alturaS;/*
+    float  alturaS;/*
     for(int i=0; i<slices; i++) {
 
         float angle1 = (float) i * deltah, angle2 = (float) (i + 1) * deltah;
@@ -126,20 +129,22 @@ void cone(float radius, float height, int slices, int stacks, string filename){
                 patch.addPoint(*(new Point(radius * sinf(angle1), -y, radius * cosf(angle1))));
             }
             //laterais
-            raioStack = radius - (float) j * deltaRaio;
+            float raioStack1 = radius - (float) j * deltaRaio;
+            float raioStack2 = radius - (float) (j+1) * deltaRaio;
             alturaS = -y + (float) j * deltav;
             if (j < stacks-1) {
-                patch.addPoint(*(new Point(raioStack * sinf(angle1), alturaS, raioStack * cosf(angle1))));
-                patch.addPoint(*(new Point(raioStack * sinf(angle2), alturaS, raioStack * cosf(angle2))));
-                patch.addPoint(*(new Point((raioStack + deltaRaio) * sinf(angle1), alturaS+deltav, (raioStack + deltaRaio) * cosf(angle1))));
-                patch.addPoint(*(new Point((raioStack + deltaRaio) * sinf(angle1), alturaS+deltav, (raioStack + deltaRaio) * cosf(angle1))));
-                patch.addPoint(*(new Point(raioStack * sinf(angle2), alturaS, raioStack * cosf(angle2))));
-                patch.addPoint(*(new Point((raioStack + deltaRaio) * sinf(angle2), alturaS+deltav, (raioStack + deltaRaio) * cosf(angle2))));
+                patch.addPoint(*(new Point(raioStack1 * sinf(angle1), alturaS, raioStack1 * cosf(angle1))));
+                patch.addPoint(*(new Point(raioStack1 * sinf(angle2), alturaS, raioStack1 * cosf(angle2))));
+                patch.addPoint(*(new Point(raioStack2 * sinf(angle1), alturaS+deltav, raioStack2 * cosf(angle1))));
+
+                patch.addPoint(*(new Point(raioStack2 * sinf(angle1), alturaS+deltav, raioStack2 * cosf(angle1))));
+                patch.addPoint(*(new Point(raioStack1 * sinf(angle2), alturaS, raioStack1 * cosf(angle2))));
+                patch.addPoint(*(new Point(raioStack2 * sinf(angle2), alturaS+deltav, raioStack2 * cosf(angle2))));
             }
             else{
-                patch.addPoint(*(new Point(raioStack * sinf(angle1), alturaS, raioStack * cosf(angle1))));
-                patch.addPoint(*(new Point(raioStack * sinf(angle2), alturaS, raioStack * cosf(angle2))));
-                patch.addPoint(*(new Point(0, -y + height, 0)));
+                patch.addPoint(*(new Point(raioStack1 * sinf(angle1), alturaS, raioStack1 * cosf(angle1))));
+                patch.addPoint(*(new Point(raioStack1 * sinf(angle2), alturaS, raioStack1 * cosf(angle2))));
+                patch.addPoint(*(new Point(0, y, 0)));
             }
             model.addPatch(patch);
         }

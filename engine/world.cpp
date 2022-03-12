@@ -86,10 +86,36 @@ void World::parseModels(string path, XMLElement * elem) {
 }
 
 void Model::drawModel() {
-    for(Patch * patch : getPatches()) {
-        glBegin(GL_LINE_STRIP);
-        for(Point point : patch->getPoints())
-            glVertex3f(point.getX(), point.getY(), point.getZ());
-        glEnd();
-    }
+    /*for(Patch patch : getPatches()) {
+        vector<Point> points = patch.getPoints();
+        for(int i=0; i<points.size()/3; i++) {
+            Point point1 = points[i*3];
+            Point point2 = points[i*3+1];
+            Point point3 = points[i*3+2];
+            glBegin(GL_TRIANGLES);
+            glVertex3f(point1.getX(), point1.getY(), point1.getZ());
+            glVertex3f(point2.getX(), point2.getY(), point2.getZ());
+            glVertex3f(point3.getX(), point3.getY(), point3.getZ());
+            glEnd();
+        }
+
+    }*/
+    for(Patch patch : getPatches()) {
+        glBegin(GL_TRIANGLES);
+        vector<Point> primitives = patch.getPoints();
+        for (int i = 0; i < primitives.size(); i++){
+
+
+                glColor3f(static_cast <float> (rand()) / static_cast <float> (RAND_MAX),
+                          static_cast <float> (rand()) / static_cast <float> (RAND_MAX),
+                          static_cast <float> (rand()) / static_cast <float> (RAND_MAX));
+
+                Point point = primitives[i];
+
+                glVertex3f(point.getX(), point.getY(), point.getZ());
+
+    } glEnd();
+}
+
+
 }

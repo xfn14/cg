@@ -19,8 +19,8 @@ void renderScene(void) {
 
     glLoadIdentity();
     gluLookAt(
-        0.0f, 10.0f, 10.0f,
-        0.0f, 0.0f, -1.0f,
+        0.0f, 0.0f, 0.0f,
+        0.0f, 0.0f, 0.0f,
         0.0f, 1.0f, 0.0f
     );
 
@@ -54,8 +54,8 @@ int main(int argc, char** argv) {
 
     vector<Model> models = world.getModels();
     for(Model model : models)
-        for(Patch * patch : model.getPatches())
-            for(Point point : patch->getPoints())
+        for(Patch patch : model.getPatches())
+            for(Point point : patch.getPoints())
                 cout << point.getX() << " " << point.getY() << " " << point.getZ() << endl;
 
     // Model model;
