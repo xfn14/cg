@@ -19,9 +19,6 @@ void plane(float units, int divisions, string filename){
             patch.addPoint(*(new Point(x + (float) j*div, 0, z + (float) (i+1)*div)));
             patch.addPoint(*(new Point(x + (float) (j+1)*div, 0, z + (float) (i+1)*div)));
 
-
-
-
             model.addPatch(patch);
         }
     }
@@ -125,7 +122,7 @@ void cone(float radius, float height, int slices, int stacks, string filename){
                 patch.addPoint(*(new Point(raioStack1 * sinf(angle2), alturaS, raioStack1 * cosf(angle2))));
                 patch.addPoint(*(new Point(raioStack2 * sinf(angle1), alturaS2, raioStack2 * cosf(angle1))));
 
-                patch.addPoint(*(new Point(raioStack2 * sinf(angle1), alturaS+deltav, raioStack2 * cosf(angle1))));
+                patch.addPoint(*(new Point(raioStack2 * sinf(angle1), alturaS2, raioStack2 * cosf(angle1))));
                 patch.addPoint(*(new Point(raioStack1 * sinf(angle2), alturaS, raioStack1 * cosf(angle2))));
                 patch.addPoint(*(new Point(raioStack2 * sinf(angle2), alturaS2, raioStack2 * cosf(angle2))));
             }
@@ -218,8 +215,17 @@ void tronco(float radius1, float radius2, float height, int slices, int stacks, 
     model.writeToFile(filename);
 }
 
-void torus(float radius, float radiusS,float radiusB, int slices, int stacks, string filename){
+void torus(float radius, float distance, int slices, int stacks, string filename){
+    Model model;
+    float deltah = (2.0f*(float)M_PI/(float)slices), deltav = (2.0f*(float)M_PI/(float)stacks);
 
+    for (int i = 0; i < slices; i++) {
+        for(int j=0; j<stacks; j++){
+            Patch patch;
+        }
+
+    }
+    model.writeToFile(filename);
 }
 
 
@@ -265,14 +271,13 @@ int main(int argc, char const *argv[]) {
                 argv[7]
         );
         return 0;
-    }  else if (argc == 8 && strcmp(argv[1], "torus") == 0) {
+    }  else if (argc == 7 && strcmp(argv[1], "torus") == 0) {
         torus(
                 atof(argv[2]),
                 atof(argv[3]),
-                atof(argv[4]),
+                atoi(argv[4]),
                 atoi(argv[5]),
-                atoi(argv[6]),
-                argv[7]
+                argv[6]
         );
         return 0;
     }
