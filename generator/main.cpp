@@ -103,20 +103,7 @@ void cone(float radius, float height, int slices, int stacks, string filename){
     Model model;
     float deltah = (2.0f*(float)M_PI/(float)slices), deltav = height/(float) stacks, deltaRaio = radius/(float) stacks;
     float y=height/2;
-
-    float  alturaS;/*
-    for(int i=0; i<slices; i++) {
-
-        float angle1 = (float) i * deltah, angle2 = (float) (i + 1) * deltah;
-        Patch patch;
-        //base
-        patch.addPoint(*(new Point(0.0f, -y, 0.0f)));
-        patch.addPoint(*(new Point(radius * sinf(angle2), -y, radius * cosf(angle2))));
-        patch.addPoint(*(new Point(radius * sinf(angle1), -y, radius * cosf(angle1))));
-
-        model.addPatch(patch);
-    }*/
-
+    float  alturaS,alturaS2;
 
     for(int j=0; j<stacks; j++){
         for(int i=0; i<slices; i++){
@@ -132,14 +119,15 @@ void cone(float radius, float height, int slices, int stacks, string filename){
             float raioStack1 = radius - (float) j * deltaRaio;
             float raioStack2 = radius - (float) (j+1) * deltaRaio;
             alturaS = -y + (float) j * deltav;
+            alturaS2 = -y + (float) (j+1) * deltav;
             if (j < stacks-1) {
                 patch.addPoint(*(new Point(raioStack1 * sinf(angle1), alturaS, raioStack1 * cosf(angle1))));
                 patch.addPoint(*(new Point(raioStack1 * sinf(angle2), alturaS, raioStack1 * cosf(angle2))));
-                patch.addPoint(*(new Point(raioStack2 * sinf(angle1), alturaS+deltav, raioStack2 * cosf(angle1))));
+                patch.addPoint(*(new Point(raioStack2 * sinf(angle1), alturaS2, raioStack2 * cosf(angle1))));
 
                 patch.addPoint(*(new Point(raioStack2 * sinf(angle1), alturaS+deltav, raioStack2 * cosf(angle1))));
                 patch.addPoint(*(new Point(raioStack1 * sinf(angle2), alturaS, raioStack1 * cosf(angle2))));
-                patch.addPoint(*(new Point(raioStack2 * sinf(angle2), alturaS+deltav, raioStack2 * cosf(angle2))));
+                patch.addPoint(*(new Point(raioStack2 * sinf(angle2), alturaS2, raioStack2 * cosf(angle2))));
             }
             else{
                 patch.addPoint(*(new Point(raioStack1 * sinf(angle1), alturaS, raioStack1 * cosf(angle1))));
@@ -185,6 +173,56 @@ void sphere(float radius, int slices, int stacks, string filename){
     model.writeToFile(filename);
 }
 
+void tronco(float radius1, float radius2, float height, int slices, int stacks, string filename){
+    Model model;
+    float deltah = (2.0f*(float)M_PI/(float)slices), deltav = height/(float) stacks, deltaRaio = abs(radius1-radius2)/(float) stacks;
+    float y=height/2;
+    float  alturaS,alturaS2;
+
+    for(int j=0; j<stacks; j++){
+        for(int i=0; i<slices; i++){
+            float angle1 = (float) i * deltah, angle2 = (float) (i + 1) * deltah;
+            Patch patch;
+            if(j == 0) {
+                //base
+                patch.addPoint(*(new Point(0.0f, -y, 0.0f)));
+                patch.addPoint(*(new Point(radius2 * sinf(angle2), -y, radius2 * cosf(angle2))));
+                patch.addPoint(*(new Point(radius2 * sinf(angle1), -y, radius2 * cosf(angle1))));
+            }
+            //laterais
+            float raioStack1 = radius2 - (float) j * deltaRaio;
+            float raioStack2 = radius2 - (float) (j+1) * deltaRaio;
+            if(radius1>radius2){
+                raioStack1 = radius2 + (float) j * deltaRaio;
+                raioStack2 = radius2 + (float) (j+1) * deltaRaio;
+            }
+            alturaS = -y + (float) j * deltav;
+            alturaS2 = -y + (float) (j+1) * deltav;
+            if (j == stacks-1) {
+                patch.addPoint(*(new Point(0.0f, y, 0.0f)));
+                patch.addPoint(*(new Point(radius1 * sinf(angle1), y, radius1 * cosf(angle1))));
+                patch.addPoint(*(new Point(radius1 * sinf(angle2), y, radius1 * cosf(angle2))));
+            }
+
+                patch.addPoint(*(new Point(raioStack1 * sinf(angle1), alturaS, raioStack1 * cosf(angle1))));
+                patch.addPoint(*(new Point(raioStack1 * sinf(angle2), alturaS, raioStack1 * cosf(angle2))));
+                patch.addPoint(*(new Point(raioStack2 * sinf(angle1), alturaS2, raioStack2 * cosf(angle1))));
+
+                patch.addPoint(*(new Point(raioStack2 * sinf(angle1), alturaS + deltav, raioStack2 * cosf(angle1))));
+                patch.addPoint(*(new Point(raioStack1 * sinf(angle2), alturaS, raioStack1 * cosf(angle2))));
+                patch.addPoint(*(new Point(raioStack2 * sinf(angle2),alturaS2, raioStack2 * cosf(angle2))));
+
+            model.addPatch(patch);
+        }
+    }
+    model.writeToFile(filename);
+}
+
+void torus(float radius, float radiusS,float radiusB, int slices, int stacks, string filename){
+
+}
+
+
 int main(int argc, char const *argv[]) {
     if (argc == 5 && strcmp(argv[1], "plane") == 0) {
         plane(
@@ -215,6 +253,26 @@ int main(int argc, char const *argv[]) {
             atoi(argv[3]),
             atoi(argv[4]),
             argv[5]
+        );
+        return 0;
+    }  else if (argc == 8 && strcmp(argv[1], "tronco") == 0) {
+        tronco(
+                atof(argv[2]),
+                atof(argv[3]),
+                atof(argv[4]),
+                atoi(argv[5]),
+                atoi(argv[6]),
+                argv[7]
+        );
+        return 0;
+    }  else if (argc == 8 && strcmp(argv[1], "torus") == 0) {
+        torus(
+                atof(argv[2]),
+                atof(argv[3]),
+                atof(argv[4]),
+                atoi(argv[5]),
+                atoi(argv[6]),
+                argv[7]
         );
         return 0;
     }

@@ -19,10 +19,25 @@ void renderScene(void) {
 
     glLoadIdentity();
     gluLookAt(
-        5.0f, 0.0f, 5.0f,
+        5.0f, 5.0f, 5.0f,
         0.0f, 0.0f, 0.0f,
         0.0f, 1.0f, 0.0f
     );
+
+    glBegin(GL_LINES);
+    // X Axis
+    glColor3f(1.0f, 1.0f, 1.0f);
+    glVertex3f(0.0f, 0.0f, 0.0f);
+    glVertex3f( 3.0f, 0.0f, 0.0f);
+    // Y Axis
+    glColor3f(1.0f, 1.0f, 1.0f);
+    glVertex3f(0.0f, 0.0f, 0.0f);
+    glVertex3f(0.0f, 3.0f, 0.0f);
+    // Z Axis
+    glColor3f(1.0f, 1.0f, 1.0f);
+    glVertex3f(0.0f, 0.0f, 0.0f);
+    glVertex3f(0.0f, 0.0f, 3.0f);
+    glEnd();
 
     // scale = sin(frequency * 2.0 * M_PI * g_time) * 0.5 + 1.0;
     // glutWireTeapot(scale);
