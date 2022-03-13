@@ -48,7 +48,7 @@ int Model::readModel(string path) {
         std::getline(file, line);
         vector<int> indexes;
         for(j = 0; j < line.length(); ++j) {
-            if(line[j] == ',' || line[j] == '\n') continue;
+            if(line[j] == ',' || line[j] == '\n' || line[j] == '\r') continue;
             else if(line[j] == ' ' && temp != "") {
                 indexes.push_back(stoi(temp));
                 temp = "";
