@@ -54,7 +54,6 @@ int Model::readModel(string path) {
                 temp = "";
             } else temp.push_back(line[j]);
         }
-        cout<<"f"<<temp<<"f"<<endl;
         if(temp != "" && temp != " ") indexes.push_back(stoi(temp));
         
         patchesIndexes.push_back(indexes);
