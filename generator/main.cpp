@@ -1,6 +1,5 @@
 #include "main.h"
 
-
 void plane(float units, int divisions, string filename){
     Model model;   
     float x, z, div;
@@ -215,20 +214,6 @@ void tronco(float radius1, float radius2, float height, int slices, int stacks, 
     model.writeToFile(filename);
 }
 
-void torus(float radius, float distance, int slices, int stacks, string filename){
-    Model model;
-    float deltah = (2.0f*(float)M_PI/(float)slices), deltav = (2.0f*(float)M_PI/(float)stacks);
-
-    for (int i = 0; i < slices; i++) {
-        for(int j=0; j<stacks; j++){
-            Patch patch;
-        }
-
-    }
-    model.writeToFile(filename);
-}
-
-
 int main(int argc, char const *argv[]) {
     if (argc == 5 && strcmp(argv[1], "plane") == 0) {
         plane(
@@ -269,15 +254,6 @@ int main(int argc, char const *argv[]) {
                 atoi(argv[5]),
                 atoi(argv[6]),
                 argv[7]
-        );
-        return 0;
-    }  else if (argc == 7 && strcmp(argv[1], "torus") == 0) {
-        torus(
-                atof(argv[2]),
-                atof(argv[3]),
-                atoi(argv[4]),
-                atoi(argv[5]),
-                argv[6]
         );
         return 0;
     }

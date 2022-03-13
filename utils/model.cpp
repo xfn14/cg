@@ -9,7 +9,7 @@ vector<Patch > Model::getPatches() {
 }
 
 void Model::writeToFile(string path) {
-    ofstream file("../resources/tests/test2/" + path);
+    ofstream file(path);
 
     file << patches.size() << endl;
 
