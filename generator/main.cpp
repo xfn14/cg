@@ -154,7 +154,7 @@ void cone(float radius, float height, int slices, int stacks, string filename){
 
 void sphere(float radius, int slices, int stacks, string filename){
     Model model;
-    float deltah = (2.0f*(float)M_PI/(float)slices), deltav = (radius*2)/(float) stacks;
+    float deltah = (2.0f*(float)M_PI/(float)slices), deltav = (float)M_PI/(float) stacks;
     for(int i=0; i<slices; i++){
         for(int j=0; j<stacks; j++) {
             float beta1 = (float) i * deltah, beta2 = (float) (i + 1) * deltah;
