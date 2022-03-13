@@ -33,26 +33,26 @@ void Camera::setUp(Point * up) {
     Camera::up = *up;
 }
 
-int Camera::getFov() {
+float Camera::getFov() {
     return fov;
 }
 
-void Camera::setFov(int fov) {
+void Camera::setFov(float fov) {
     Camera::fov = fov;
 }
 
-int Camera::getNear() {
+float Camera::getNear() {
     return near;
 }
 
-void Camera::setNear(int near) {
+void Camera::setNear(float near) {
     Camera::near = near;
 }
 
-int Camera::getFar() {
+float Camera::getFar() {
     return far;
 }
 
-void Camera::setFar(int far) {
+void Camera::setFar(float far) {
     Camera::far = far;
 }

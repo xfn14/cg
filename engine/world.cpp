@@ -52,11 +52,12 @@ void World::parseCamera(XMLElement * elem) {
     upElem->QueryFloatAttribute("z", &upZ);
     World::camera.setUp(new Point(upX, upY, upZ));
 
-    int fov, near, far;
+    float fov, near, far;
     XMLElement * projectionElem = elem->FirstChildElement("projection");
-    projectionElem->QueryIntAttribute("x", &fov);
-    projectionElem->QueryIntAttribute("y", &near);
-    projectionElem->QueryIntAttribute("z", &far);
+    projectionElem->QueryFloatAttribute("fov", &fov);
+    projectionElem->QueryFloatAttribute("near", &near);
+    projectionElem->QueryFloatAttribute("far", &far);
+    cout << fov <<endl;
     World::camera.setFov(fov);
     World::camera.setNear(near);
     World::camera.setFar(far);
@@ -101,11 +102,9 @@ void Model::drawModel() {
 
     }*/
     for(Patch patch : getPatches()) {
-        glBegin(GL_TRIANGLES);
         vector<Point> primitives = patch.getPoints();
-        for (int i = 0; i < primitives.size(); i++){
-
-
+        glBegin(GL_TRIANGLES);
+        for (int i = 0; i < primitives.size(); i++) {
                 glColor3f(static_cast <float> (rand()) / static_cast <float> (RAND_MAX),
                           static_cast <float> (rand()) / static_cast <float> (RAND_MAX),
                           static_cast <float> (rand()) / static_cast <float> (RAND_MAX));
@@ -113,9 +112,7 @@ void Model::drawModel() {
                 Point point = primitives[i];
 
                 glVertex3f(point.getX(), point.getY(), point.getZ());
-
-    } glEnd();
-}
-
-
+        }
+        glEnd();
+    }
 }

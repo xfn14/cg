@@ -10,7 +10,7 @@ using namespace std;
 class Camera {
     private:
         Point position, lookAt, up;
-        int fov, near, far;
+        float fov, near, far;
 
     public:
         Camera();
@@ -20,12 +20,12 @@ class Camera {
         void setLookAt(Point * lookAt);
         Point getUp();
         void setUp(Point * up);
-        int getFov();
-        void setFov(int fov);
-        int getNear();
-        void setNear(int near);
-        int getFar();
-        void setFar(int far);
+        float getFov();
+        void setFov(float fov);
+        float getNear();
+        void setNear(float near);
+        float getFar();
+        void setFar(float far);
         string toString();
 };
 
