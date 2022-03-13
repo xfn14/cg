@@ -1,6 +1,5 @@
 #include "main.h"
 
-double g_time = 0.f, scale = 0.f, frequency = 1.f;
 World world;
 
 void changeSize(int w, int h) {
