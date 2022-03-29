@@ -1,15 +1,52 @@
 #include "world.h"
 
+void Group::addModel(Model model) {
+    Group::models.push_back(model);
+}
+
+vector<Model> Group::getModels() {
+    Group::models;
+}
+
+void Group::addGroup(Group group) {
+    Group::subGroups.push_back(group);
+}
+
+vector<Group> Group::getGroups() {
+    Group::subGroups;
+}
+
+void Group::translate(float x, float y, float z) {
+    for(Model model : Group::models)
+        for(Patch patch : model.getPatches())
+            for(Point point : patch.getPoints()) {
+                point.setX(point.getX() + x);
+                point.setY(point.getY() + y);
+                point.setZ(point.getZ() + z);
+            }
+            
+    for(Group group : Group::subGroups)
+        group.translate(x, y, z);
+}
+
+void Group::rotate(float angle, float x, float y, float z) {
+
+}
+
+void Group::scale(float x, float y, float z) {
+
+}
+
 Camera World::getCamera() {
     return camera;
 }
 
-vector<Model> World::getModels() {
-    return models;
+Group World::getGroup() {
+    return group;
 }
 
 void World::addModel(Model model) {
-    models.push_back(model);
+    World::group.addModel(model);
 }
 
 int World::parseXML(string path, string filename) {
@@ -21,7 +58,7 @@ int World::parseXML(string path, string filename) {
         XMLElement * groupElem = doc.FirstChildElement("world")->FirstChildElement("group");
         
         World::parseCamera(cameraElem);
-        World::parseGroup(path, groupElem);
+        World::parseGroup(path, groupElem, );
 
         cout << "Finished loading " << file << "." << endl;
         return 1;
@@ -62,14 +99,16 @@ void World::parseCamera(XMLElement * elem) {
     World::camera.setFar(far);
 }
 
-void World::parseGroup(string path, XMLElement * elem) {
+void World::parseGroup(string path, XMLElement * elem, Group group) {
     for(XMLElement * child = elem->FirstChildElement(); child != NULL; child = child->NextSiblingElement()){
         string val = child->Value();
-        if(val == "models") {
+        if(val == "models")
             parseModels(path, child);
-        } else if(child->Value() == "group")
+        else if(child->Value() == "group")
             parseGroup(path, child);
+        else if()
     }
+    World::group = group;
 }
 
 void World::parseModels(string path, XMLElement * elem) {

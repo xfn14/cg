@@ -47,9 +47,16 @@ void renderAxis() {
     glEnd();
 }
 
-void renderModels() {
-    for(Model model : world.getModels())
-        model.drawModel();
+void renderModels(Group group) {
+    vector<Model> models = group.getModels();
+    if(models.size() > 0)
+        for(Model model : models)
+            model.drawModel();
+
+    vector<Group> subGroups = group.getGroups();
+    if(subGroups.size() > 0)
+        for(Group g : subGroups)
+            renderModels(g);
 }
 
 void renderScene(void) {
@@ -58,7 +65,7 @@ void renderScene(void) {
 
     setCamera();
     renderAxis();
-    renderModels();
+    renderModels(world.getGroup());
 
     glutSwapBuffers();
 }
