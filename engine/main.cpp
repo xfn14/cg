@@ -30,29 +30,30 @@ void renderAxis() {
     glBegin(GL_LINES);
 
     // X Axis
-    glColor3f(1.0f, 1.0f, 1.0f);
-    glVertex3f(0.0f, 0.0f, 0.0f);
-    glVertex3f( 3.0f, 0.0f, 0.0f);
+    glColor3f(1.0f, 0.0f, 0.0f);
+    glVertex3f(-100.0f, 0.0f, 0.0f);
+    glVertex3f(100.0f, 0.0f, 0.0f);
 
     // Y Axis
-    glColor3f(1.0f, 1.0f, 1.0f);
-    glVertex3f(0.0f, 0.0f, 0.0f);
-    glVertex3f(0.0f, 3.0f, 0.0f);
+    glColor3f(0.0f, 1.0f, 0.0f);
+    glVertex3f(0.0f, -100.0f, 0.0f);
+    glVertex3f(0.0f, 100.0f, 0.0f);
 
     // Z Axis
-    glColor3f(1.0f, 1.0f, 1.0f);
-    glVertex3f(0.0f, 0.0f, 0.0f);
-    glVertex3f(0.0f, 0.0f, 3.0f);
+    glColor3f(0.0f, 0.0f, 1.0f);
+    glVertex3f(0.0f, 0.0f, -100.0f);
+    glVertex3f(0.0f, 0.0f, 100.0f);
     
     glEnd();
 }
 
 void renderModels(Group group) {
     vector<Model> models = group.getModels();
+    
     if(models.size() > 0)
-        for(Model model : models)
+        for(Model model : models){
             model.drawModel();
-
+            }
     vector<Group> subGroups = group.getGroups();
     if(subGroups.size() > 0)
         for(Group g : subGroups)

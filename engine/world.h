@@ -7,6 +7,10 @@
 #include <GL/glut.h>
 #endif
 
+#define _USE_MATH_DEFINES
+
+#include <math.h>
+
 #include "camera.h"
 #include "../utils/model.h"
 #include "../libs/tinyxml2.h"
@@ -41,7 +45,8 @@ class World {
         int parseXML(string path, string filename);
         void parseCamera(XMLElement * elem);
         void parseGroup(string path, XMLElement * elem, Group group);
-        void parseModels(string path, XMLElement * elem);
+        void parseModels(string path, XMLElement * elem, Group group);
+        void parseTransform(XMLElement * elem, Group group);
 };
 
 #endif

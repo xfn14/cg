@@ -5,7 +5,7 @@ void Group::addModel(Model model) {
 }
 
 vector<Model> Group::getModels() {
-    Group::models;
+    return Group::models;
 }
 
 void Group::addGroup(Group group) {
@@ -13,7 +13,7 @@ void Group::addGroup(Group group) {
 }
 
 vector<Group> Group::getGroups() {
-    Group::subGroups;
+    return Group::subGroups;
 }
 
 void Group::translate(float x, float y, float z) {
@@ -30,11 +30,48 @@ void Group::translate(float x, float y, float z) {
 }
 
 void Group::rotate(float angle, float x, float y, float z) {
+    for(Model model : Group::models)
+        for(Patch patch : model.getPatches())
+            for(Point point : patch.getPoints()) {
+                if(x == 1){
+                    float yy = point.getY()*cosf(angle) - point.getZ()*sinf(angle);
+                    float zz = point.getY()*sinf(angle) + point.getZ()*cosf(angle);
+                    point.setX(point.getX());
+                    point.setY(yy);
+                    point.setZ(zz);
+                }
+                if(y == 1){
+                    float xx = point.getX()*cosf(angle) + point.getZ()*sinf(angle);
+                    float zz = - point.getX()*sinf(angle) + point.getZ()*cosf(angle);
+                    point.setX(xx);
+                    point.setY(point.getY());
+                    point.setZ(zz);
 
+                }
+                if(z == 1){
+                    float xx = point.getX()*cosf(angle) - point.getY()*sinf(angle);
+                    float yy = point.getX()*sinf(angle) + point.getY()*cosf(angle);
+                    point.setX(xx);
+                    point.setY(yy);
+                    point.setZ(point.getZ());
+                }
+            }
+        
+    for(Group group : Group::subGroups)
+        group.rotate(angle, x, y, z);
 }
 
 void Group::scale(float x, float y, float z) {
-
+    for(Model model : Group::models)
+        for(Patch patch : model.getPatches())
+            for(Point point : patch.getPoints()) {
+                point.setX(point.getX() * x);
+                point.setY(point.getY() * y);
+                point.setZ(point.getZ() * z);
+            }
+            
+    for(Group group : Group::subGroups)
+        group.scale(x, y, z);
 }
 
 Camera World::getCamera() {
@@ -58,7 +95,10 @@ int World::parseXML(string path, string filename) {
         XMLElement * groupElem = doc.FirstChildElement("world")->FirstChildElement("group");
         
         World::parseCamera(cameraElem);
-        World::parseGroup(path, groupElem, );
+        Group g = *(new Group());
+        World::parseGroup(path, groupElem, g);
+        World::group = g;
+
 
         cout << "Finished loading " << file << "." << endl;
         return 1;
@@ -100,26 +140,63 @@ void World::parseCamera(XMLElement * elem) {
 }
 
 void World::parseGroup(string path, XMLElement * elem, Group group) {
+    // Load models
     for(XMLElement * child = elem->FirstChildElement(); child != NULL; child = child->NextSiblingElement()){
-        string val = child->Value();
-        if(val == "models")
-            parseModels(path, child);
-        else if(child->Value() == "group")
-            parseGroup(path, child);
-        else if()
+        printf("%s\n", child->Value());
+        if(child->Value() == "models")
+            parseModels(path, child, group);
+            
     }
-    World::group = group;
+
+    // Load sub-groups
+    for(XMLElement * child = elem->FirstChildElement(); child != NULL; child = child->NextSiblingElement()){
+       printf("%s\n", child->Value());
+        if(child->Value() == "group") {
+            Group subGroup = *(new Group());
+            parseGroup(path, child, subGroup);
+            group.addGroup(subGroup);
+        }
+    }
+
+    // Load Transforms
+    for(XMLElement * child = elem->FirstChildElement(); child != NULL; child = child->NextSiblingElement()){
+        if(child->Value() == "transform")
+            World::parseTransform(child, group);
+    }
 }
 
-void World::parseModels(string path, XMLElement * elem) {
+void World::parseModels(string path, XMLElement * elem, Group group) {
     for(XMLElement * child = elem->FirstChildElement(); child != NULL; child = child->NextSiblingElement()){
-        string val = child->Value();
-        if(val == "model") {
+        if(child->Value() == "model") {
             string filename = child->Attribute("file");
             Model model;
             cout << path << filename << " model loaded." << endl;
             model.readModel(path + filename);
-            World::addModel(model);
+            group.addModel(model);
+        }
+    }
+}
+
+void World::parseTransform(XMLElement * elem, Group group) {
+    for(XMLElement * child = elem->FirstChildElement(); child != NULL; child = child->NextSiblingElement()){
+        if(child->Value() == "translate") {
+            float x, y, z;
+            child->QueryFloatAttribute("x", &x);
+            child->QueryFloatAttribute("y", &y);
+            child->QueryFloatAttribute("z", &z);
+            group.translate(x, y, z);
+        } else if(child->Value() == "rotate") {
+            float angle, x, y, z;
+            child->QueryFloatAttribute("x", &x);
+            child->QueryFloatAttribute("y", &y);
+            child->QueryFloatAttribute("z", &z);
+            group.rotate(angle, x, y, z);
+        } else if(child->Value() == "scale") {
+            float x, y, z;
+            child->QueryFloatAttribute("x", &x);
+            child->QueryFloatAttribute("y", &y);
+            child->QueryFloatAttribute("z", &z);
+            group.scale(x, y, z);
         }
     }
 }
