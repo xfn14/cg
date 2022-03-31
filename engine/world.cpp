@@ -78,12 +78,12 @@ Camera World::getCamera() {
     return camera;
 }
 
-Group World::getGroup() {
+Group* World::getGroup() {
     return group;
 }
 
 void World::addModel(Model model) {
-    World::group.addModel(model);
+    World::group->addModel(model);
 }
 
 int World::parseXML(string path, string filename) {
@@ -95,10 +95,10 @@ int World::parseXML(string path, string filename) {
         XMLElement * groupElem = doc.FirstChildElement("world")->FirstChildElement("group");
         
         World::parseCamera(cameraElem);
-        Group g = *(new Group());
+        Group *g = (new Group());
         World::parseGroup(path, groupElem, g);
         World::group = g;
-
+        printf("%zu\n",g->getModels().size());
 
         cout << "Finished loading " << file << "." << endl;
         return 1;
@@ -139,64 +139,64 @@ void World::parseCamera(XMLElement * elem) {
     World::camera.setFar(far);
 }
 
-void World::parseGroup(string path, XMLElement * elem, Group group) {
+void World::parseGroup(string path, XMLElement * elem, Group *g) {
     // Load models
     for(XMLElement * child = elem->FirstChildElement(); child != NULL; child = child->NextSiblingElement()){
         printf("%s\n", child->Value());
-        if(child->Value() == "models")
-            parseModels(path, child, group);
-            
+        if(strcmp(child->Value(),"models") == 0){
+            parseModels(path, child, g);
+        }
     }
 
     // Load sub-groups
     for(XMLElement * child = elem->FirstChildElement(); child != NULL; child = child->NextSiblingElement()){
-       printf("%s\n", child->Value());
-        if(child->Value() == "group") {
-            Group subGroup = *(new Group());
+       //printf("%s\n", child->Value());
+        if(strcmp(child->Value(),"group") == 0) {
+            Group *subGroup = (new Group());
             parseGroup(path, child, subGroup);
-            group.addGroup(subGroup);
+            g->addGroup(*subGroup);
         }
     }
 
     // Load Transforms
     for(XMLElement * child = elem->FirstChildElement(); child != NULL; child = child->NextSiblingElement()){
-        if(child->Value() == "transform")
-            World::parseTransform(child, group);
+        if(strcmp(child->Value(),"transform") == 0)
+            World::parseTransform(child, g);
     }
 }
 
-void World::parseModels(string path, XMLElement * elem, Group group) {
+void World::parseModels(string path, XMLElement * elem, Group * g) {
     for(XMLElement * child = elem->FirstChildElement(); child != NULL; child = child->NextSiblingElement()){
-        if(child->Value() == "model") {
+        if(strcmp(child->Value(),"model") == 0) {
             string filename = child->Attribute("file");
             Model model;
             cout << path << filename << " model loaded." << endl;
             model.readModel(path + filename);
-            group.addModel(model);
+            g->addModel(model);
         }
     }
 }
 
-void World::parseTransform(XMLElement * elem, Group group) {
+void World::parseTransform(XMLElement * elem, Group *g) {
     for(XMLElement * child = elem->FirstChildElement(); child != NULL; child = child->NextSiblingElement()){
-        if(child->Value() == "translate") {
+        if(strcmp(child->Value(),"translate") == 0) {
             float x, y, z;
             child->QueryFloatAttribute("x", &x);
             child->QueryFloatAttribute("y", &y);
             child->QueryFloatAttribute("z", &z);
-            group.translate(x, y, z);
-        } else if(child->Value() == "rotate") {
+            g->translate(x, y, z);
+        } else if(strcmp(child->Value(),"rotate") == 0) {
             float angle, x, y, z;
             child->QueryFloatAttribute("x", &x);
             child->QueryFloatAttribute("y", &y);
             child->QueryFloatAttribute("z", &z);
-            group.rotate(angle, x, y, z);
-        } else if(child->Value() == "scale") {
+            g->rotate(angle, x, y, z);
+        } else if(strcmp(child->Value(),"scale") == 0) {
             float x, y, z;
             child->QueryFloatAttribute("x", &x);
             child->QueryFloatAttribute("y", &y);
             child->QueryFloatAttribute("z", &z);
-            group.scale(x, y, z);
+            g->scale(x, y, z);
         }
     }
 }

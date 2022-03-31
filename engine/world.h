@@ -36,17 +36,17 @@ class Group {
 class World {
     private:
         Camera camera;
-        Group group;
+        Group * group;
 
     public:
         Camera getCamera();
-        Group getGroup();
+        Group* getGroup();
         void addModel(Model model);
         int parseXML(string path, string filename);
         void parseCamera(XMLElement * elem);
-        void parseGroup(string path, XMLElement * elem, Group group);
-        void parseModels(string path, XMLElement * elem, Group group);
-        void parseTransform(XMLElement * elem, Group group);
+        void parseGroup(string path, XMLElement * elem, Group *g);
+        void parseModels(string path, XMLElement * elem, Group *g);
+        void parseTransform(XMLElement * elem, Group * g);
 };
 
 #endif

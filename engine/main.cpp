@@ -66,7 +66,7 @@ void renderScene(void) {
 
     setCamera();
     renderAxis();
-    renderModels(world.getGroup());
+    renderModels(*world.getGroup());
 
     glutSwapBuffers();
 }
@@ -92,7 +92,7 @@ int main(int argc, char** argv) {
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowPosition(100, 100);
     glutInitWindowSize(800, 800);
-    glutCreateWindow("CG@GRUPO??@21/22");
+    glutCreateWindow("CG@GRUPO39@21/22");
 
     // Handlers
     glutReshapeFunc(changeSize);
