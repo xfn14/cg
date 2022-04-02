@@ -51,9 +51,9 @@ void renderModels(Group group) {
     vector<Model> models = group.getModels();
     
     if(models.size() > 0)
-        for(Model model : models){
+        for(Model model : models)
             model.drawModel();
-            }
+
     vector<Group> subGroups = group.getGroups();
     if(subGroups.size() > 0)
         for(Group g : subGroups)

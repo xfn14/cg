@@ -12,6 +12,7 @@
 #include <math.h>
 
 #include "camera.h"
+#include "transforms.h"
 #include "../utils/model.h"
 #include "../libs/tinyxml2.h"
 
@@ -21,11 +22,20 @@ using namespace tinyxml2;
 class Group {
     private:
         vector<Model> models;
+        vector<Translate> translates;
+        vector<Rotate> rotates;
+        vector<Scale> scales;
         vector<Group> subGroups;
 
     public:
         void addModel(Model model);
         vector<Model> getModels();
+        void addTranslate(Translate translate);
+        vector<Translate> getTranslate();
+        void addRotate(Rotate rotate);
+        vector<Rotate> getRotate();
+        void addScale(Scale scale);
+        vector<Scale> getScale();
         void addGroup(Group group);
         vector<Group> getGroups();
         void translate(float x, float y, float z);

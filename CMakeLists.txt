@@ -26,6 +26,8 @@ add_executable(${PROJECT_NAME}
 	engine/camera.h
 	engine/world.cpp
 	engine/world.h
+	engine/transforms.cpp
+	engine/transforms.h
 	utils/model.cpp
 	utils/model.h
 	utils/patch.cpp

@@ -8,6 +8,30 @@ vector<Model> Group::getModels() {
     return Group::models;
 }
 
+void Group::addTranslate(Translate translate) {
+    Group::translates.push_back(translate);
+}
+
+vector<Translate> Group::getTranslate() {
+    return Group::translates;
+}
+
+void Group::addRotate(Rotate rotate) {
+    Group::rotates.push_back(rotate);
+}
+
+vector<Rotate> Group::getRotate() {
+    return Group::rotates;
+}
+
+void Group::addScale(Scale scale) {
+    Group::scales.push_back(scale);
+}
+
+vector<Scale> Group::getScale() {
+    return Group::scales;
+}
+
 void Group::addGroup(Group group) {
     Group::subGroups.push_back(group);
 }
@@ -98,7 +122,6 @@ int World::parseXML(string path, string filename) {
         Group *g = (new Group());
         World::parseGroup(path, groupElem, g);
         World::group = g;
-        printf("%zu\n",g->getModels().size());
 
         cout << "Finished loading " << file << "." << endl;
         return 1;
@@ -184,19 +207,19 @@ void World::parseTransform(XMLElement * elem, Group *g) {
             child->QueryFloatAttribute("x", &x);
             child->QueryFloatAttribute("y", &y);
             child->QueryFloatAttribute("z", &z);
-            g->translate(x, y, z);
+            g->addTranslate(*(new Translate(x, y, z)));
         } else if(strcmp(child->Value(),"rotate") == 0) {
             float angle, x, y, z;
             child->QueryFloatAttribute("x", &x);
             child->QueryFloatAttribute("y", &y);
             child->QueryFloatAttribute("z", &z);
-            g->rotate(angle, x, y, z);
+            g->addRotate(*(new Rotate(angle, x, y, z)));
         } else if(strcmp(child->Value(),"scale") == 0) {
             float x, y, z;
             child->QueryFloatAttribute("x", &x);
             child->QueryFloatAttribute("y", &y);
             child->QueryFloatAttribute("z", &z);
-            g->scale(x, y, z);
+            g->addScale(*(new Scale(x, y, z)));
         }
     }
 }
