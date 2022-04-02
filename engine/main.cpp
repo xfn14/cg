@@ -48,6 +48,22 @@ void renderAxis() {
 }
 
 void renderModels(Group group) {
+    glPushMatrix();
+    vector<Translate> translates = group.getTranslate();
+    if(translates.size() > 0 )
+        for(Translate translate : translates)
+            glTranslatef(translate.getX(), translate.getY(), translate.getZ());
+
+    vector<Rotate> rotates = group.getRotate();
+    if(rotates.size() > 0 )
+        for(Rotate rotate : rotates)
+            glRotatef(rotate.getAngle(), rotate.getX(), rotate.getY(), rotate.getZ());
+    
+    vector<Scale> scale = group.getScale();
+    if(scale.size() > 0)
+        for(Scale scale : scale)
+            glScalef(scale.getX(), scale.getY(), scale.getZ());
+    
     vector<Model> models = group.getModels();
     
     if(models.size() > 0)
@@ -58,6 +74,8 @@ void renderModels(Group group) {
     if(subGroups.size() > 0)
         for(Group g : subGroups)
             renderModels(g);
+    
+    glPopMatrix();
 }
 
 void renderScene(void) {
