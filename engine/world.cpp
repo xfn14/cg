@@ -170,29 +170,20 @@ void World::parseCamera(XMLElement * elem) {
 }
 
 void World::parseGroup(string path, XMLElement * elem, Group *g) {
-    // Load models
     for(XMLElement * child = elem->FirstChildElement(); child != NULL; child = child->NextSiblingElement()){
-        printf("%s\n", child->Value());
-        if(strcmp(child->Value(),"models") == 0){
+
+        if(strcmp(child->Value(),"models") == 0){// Load models
             parseModels(path, child, g);
         }
-    }
-
-    // Load sub-groups
-    for(XMLElement * child = elem->FirstChildElement(); child != NULL; child = child->NextSiblingElement()){
-       //printf("%s\n", child->Value());
         if(strcmp(child->Value(),"group") == 0) {
             Group *subGroup = (new Group());
             parseGroup(path, child, subGroup);
             g->addGroup(*subGroup);
         }
-    }
-
-    // Load Transforms
-    for(XMLElement * child = elem->FirstChildElement(); child != NULL; child = child->NextSiblingElement()){
         if(strcmp(child->Value(),"transform") == 0)
             World::parseTransform(child, g);
     }
+
 }
 
 void World::parseModels(string path, XMLElement * elem, Group * g) {
