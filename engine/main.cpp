@@ -1,6 +1,7 @@
 #include "main.h"
 
 World world;
+int degree = 0, axisOnOff = 1;
 
 void changeSize(int w, int h) {
     if (h == 0) h = 1;
@@ -27,24 +28,26 @@ void setCamera() {
 }
 
 void renderAxis() {
-    glBegin(GL_LINES);
+    if(axisOnOff) {
+        glBegin(GL_LINES);
 
-    // X Axis
-    glColor3f(1.0f, 0.0f, 0.0f);
-    glVertex3f(-100.0f, 0.0f, 0.0f);
-    glVertex3f(100.0f, 0.0f, 0.0f);
+        // X Axis
+        glColor3f(1.0f, 0.0f, 0.0f);
+        glVertex3f(-100.0f, 0.0f, 0.0f);
+        glVertex3f(100.0f, 0.0f, 0.0f);
 
-    // Y Axis
-    glColor3f(0.0f, 1.0f, 0.0f);
-    glVertex3f(0.0f, -100.0f, 0.0f);
-    glVertex3f(0.0f, 100.0f, 0.0f);
+        // Y Axis
+        glColor3f(0.0f, 1.0f, 0.0f);
+        glVertex3f(0.0f, -100.0f, 0.0f);
+        glVertex3f(0.0f, 100.0f, 0.0f);
 
-    // Z Axis
-    glColor3f(0.0f, 0.0f, 1.0f);
-    glVertex3f(0.0f, 0.0f, -100.0f);
-    glVertex3f(0.0f, 0.0f, 100.0f);
+        // Z Axis
+        glColor3f(0.0f, 0.0f, 1.0f);
+        glVertex3f(0.0f, 0.0f, -100.0f);
+        glVertex3f(0.0f, 0.0f, 100.0f);
     
-    glEnd();
+        glEnd();
+    }
 }
 
 void transformacoes(Group group){
@@ -82,7 +85,6 @@ void renderModels(Group group) {
     glPopMatrix();
 }
 
-int degree=0;
 void renderScene(void) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
@@ -96,13 +98,29 @@ void renderScene(void) {
     glutSwapBuffers();
 }
 
+void keyboard(unsigned char key, int xmouse, int ymouse) {
+    switch (key) {
+        case 'f': // Eixos
+            axisOnOff = !axisOnOff;
+            break;
+        default:
+            break;
+    }
+    glutPostRedisplay();
+}
 
 void keyboard_special(int key, int a, int b){
-    // rotações
-    if (key == GLUT_KEY_LEFT)
-        degree++;
-    if (key == GLUT_KEY_RIGHT)
-        degree--;
+    // Rotações
+    switch (key) {
+        case GLUT_KEY_LEFT:
+            ++degree;
+            break;
+        case GLUT_KEY_RIGHT:
+            --degree;
+            break;
+        default:
+            break;
+    }
     glutPostRedisplay();
 }
 
@@ -135,6 +153,7 @@ int main(int argc, char** argv) {
     glutIdleFunc(renderScene);
     glutDisplayFunc(renderScene);
     glutSpecialFunc(keyboard_special);
+    glutKeyboardFunc(keyboard);
 
     // Settings
     glEnable(GL_DEPTH_TEST);
