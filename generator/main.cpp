@@ -80,12 +80,12 @@ void box(float units, int grid, string filename){
 
             //face lateral -z
             patch.addPoint(*(new Point(x + (float) j*div, y + (float) i*div, z)));
-            patch.addPoint(*(new Point(x + (float) (j+1)*div, y + (float) (i+1)*div, z)));
             patch.addPoint(*(new Point(x + (float) j*div, y + (float) (i+1)*div, z)));
+            patch.addPoint(*(new Point(x + (float) (j+1)*div, y + (float) (i+1)*div, z)));
 
             patch.addPoint(*(new Point(x + (float) (j+1)*div, y + (float) (i+1)*div, z)));
-            patch.addPoint(*(new Point(x + (float) j*div, y + (float) i*div, z)));
             patch.addPoint(*(new Point(x + (float) (j+1)*div, y + (float) i*div, z)));
+            patch.addPoint(*(new Point(x + (float) j*div, y + (float) i*div, z)));
 
             model.addPatch(patch);
 
@@ -98,7 +98,7 @@ void box(float units, int grid, string filename){
 void cone(float radius, float height, int slices, int stacks, string filename){
     Model model;
     float deltah = (2.0f*(float)M_PI/(float)slices), deltav = height/(float) stacks, deltaRaio = radius/(float) stacks;
-    float y=height/2;
+    float y=height;
     float  alturaS,alturaS2;
 
     for(int j=0; j<stacks; j++){
@@ -107,15 +107,15 @@ void cone(float radius, float height, int slices, int stacks, string filename){
             Patch patch;
             if(j == 0) {
                 //base
-                patch.addPoint(*(new Point(0.0f, -y, 0.0f)));
-                patch.addPoint(*(new Point(radius * sinf(angle2), -y, radius * cosf(angle2))));
-                patch.addPoint(*(new Point(radius * sinf(angle1), -y, radius * cosf(angle1))));
+                patch.addPoint(*(new Point(0.0f, 0.0f, 0.0f)));
+                patch.addPoint(*(new Point(radius * sinf(angle2), 0.0f, radius * cosf(angle2))));
+                patch.addPoint(*(new Point(radius * sinf(angle1), 0.0f, radius * cosf(angle1))));
             }
             //laterais
             float raioStack1 = radius - (float) j * deltaRaio;
             float raioStack2 = radius - (float) (j+1) * deltaRaio;
-            alturaS = -y + (float) j * deltav;
-            alturaS2 = -y + (float) (j+1) * deltav;
+            alturaS = (float) j * deltav;
+            alturaS2 =  (float) (j+1) * deltav;
             if (j < stacks-1) {
                 patch.addPoint(*(new Point(raioStack1 * sinf(angle1), alturaS, raioStack1 * cosf(angle1))));
                 patch.addPoint(*(new Point(raioStack1 * sinf(angle2), alturaS, raioStack1 * cosf(angle2))));

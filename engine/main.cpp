@@ -47,46 +47,136 @@ void renderAxis() {
     glEnd();
 }
 
+void transformacoes(Group group){
+
+    vector<Rotate> rotates = group.getRotate();
+    //printf("\n%zu",rotates.size());
+    if(!rotates.empty() )
+        for(Rotate rotate : rotates){
+            //printf("%f",rotate.getAngle());
+            glRotatef(rotate.getAngle(), rotate.getX(), rotate.getY(), rotate.getZ());}
+
+    vector<Translate> translates = group.getTranslate();
+    //printf("%zu",translates.size());
+    if(!translates.empty() )
+        for(Translate translate : translates)
+            glTranslatef(translate.getX(), translate.getY(), translate.getZ());
+
+
+    vector<Scale> scales = group.getScale();
+    if(!scales.empty())
+        for(Scale scale : scales)
+            glScalef(scale.getX(), scale.getY(), scale.getZ());
+}
+
 void renderModels(Group group) {
     glPushMatrix();
+    transformacoes(group);
+
+    vector<Model> models = group.getModels();
+    if (!models.empty())
+        for (Model model: models) {
+            model.drawModel();
+        }
+
+            vector<Group> subGroups = group.getGroups();
+            if (!subGroups.empty())
+                for (Group g: subGroups) {
+
+                    renderModels(g);
+
+                }
+    glPopMatrix();
+
+
+
+}
+
+/*
+void renderModels(Group group) {
+
+    glPushMatrix();
     vector<Translate> translates = group.getTranslate();
-    if(translates.size() > 0 )
+    //printf("%zu",translates.size());
+    if(!translates.empty() )
         for(Translate translate : translates)
             glTranslatef(translate.getX(), translate.getY(), translate.getZ());
 
     vector<Rotate> rotates = group.getRotate();
+    //printf("\n%zu",rotates.size());
     if(rotates.size() > 0 )
-        for(Rotate rotate : rotates)
-            glRotatef(rotate.getAngle(), rotate.getX(), rotate.getY(), rotate.getZ());
+        for(Rotate rotate : rotates){
+            //printf("%f",rotate.getAngle());
+            glRotatef(rotate.getAngle(), rotate.getX(), rotate.getY(), rotate.getZ());}
     
     vector<Scale> scale = group.getScale();
     if(scale.size() > 0)
         for(Scale scale : scale)
             glScalef(scale.getX(), scale.getY(), scale.getZ());
-    
+
     vector<Model> models = group.getModels();
-    
     if(models.size() > 0)
-        for(Model model : models)
+        for(Model model : models) {
+
             model.drawModel();
+
+        }
 
     vector<Group> subGroups = group.getGroups();
     if(subGroups.size() > 0)
-        for(Group g : subGroups)
+        for(Group g : subGroups) {
             renderModels(g);
-    
-    glPopMatrix();
-}
 
+            glPopMatrix();
+            glPushMatrix();
+            //vector<Translate> translates = group.getTranslate();
+            //printf("%zu",translates.size());
+            if(!translates.empty() )
+                for(Translate translate : translates)
+                    glTranslatef(translate.getX(), translate.getY(), translate.getZ());
+
+            //vector<Rotate> rotates = group.getRotate();
+            //printf("\n%zu",rotates.size());
+            if(rotates.size() > 0 )
+                for(Rotate rotate : rotates){
+                    //printf("%f",rotate.getAngle());
+                    glRotatef(rotate.getAngle(), rotate.getX(), rotate.getY(), rotate.getZ());}
+
+            //vector<Scale> scale = group.getScale();
+            if(scale.size() > 0)
+                for(Scale scale : scale)
+                    glScalef(scale.getX(), scale.getY(), scale.getZ());
+
+        }
+
+
+glPopMatrix();
+
+}*/
+int degree=0;
 void renderScene(void) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
     setCamera();
     renderAxis();
-    renderModels(*world.getGroup());
+    glRotatef(degree,0,1,0);
+renderModels(*world.getGroup());
 
     glutSwapBuffers();
+}
+
+
+void keyboard_special(int key, int a, int b){
+
+    // rotações
+    if (key == GLUT_KEY_LEFT){
+        degree++;
+    }
+    if (key == GLUT_KEY_RIGHT){
+        degree--;
+    }
+    glutPostRedisplay();
 }
 
 void printInfo() {
@@ -113,15 +203,18 @@ int main(int argc, char** argv) {
     glutCreateWindow("CG@GRUPO39@21/22");
 
     // Handlers
+
     glutReshapeFunc(changeSize);
     glutIdleFunc(renderScene);
     glutDisplayFunc(renderScene);
+
+    //glutSpecialFunc(keyboard_special);
     glutDisplayFunc(printInfo);
 
     // Settings
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    //glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
     // Initialize window
     glutMainLoop();

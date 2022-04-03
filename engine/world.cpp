@@ -202,18 +202,20 @@ void World::parseModels(string path, XMLElement * elem, Group * g) {
 
 void World::parseTransform(XMLElement * elem, Group *g) {
     for(XMLElement * child = elem->FirstChildElement(); child != NULL; child = child->NextSiblingElement()){
-        if(strcmp(child->Value(),"translate") == 0) {
+        if(strcmp(child->Value(),"rotate") == 0) {
+            float angle, x, y, z;
+            child->QueryFloatAttribute("angle", &angle);
+            child->QueryFloatAttribute("x", &x);
+            child->QueryFloatAttribute("y", &y);
+            child->QueryFloatAttribute("z", &z);
+            g->addRotate(*(new Rotate(angle, x, y, z)));
+        } else if(strcmp(child->Value(),"translate") == 0) {
             float x, y, z;
             child->QueryFloatAttribute("x", &x);
             child->QueryFloatAttribute("y", &y);
             child->QueryFloatAttribute("z", &z);
             g->addTranslate(*(new Translate(x, y, z)));
-        } else if(strcmp(child->Value(),"rotate") == 0) {
-            float angle, x, y, z;
-            child->QueryFloatAttribute("x", &x);
-            child->QueryFloatAttribute("y", &y);
-            child->QueryFloatAttribute("z", &z);
-            g->addRotate(*(new Rotate(angle, x, y, z)));
+
         } else if(strcmp(child->Value(),"scale") == 0) {
             float x, y, z;
             child->QueryFloatAttribute("x", &x);

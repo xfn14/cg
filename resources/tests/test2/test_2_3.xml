@@ -27,8 +27,8 @@
 				<transform> 
 					<scale x="0.25" y="0.25" z="0.25" />
 				</transform>
-				<models> 
-					<model file="sphere.3d" /> <!-- generator sphere 8 8 1 sphere.3d -->
+				<models>
+					<model file="sphere.3d" /> <!--generator sphere 8 8 1 sphere.3d -->
 				</models>
 			</group>
 			<group>
