@@ -32,6 +32,14 @@ vector<Scale> Group::getScale() {
     return Group::scales;
 }
 
+Color Group::getColor() {
+    return Group::color;
+}
+
+void Group::setColor(Color c) {
+    Group::color = c;
+}
+
 void Group::addGroup(Group group) {
     Group::subGroups.push_back(group);
 }
@@ -70,7 +78,6 @@ void Group::rotate(float angle, float x, float y, float z) {
                     point.setX(xx);
                     point.setY(point.getY());
                     point.setZ(zz);
-
                 }
                 if(z == 1){
                     float xx = point.getX()*cosf(angle) - point.getY()*sinf(angle);
@@ -99,11 +106,11 @@ void Group::scale(float x, float y, float z) {
 }
 
 Camera World::getCamera() {
-    return camera;
+    return World::camera;
 }
 
 Group* World::getGroup() {
-    return group;
+    return World::group;
 }
 
 void World::addModel(Model model) {
@@ -202,42 +209,47 @@ void World::parseModels(string path, XMLElement * elem, Group * g) {
 
 void World::parseTransform(XMLElement * elem, Group *g) {
     for(XMLElement * child = elem->FirstChildElement(); child != NULL; child = child->NextSiblingElement()){
-        if(strcmp(child->Value(),"rotate") == 0) {
+        if(strcmp(child->Value(), "rotate") == 0) {
             float angle, x, y, z;
             child->QueryFloatAttribute("angle", &angle);
             child->QueryFloatAttribute("x", &x);
             child->QueryFloatAttribute("y", &y);
             child->QueryFloatAttribute("z", &z);
             g->addRotate(*(new Rotate(angle, x, y, z)));
-        } else if(strcmp(child->Value(),"translate") == 0) {
+        } else if(strcmp(child->Value(), "translate") == 0) {
             float x, y, z;
             child->QueryFloatAttribute("x", &x);
             child->QueryFloatAttribute("y", &y);
             child->QueryFloatAttribute("z", &z);
             g->addTranslate(*(new Translate(x, y, z)));
-
-        } else if(strcmp(child->Value(),"scale") == 0) {
+        } else if(strcmp(child->Value(), "scale") == 0) {
             float x, y, z;
             child->QueryFloatAttribute("x", &x);
             child->QueryFloatAttribute("y", &y);
             child->QueryFloatAttribute("z", &z);
             g->addScale(*(new Scale(x, y, z)));
+        } else if(strcmp(child->Value(), "color") == 0) {
+            float r, gg, b;
+            child->QueryFloatAttribute("r", &r);
+            child->QueryFloatAttribute("g", &gg);
+            child->QueryFloatAttribute("b", &b);
+            g->setColor(*(new Color(r, gg, b)));
         }
     }
 }
 
-void Model::drawModel() {
+void Model::drawModel(Color color) {
     for(Patch patch : getPatches()) {
         vector<Point> primitives = patch.getPoints();
         glBegin(GL_TRIANGLES);
         for (int i = 0; i < primitives.size(); i++) {
-                glColor3f(static_cast <float> (rand()) / static_cast <float> (RAND_MAX),
-                          static_cast <float> (rand()) / static_cast <float> (RAND_MAX),
-                          static_cast <float> (rand()) / static_cast <float> (RAND_MAX));
-
-                Point point = primitives[i];
-
-                glVertex3f(point.getX(), point.getY(), point.getZ());
+            // glColor3f(static_cast <float> (rand()) / static_cast <float> (RAND_MAX),
+            //           static_cast <float> (rand()) / static_cast <float> (RAND_MAX),
+            //           static_cast <float> (rand()) / static_cast <float> (RAND_MAX));
+            
+            Point point = primitives[i];
+            glColor3f(color.getR(), color.getG(), color.getB());
+            glVertex3f(point.getX(), point.getY(), point.getZ());
         }
         glEnd();
     }

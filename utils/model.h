@@ -4,6 +4,7 @@
 #include <fstream>
 
 #include "patch.h"
+#include "../engine/transforms.h"
 
 using namespace std;
 
@@ -16,7 +17,7 @@ class Model {
         vector<Patch> getPatches();
         void writeToFile(string path);
         int readModel(string path);
-        void drawModel();
+        void drawModel(Color color);
 };
 
 #endif

@@ -52,4 +52,24 @@ class Scale {
         float getZ();
 };
 
+class Color {
+    private:
+        float r, g, b;
+
+    public:
+        Color() {
+            Color::r = 0.5;
+            Color::g = 0.5;
+            Color::b = 0.5;
+        }
+        Color(float i, float j, float u) {
+            Color::r = i;
+            Color::g = j;
+            Color::b = u;
+        }
+        float getR();
+        float getG();
+        float getB();
+};
+
 #endif

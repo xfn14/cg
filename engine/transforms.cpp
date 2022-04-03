@@ -39,3 +39,15 @@ float Scale::getY() {
 float Scale::getZ() {
     return Scale::z;
 }
+
+float Color::getR() {
+    return Color::r;
+}
+
+float Color::getG() {
+    return Color::g;
+}
+
+float Color::getB() {
+    return Color::b;
+}

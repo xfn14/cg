@@ -25,6 +25,7 @@ class Group {
         vector<Translate> translates;
         vector<Rotate> rotates;
         vector<Scale> scales;
+        Color color;
         vector<Group> subGroups;
 
     public:
@@ -36,6 +37,8 @@ class Group {
         vector<Rotate> getRotate();
         void addScale(Scale scale);
         vector<Scale> getScale();
+        Color getColor();
+        void setColor(Color c);
         void addGroup(Group group);
         vector<Group> getGroups();
         void translate(float x, float y, float z);
