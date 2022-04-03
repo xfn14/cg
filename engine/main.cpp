@@ -92,67 +92,6 @@ void renderModels(Group group) {
 
 }
 
-/*
-void renderModels(Group group) {
-
-    glPushMatrix();
-    vector<Translate> translates = group.getTranslate();
-    //printf("%zu",translates.size());
-    if(!translates.empty() )
-        for(Translate translate : translates)
-            glTranslatef(translate.getX(), translate.getY(), translate.getZ());
-
-    vector<Rotate> rotates = group.getRotate();
-    //printf("\n%zu",rotates.size());
-    if(rotates.size() > 0 )
-        for(Rotate rotate : rotates){
-            //printf("%f",rotate.getAngle());
-            glRotatef(rotate.getAngle(), rotate.getX(), rotate.getY(), rotate.getZ());}
-    
-    vector<Scale> scale = group.getScale();
-    if(scale.size() > 0)
-        for(Scale scale : scale)
-            glScalef(scale.getX(), scale.getY(), scale.getZ());
-
-    vector<Model> models = group.getModels();
-    if(models.size() > 0)
-        for(Model model : models) {
-
-            model.drawModel();
-
-        }
-
-    vector<Group> subGroups = group.getGroups();
-    if(subGroups.size() > 0)
-        for(Group g : subGroups) {
-            renderModels(g);
-
-            glPopMatrix();
-            glPushMatrix();
-            //vector<Translate> translates = group.getTranslate();
-            //printf("%zu",translates.size());
-            if(!translates.empty() )
-                for(Translate translate : translates)
-                    glTranslatef(translate.getX(), translate.getY(), translate.getZ());
-
-            //vector<Rotate> rotates = group.getRotate();
-            //printf("\n%zu",rotates.size());
-            if(rotates.size() > 0 )
-                for(Rotate rotate : rotates){
-                    //printf("%f",rotate.getAngle());
-                    glRotatef(rotate.getAngle(), rotate.getX(), rotate.getY(), rotate.getZ());}
-
-            //vector<Scale> scale = group.getScale();
-            if(scale.size() > 0)
-                for(Scale scale : scale)
-                    glScalef(scale.getX(), scale.getY(), scale.getZ());
-
-        }
-
-
-glPopMatrix();
-
-}*/
 int degree=0;
 void renderScene(void) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -161,7 +100,8 @@ void renderScene(void) {
     setCamera();
     renderAxis();
     glRotatef(degree,0,1,0);
-renderModels(*world.getGroup());
+
+    renderModels(*world.getGroup());
 
     glutSwapBuffers();
 }
@@ -208,8 +148,8 @@ int main(int argc, char** argv) {
     glutIdleFunc(renderScene);
     glutDisplayFunc(renderScene);
 
-    //glutSpecialFunc(keyboard_special);
-    glutDisplayFunc(printInfo);
+    glutSpecialFunc(keyboard_special);
+    printInfo();
 
     // Settings
     glEnable(GL_DEPTH_TEST);
