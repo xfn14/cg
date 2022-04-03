@@ -1,6 +1,6 @@
 <world>
     <camera>
-        <position x="12" y="3" z="12" />
+        <position x="30" y="10" z="30" />
         <lookAt x="0" y="0" z="0" />
         <up x="0" y="1" z="0" /> <!-- optional, use these values as default-->
         <projection fov="60" near="1" far="1000" /> <!-- optional, use these values as default-->
@@ -270,6 +270,29 @@
                 </transform>
                 <models>
                     <model file="sphere.3d"/>
+                </models>
+            </group>
+        </group>
+        <!-- WORMHOLE -->
+        <group>
+            <transform>
+                <rotate angle="340" x="0" y="1" z="0"/>
+                <rotate angle="160" x="0" y="0" z="1"/>
+                <rotate angle="30" x="1" y="0" z="0"/>
+                <translate x="60" y="0" z="0"/>
+                <scale x="0.8" y="0.8" z="0.8"/>
+                <color r="0.31" g="0.19" b="0.49"/>
+            </transform>
+            <models>
+                <model file="tronco1.3d"/>
+            </models>
+            <group>
+                <transform>
+                    <translate x="0" y="2" z="0"/>
+                    <color r="0.26" g="0.15" b="0.42"/>
+                </transform>
+                <models>
+                    <model file="tronco2.3d"/>
                 </models>
             </group>
         </group>
