@@ -1,20 +1,23 @@
 <world>
     <camera>
-        <position x="5" y="3" z="5" />
+        <position x="12" y="3" z="12" />
         <lookAt x="0" y="0" z="0" />
         <up x="0" y="1" z="0" /> <!-- optional, use these values as default-->
         <projection fov="60" near="1" far="1000" /> <!-- optional, use these values as default-->
     </camera>
 
     <group>
+        <!-- SUN  -->
         <transform>
-            <!--<translate x="0" y="0" z="0"/>-->
             <color r="1" g="0.82" b="0"/>
         </transform>
         <models>
             <model file="sphere.3d"/>
         </models>
 
+        <!-- PLANETS AND SATELITES -->
+
+        <!-- MERCURY -->
         <group>
             <transform>
                 <translate x="1.5" y="0" z="0"/>
@@ -25,6 +28,7 @@
                 <model file="sphere.3d"/>
             </models>
         </group>
+        <!-- VENUS -->
         <group>
             <transform>
                 <rotate angle="87" x="0" y="1" z="0"/>
@@ -36,6 +40,7 @@
                 <model file="sphere.3d"/>
             </models>
         </group>
+        <!-- EARTH -->
         <group>
             <transform>
                 <rotate angle="172" x="0" y="1" z="0"/>
@@ -46,6 +51,7 @@
             <models>
                 <model file="sphere.3d"/>
             </models>
+            <!-- MOON -->
             <group>
                 <transform>
                     <translate x="1.5" y="0.5" z="0"/>
@@ -57,6 +63,7 @@
                 </models>
             </group>
         </group>
+        <!-- MARS -->
         <group>
             <transform>
                 <rotate angle="277" x="0" y="1" z="0"/>
@@ -67,92 +74,101 @@
             <models>
                 <model file="sphere.3d"/>
             </models>
+            <!-- MARS SATELITE-->
             <group>
                 <transform>
                     <translate x="1.5" y="0.5" z="0"/>
                     <scale x="0.33" y="0.33" z="0.33"/>
-                    <color r="0.95" g="0.84" b="0.59"/>
+                    <color r="1" g="1" b="1"/>
                 </transform>
                 <models>
                     <model file="sphere.3d"/>
                 </models>
             </group>
+            <!-- MARS SATELITE-->
             <group>
                 <transform>
                     <rotate angle="173" x="0" y="1" z="0"/>
                     <translate x="1.5" y="-0.5" z="0"/>
                     <scale x="0.33" y="0.33" z="0.33"/>
-                    <color r="0.99" g="0.69" b="0.63"/>
+                    <color r="1" g="1" b="1"/>
                 </transform>
                 <models>
                     <model file="sphere.3d"/>
                 </models>
             </group>
         </group>
+        <!-- JUPITER -->
         <group>
             <transform>
                 <rotate angle="15" x="0" y="1" z="0"/>
                 <translate x="6.5" y="0" z="0"/>
                 <scale x="0.5" y="0.5" z="0.5"/>
-                <color r="0.63" g="0.81" b="0.99"/>
+                <color r="0.95" g="0.84" b="0.59"/>
             </transform>
             <models>
                 <model file="sphere.3d"/>
             </models>
+            <!-- JUPITER SATELITE-->
             <group>
                 <transform>
                     <translate x="1.5" y="0.5" z="0"/>
                     <scale x="0.15" y="0.15" z="0.15"/>
-                    <color r="0.63" g="0.99" b="0.89"/>
+                    <color r="1" g="1" b="1"/>
                 </transform>
                 <models>
                     <model file="sphere.3d"/>
                 </models>
             </group>
+            <!-- JUPITER SATELITE -->
             <group>
                 <transform>
                     <rotate angle="87" x="0" y="1" z="0"/>
                     <translate x="1.5" y="-0.2" z="0"/>
                     <scale x="0.14" y="0.14" z="0.14"/>
-                    <!--<color r="0.7" g="0.16" b="0.08"/>-->
+                    <color r="1" g="1" b="1"/>
                 </transform>
                 <models>
                     <model file="sphere.3d"/>
                 </models>
             </group>
+            <!-- JUPITER SATELITE -->
             <group>
                 <transform>
                     <rotate angle="179" x="0" y="1" z="0"/>
                     <translate x="1.5" y="-0.5" z="0"/>
                     <scale x="0.16" y="0.16" z="0.16"/>
-                    <!--<color x="0.68235294117647058823529411764706" y="0.55686274509803921568627450980392" z="0.36078431372549019607843137254902"/>-->
+                    <color r="1" g="1" b="1"/>
                 </transform>
                 <models>
                     <model file="sphere.3d"/>
                 </models>
             </group>
+            <!-- JUPITER SATELITE -->
             <group>
                 <transform>
                     <rotate angle="287" x="0" y="1" z="0"/>
                     <translate x="1.5" y="0.3" z="0"/>
                     <scale x="0.15" y="0.15" z="0.15"/>
-                    <!--<color x="0.82352941176470588235294117647059" y="0.44705882352941176470588235294118" z="0.13333333333333333333333333333333"/>-->
+                    <color r="1" g="1" b="1"/>
                 </transform>
                 <models>
                     <model file="sphere.3d"/>
                 </models>
             </group>
         </group>
+        <!-- SATURN-->
         <group>
             <transform>
                 <rotate angle="107" x="0" y="1" z="0"/>
-                <translate x="8" y="0" z="0"/>
+                <translate x="8.5" y="0" z="0"/>
                 <scale x="0.45" y="0.45" z="0.45"/>
-                <!--<color x="0.890196078431372549" y="0.64313725490196078" z="0.3333333333333333"/>-->
+                <color r="0.99" g="0.69" b="0.63"/>
             </transform>
             <models>
                 <model file="sphere.3d"/>
             </models>
+            <!-- SATURN'S RINGS -->
             <group>
                 <transform>
                     <rotate angle="90" x="1" y="0" z="0.7"/>
@@ -160,89 +176,97 @@
                     <!--<color x="0.62745098039215" y="0.321568627450980" z="0.17647058823529411"/>-->
                 </transform>
                 <models>
-                    <!--<model file="ring.3d"/>-->
+                    <!--<model file="torus.3d"/>-->
                 </models>
             </group>
+            <!-- SATURN SATELITE -->
             <group>
                 <transform>
                     <translate x="1.5" y="-0.5" z="0"/>
                     <scale x="0.18" y="0.18" z="0.18"/>
-                    <!--<color x="0.89019607843137254901960784313725" y="0.86274509803921568627450980392157" z="0.82745098039215686274509803921569"/>-->
+                    <color r="1" g="1" b="1"/>
                 </transform>
                 <models>
                     <model file="sphere.3d"/>
                 </models>
             </group>
+            <!-- SATURN SATELITE -->
             <group>
                 <transform>
                     <rotate angle="190" x="0" y="1" z="0"/>
                     <translate x="1.5" y="0.3" z="0"/>
                     <scale x="0.19" y="0.19" z="0.19"/>
-                    <!--<color x="0.90588235294117647058823529411765" y="0.75294117647058823529411764705882" z="0.09019607843137254901960784313725"/>-->
+                    <color r="1" g="1" b="1"/>
                 </transform>
                 <models>
                     <model file="sphere.3d"/>
                 </models>
             </group>
+            <!-- SATURN SATELITE -->
             <group>
                 <transform>
                     <rotate angle="250" x="0" y="1" z="0"/>
                     <translate x="1.5" y="-0.5" z="0"/>
                     <scale x="0.17" y="0.17" z="0.17"/>
-                    <!--<color x="0.89019607843137254901960784313725" y="0.86274509803921568627450980392157" z="0.82745098039215686274509803921569"/>-->
+                    <color r="1" g="1" b="1"/>
                 </transform>
                 <models>
                     <model file="sphere.3d"/>
                 </models>
             </group>
         </group>
+        <!-- URANUS -->
         <group>
             <transform>
                 <rotate angle="195" x="0" y="1" z="0"/>
-                <translate x="9.5" y="0" z="0"/>
+                <translate x="10" y="0" z="0"/>
                 <scale x="0.38" y="0.38" z="0.38"/>
-                <!--<color x="0.372549019607843137" y="0.61960784313725490" z="0.62745098039215686"/>-->
+                <color r="0.63" g="0.81" b="0.99"/>
             </transform>
             <models>
                 <model file="sphere.3d"/>
             </models>
+            <!-- URANUS SATELITE -->
             <group>
                 <transform>
                     <translate x="1.5" y="0.2" z="0"/>
                     <scale x="0.19" y="0.19" z="0.19"/>
-                    <!--<color x="0.89019607843137254901960784313725" y="0.86274509803921568627450980392157" z="0.82745098039215686274509803921569"/>-->
+                    <color r="1" g="1" b="1"/>
                 </transform>
                 <models>
                     <model file="sphere.3d"/>
                 </models>
             </group>
+            <!-- URANUS SATELITE -->
             <group>
                 <transform>
                     <rotate angle="190" x="0" y="1" z="0"/>
                     <translate x="1.5" y="0.4" z="0"/>
                     <scale x="0.20" y="0.20" z="0.20"/>
-                    <!--<color x="0.89019607843137254901960784313725" y="0.86274509803921568627450980392157" z="0.82745098039215686274509803921569"/>-->
+                    <color r="1" g="1" b="1"/>
                 </transform>
                 <models>
                     <model file="sphere.3d"/>
                 </models>
             </group>
         </group>
+        <!-- NEPTUN -->
         <group>
             <transform>
                 <rotate angle="300" x="0" y="1" z="0"/>
-                <translate x="10.75" y="0" z="0"/>
+                <translate x="11" y="0" z="0"/>
                 <scale x="0.37" y="0.37" z="0.37"/>
-                <!-- <color x="0.184313725490196" y="0.184313725490196" z="0.839215686274509"/> -->
+                <color r="0.63" g="0.99" b="0.89"/>
             </transform>
             <models>
                 <model file="sphere.3d"/>
             </models>
+            <!-- NEPTUN SATELITE -->
             <group>
                 <transform>
                     <translate x="1.5" y="0.5" z="0"/>
                     <scale x="0.21" y="0.21" z="0.21"/>
-                    <!-- <color x="0.95686274509803921568627450980392" y="0.85490196078431372549019607843137" z="0.42352941176470588235294117647059"/> -->
+                    <color r="1" g="1" b="1"/>
                 </transform>
                 <models>
                     <model file="sphere.3d"/>
