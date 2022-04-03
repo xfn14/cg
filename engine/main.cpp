@@ -48,20 +48,15 @@ void renderAxis() {
 }
 
 void transformacoes(Group group){
-
     vector<Rotate> rotates = group.getRotate();
-    //printf("\n%zu",rotates.size());
-    if(!rotates.empty() )
-        for(Rotate rotate : rotates){
-            //printf("%f",rotate.getAngle());
-            glRotatef(rotate.getAngle(), rotate.getX(), rotate.getY(), rotate.getZ());}
+    if(!rotates.empty())
+        for(Rotate rotate : rotates)
+            glRotatef(rotate.getAngle(), rotate.getX(), rotate.getY(), rotate.getZ());
 
     vector<Translate> translates = group.getTranslate();
-    //printf("%zu",translates.size());
-    if(!translates.empty() )
+    if(!translates.empty())
         for(Translate translate : translates)
             glTranslatef(translate.getX(), translate.getY(), translate.getZ());
-
 
     vector<Scale> scales = group.getScale();
     if(!scales.empty())
@@ -71,25 +66,20 @@ void transformacoes(Group group){
 
 void renderModels(Group group) {
     glPushMatrix();
+
     transformacoes(group);
 
     vector<Model> models = group.getModels();
     if (!models.empty())
-        for (Model model: models) {
-            model.drawModel();
-        }
+        for (Model model: models)
+            model.drawModel(group.getColor());
 
-            vector<Group> subGroups = group.getGroups();
-            if (!subGroups.empty())
-                for (Group g: subGroups) {
+    vector<Group> subGroups = group.getGroups();
+    if (!subGroups.empty())
+        for (Group g: subGroups)
+            renderModels(g);
 
-                    renderModels(g);
-
-                }
     glPopMatrix();
-
-
-
 }
 
 int degree=0;
@@ -108,14 +98,11 @@ void renderScene(void) {
 
 
 void keyboard_special(int key, int a, int b){
-
     // rotações
-    if (key == GLUT_KEY_LEFT){
+    if (key == GLUT_KEY_LEFT)
         degree++;
-    }
-    if (key == GLUT_KEY_RIGHT){
+    if (key == GLUT_KEY_RIGHT)
         degree--;
-    }
     glutPostRedisplay();
 }
 
@@ -141,15 +128,13 @@ int main(int argc, char** argv) {
     glutInitWindowPosition(100, 100);
     glutInitWindowSize(800, 800);
     glutCreateWindow("CG@GRUPO39@21/22");
+    printInfo();
 
     // Handlers
-
     glutReshapeFunc(changeSize);
     glutIdleFunc(renderScene);
     glutDisplayFunc(renderScene);
-
     glutSpecialFunc(keyboard_special);
-    printInfo();
 
     // Settings
     glEnable(GL_DEPTH_TEST);
