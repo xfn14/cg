@@ -10,6 +10,7 @@
     <group> 
         <transform> 
 		    <translate x="0" y="1" z="0" />
+            <color r="0.85" g="0.24" b="0"/>
         </transform>
         <models> 
             <model file="box.3d" /> <!-- generator box 2 3 box.3d -->
