@@ -171,18 +171,26 @@
             <!-- SATURN'S RINGS -->
             <group>
                 <transform>
-                    <rotate angle="90" x="1" y="0" z="0.7"/>
-                    <scale x="1.2" y="1.2" z="1.2"/>
-                    <!--<color x="0.62745098039215" y="0.321568627450980" z="0.17647058823529411"/>-->
+                    <scale x="0.5" y="0.5" z="0.5"/>
+                    <color r="0.74" g="0.52" b="0.21"/>
                 </transform>
                 <models>
-                    <!--<model file="torus.3d"/>-->
+                    <model file="anel.3d"/>
                 </models>
+                <group>
+                    <transform>
+                        <rotate angle="180" x="1" y="0" z="0"/>
+                        <color r="0.74" g="0.52" b="0.21"/>
+                    </transform>
+                    <models>
+                        <model file="anel.3d"/>
+                    </models>
+                </group>
             </group>
             <!-- SATURN SATELITE -->
             <group>
                 <transform>
-                    <translate x="1.5" y="-0.5" z="0"/>
+                    <translate x="2" y="-0.5" z="0"/>
                     <scale x="0.18" y="0.18" z="0.18"/>
                     <color r="1" g="1" b="1"/>
                 </transform>
@@ -194,7 +202,7 @@
             <group>
                 <transform>
                     <rotate angle="190" x="0" y="1" z="0"/>
-                    <translate x="1.5" y="0.3" z="0"/>
+                    <translate x="2" y="0.3" z="0"/>
                     <scale x="0.19" y="0.19" z="0.19"/>
                     <color r="1" g="1" b="1"/>
                 </transform>
@@ -206,7 +214,7 @@
             <group>
                 <transform>
                     <rotate angle="250" x="0" y="1" z="0"/>
-                    <translate x="1.5" y="-0.5" z="0"/>
+                    <translate x="2" y="-0.5" z="0"/>
                     <scale x="0.17" y="0.17" z="0.17"/>
                     <color r="1" g="1" b="1"/>
                 </transform>

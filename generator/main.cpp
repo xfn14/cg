@@ -214,6 +214,34 @@ void tronco(float radius1, float radius2, float height, int slices, int stacks, 
     model.writeToFile(filename);
 }
 
+void anel(float radius1, float radius2, int slices, string filename){
+    Model model;
+    float deltah = (2.0f*(float)M_PI/(float)slices);
+    float y=0;
+
+    if (radius1 < radius2){
+        float temp = radius2;
+        radius2 = radius1;
+        radius1 = temp;
+    }
+
+    for(int i=0; i<slices; i++) {
+        float angle1 = (float) i * deltah, angle2 = (float) (i + 1) * deltah;
+        Patch patch;
+
+        patch.addPoint(*(new Point(radius2 * sinf(angle1), y, radius2 * cosf(angle1))));
+        patch.addPoint(*(new Point(radius1 * sinf(angle2), y, radius1 * cosf(angle2))));
+        patch.addPoint(*(new Point(radius2 * sinf(angle2), y, radius2 * cosf(angle2))));
+
+        patch.addPoint(*(new Point(radius2 * sinf(angle1), y, radius2 * cosf(angle1))));
+        patch.addPoint(*(new Point(radius1 * sinf(angle1), y, radius1 * cosf(angle1))));
+        patch.addPoint(*(new Point(radius1 * sinf(angle2), y, radius1 * cosf(angle2))));
+
+        model.addPatch(patch);
+    }
+    model.writeToFile(filename);
+}
+
 int main(int argc, char const *argv[]) {
     if (argc == 5 && strcmp(argv[1], "plane") == 0) {
         plane(
@@ -256,6 +284,15 @@ int main(int argc, char const *argv[]) {
                 argv[7]
         );
         return 0;
+    } else if (argc == 6 && strcmp(argv[1], "anel") == 0) {
+        anel(
+                atof(argv[2]),
+                atof(argv[3]),
+                atoi(argv[4]),
+                argv[5]
+        );
+        return 0;
+
     }
     return 0;
 }
