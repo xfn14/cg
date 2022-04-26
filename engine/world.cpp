@@ -209,10 +209,22 @@ void World::parseTransform(XMLElement * elem, Group *g) {
             g->addRotate(*(new Rotate(angle, x, y, z)));
         } else if(strcmp(child->Value(), "translate") == 0) {
             float x, y, z;
+            Translate translate = *(new Translate(x, y, z));
             child->QueryFloatAttribute("x", &x);
             child->QueryFloatAttribute("y", &y);
             child->QueryFloatAttribute("z", &z);
-            g->addTranslate(*(new Translate(x, y, z)));
+            g->addTranslate(translate);
+            // Check if child has a child
+            if(child->FirstChildElement() != NULL)
+                for(XMLElement * child2 = child->FirstChildElement(); child2 != NULL; child2 = child->NextSiblingElement()){
+                    if(strcmp(child2->Value(), "point") == 0) {
+                        float x2, y2, z2;
+                        child2->QueryFloatAttribute("x", &x2);
+                        child2->QueryFloatAttribute("y", &y2);
+                        child2->QueryFloatAttribute("z", &z2);
+                        translate.addPoint(*(new Point(x2, y2, z2)));
+                    }
+                }
         } else if(strcmp(child->Value(), "scale") == 0) {
             float x, y, z;
             child->QueryFloatAttribute("x", &x);

@@ -296,3 +296,55 @@ int main(int argc, char const *argv[]) {
     }
     return 0;
 }
+
+// Read bezier surface from text file which contains the description of a set of Bezier patches. The first line contains the number
+// of patches. The following lines, one for each patch, contain the indices of the control points (16 for
+// each patch). The next line contains the number of control points, and afterwards the control points
+// themselves, one per line.
+//
+// The format of the file is:
+//
+// n
+// i1, i2, i3, i4, i5, i6, i7, i8, i9, i10, i11, i12, i13, i14, i15, i16
+// i1, i2, i3, i4, i5, i6, i7, i8, i9, i10, i11, i12, i13, i14, i15, i16
+// ...
+// n
+// x, y, z
+// x, y, z
+// ...
+//
+// where n is the number of patches, i1, i2, ..., i16 are the indices of the 16 control points of the patch, and
+// x, y, z are the coordinates of the control point.
+//
+// The function returns a pointer to a Model object.
+// Model *readModel(const char *filename) {
+//     ifstream file(filename);
+//     if (!file.is_open()) {
+//         cerr << "Error: could not open file " << filename << endl;
+//         exit(1);
+//     }
+
+//     int nPatches;
+//     file >> nPatches;
+//     Model *model = new Model();
+//     for (int i = 0; i < nPatches; i++) {
+//         Patch patch;
+//         for (int j = 0; j < 16; j++) {
+//             int index;
+//             file >> index;
+//             patch.addPoint(*(new Point(model->getControlPoint(index))));
+//         }
+//         model->addPatch(patch);
+//     }
+
+//     int nControlPoints;
+//     file >> nControlPoints;
+//     for (int i = 0; i < nControlPoints; i++) {
+//         float x, y, z;
+//         file >> x >> y >> z;
+//         model->addControlPoint(*(new Point(x, y, z)));
+//     }
+
+//     return model;
+// }
+

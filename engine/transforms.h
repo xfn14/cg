@@ -1,13 +1,18 @@
 #ifndef _TRANSFORMS_
 #define _TRANSFORMS_
 
+#include <iostream>
+#include <vector>
 #include <string>
+
+#include "../utils/point.h"
 
 using namespace std;
 
 class Translate {
     private:
         float x, y, z;
+        vector<Point> path;
 
     public:
         Translate(float i, float j, float u) {
@@ -18,6 +23,8 @@ class Translate {
         float getX();
         float getY();
         float getZ();
+        void addPoint(Point p);
+        vector<Point> getPath(int time, bool align);
 };
 
 class Rotate {
