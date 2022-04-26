@@ -6,12 +6,14 @@
 #include <string>
 
 #include "../utils/point.h"
+#include "../utils/matrix.h"
 
 using namespace std;
 
 class Translate {
     private:
-        float x, y, z;
+        float x, y, z, time;
+        bool align;
         vector<Point> path;
 
     public:
@@ -19,12 +21,32 @@ class Translate {
             Translate::x = i;
             Translate::y = j;
             Translate::z = u;
+            Translate::time = -1;
+            Translate::align = false;
+        }
+        Translate(float time) {
+            Translate::x = -1;
+            Translate::y = -1;
+            Translate::z = -1;
+            Translate::time = time;
+            Translate::align = false;
+        }
+        Translate(float time, bool align) {
+            Translate::x = -1;
+            Translate::y = -1;
+            Translate::z = -1;
+            Translate::time = time;
+            Translate::align = align;
         }
         float getX();
         float getY();
         float getZ();
+        float getTime();
+        bool getAlign();
         void addPoint(Point p);
-        vector<Point> getPath(int time, bool align);
+        void drawCatmullRomCurve();
+        void getGlobalCatmullRomPoint(float gt, float *point, float *deriv);
+        void getCatmullRomPoint(float t, Point p0, Point p1, Point p2, Point p3, float *pos, float *deriv);
 };
 
 class Rotate {
