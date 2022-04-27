@@ -13,11 +13,18 @@ class Model {
         vector<Patch> patches;
 
     public:
+        Model();
+
+        Model(string path) {
+            Model::readModel(path);
+        }
+
         void addPatch(Patch patch);
         vector<Patch> getPatches();
         void writeToFile(string path);
         int readModel(string path);
         void drawModel(Color color);
+        void tessellate(int level);
 };
 
 #endif

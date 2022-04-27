@@ -13,7 +13,15 @@ class Camera {
         float fov, near, far;
 
     public:
-        Camera();
+        Camera::Camera(){
+            setPosition(new Point(0, 0, 0));
+            setLookAt(new Point(0, 0, 0));
+            setUp(new Point(0, 0, 0));
+            Camera::fov = 0;
+            Camera::near = 0;
+            Camera::far = 0;
+        }
+        
         Point getPosition();
         void setPosition(Point * position);
         Point getLookAt();

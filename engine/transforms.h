@@ -24,6 +24,7 @@ class Translate {
             Translate::time = -1;
             Translate::align = false;
         }
+
         Translate(float time) {
             Translate::x = -1;
             Translate::y = -1;
@@ -31,6 +32,7 @@ class Translate {
             Translate::time = time;
             Translate::align = false;
         }
+
         Translate(float time, bool align) {
             Translate::x = -1;
             Translate::y = -1;
@@ -38,6 +40,7 @@ class Translate {
             Translate::time = time;
             Translate::align = align;
         }
+
         float getX();
         float getY();
         float getZ();
@@ -60,6 +63,7 @@ class Rotate {
             Rotate::y = j;
             Rotate::z = u;
         }
+
         float getAngle();
         float getX();
         float getY();
@@ -76,6 +80,7 @@ class Scale {
             Scale::y = j;
             Scale::z = u;
         }
+
         float getX();
         float getY();
         float getZ();
@@ -91,11 +96,13 @@ class Color {
             Color::g = 0.5;
             Color::b = 0.5;
         }
+
         Color(float i, float j, float u) {
             Color::r = i;
             Color::g = j;
             Color::b = u;
         }
+        
         float getR();
         float getG();
         float getB();

@@ -242,7 +242,15 @@ void anel(float radius1, float radius2, int slices, string filename){
     model.writeToFile(filename);
 }
 
+
+
 int main(int argc, char const *argv[]) {
+    if(argc == 2) {
+        string filename = argv[1];
+        int tesselation = stoi(argv[2]);
+        Model model = Model(filename);
+        model.tesselate(tesselation);
+    }
     if (argc == 5 && strcmp(argv[1], "plane") == 0) {
         plane(
             atof(argv[2]),

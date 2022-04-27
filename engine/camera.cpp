@@ -1,16 +1,7 @@
 #include "camera.h"
 
-Camera::Camera(){
-    setPosition(new Point(0, 0, 0));
-    setLookAt(new Point(0, 0, 0));
-    setUp(new Point(0, 0, 0));
-    Camera::fov = 0;
-    Camera::near = 0;
-    Camera::far = 0;
-}
-
 Point Camera::getPosition() {
-    return position;
+    return Camera::position;
 }
 
 void Camera::setPosition(Point * position) {
@@ -18,7 +9,7 @@ void Camera::setPosition(Point * position) {
 }
 
 Point Camera::getLookAt() {
-    return lookAt;
+    return Camera::lookAt;
 }
 
 void Camera::setLookAt(Point * lookAt) {
@@ -26,7 +17,7 @@ void Camera::setLookAt(Point * lookAt) {
 }
 
 Point Camera::getUp() {
-    return up;
+    return Camera::up;
 }
 
 void Camera::setUp(Point * up) {
@@ -34,7 +25,7 @@ void Camera::setUp(Point * up) {
 }
 
 float Camera::getFov() {
-    return fov;
+    return Camera::fov;
 }
 
 void Camera::setFov(float fov) {
@@ -42,7 +33,7 @@ void Camera::setFov(float fov) {
 }
 
 float Camera::getNear() {
-    return near;
+    return Camera::near;
 }
 
 void Camera::setNear(float near) {
@@ -50,7 +41,7 @@ void Camera::setNear(float near) {
 }
 
 float Camera::getFar() {
-    return far;
+    return Camera::far;
 }
 
 void Camera::setFar(float far) {

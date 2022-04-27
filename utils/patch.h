@@ -13,9 +13,9 @@ class Patch {
         vector<Point> controlPoints;
 
     public:
-        Patch();
         void addPoint(Point);
         vector<Point> getPoints();
+        vector<vector<int>> tessellate(int level);
 };
 
 #endif

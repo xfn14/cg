@@ -21,11 +21,11 @@ using namespace tinyxml2;
 
 class Group {
     private:
+        Color color;
         vector<Model> models;
         vector<Translate> translates;
         vector<Rotate> rotates;
         vector<Scale> scales;
-        Color color;
         vector<Group> subGroups;
 
     public:

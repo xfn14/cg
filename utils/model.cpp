@@ -91,3 +91,78 @@ int Model::readModel(string path) {
     }
     return 1;
 }
+
+// Tessellate the bezier surface that contains a vector of patch into triangles and output them to a file
+// with each line containing the indexes of the 3 points of the triangle
+void Model::tessellate(int level) {
+    vector<Patch> patches = getPatches();
+    vector<Point> points;
+    vector<vector<int>> triangles;
+    int i;
+    for(i = 0; i < patches.size(); ++i) {
+        vector<Point> crtPoints = patches[i].getPoints();
+        for(Point point : crtPoints)
+            points.push_back(point);
+
+        vector<vector<int>> crtTriangles = patches[i].tessellate(level);
+        for(vector<int> triangle : crtTriangles)
+            triangles.push_back(triangle);
+    }
+
+}
+
+    // vector<Patch> patches = getPatches();
+    // vector<Point> points;
+    // vector<vector<int>> triangles;
+
+    // for(Patch patch : patches) {
+    //     vector<Point> controlPoints = patch.getPoints();
+    //     for(int i = 0; i < controlPoints.size(); ++i) points.push_back(controlPoints[i]);
+    // }
+
+    // int i, j, k, l;
+
+    // for(i = 0; i < level; ++i) {
+    //     vector<vector<int>> newTriangles;
+    //     for(j = 0; j < triangles.size(); ++j) {
+    //         vector<int> triangle = triangles[j];
+    //         for(k = 0; k < 3; ++k) {
+    //             Point p1 = points[triangle[k]];
+    //             Point p2 = points[triangle[(k+1)%3]];
+    //             Point p3 = points[triangle[(k+2)%3]];
+
+    //             Point p4 = Point(p1.getX() + (p2.getX() - p1.getX())/3, p1.getY() + (p2.getY() - p1.getY())/3, p1.getZ() + (p2.getZ() - p1.getZ())/3);
+    //             Point p5 = Point(p2.getX() + (p3.getX() - p2.getX())/3, p2.getY() + (p3.getY() - p2.getY())/3, p2.getZ() + (p3.getZ() - p2.getZ())/3);
+    //             Point p6 = Point(p4.getX() + (p5.getX() - p4.getX())/3, p4.getY() + (p5.getY() - p4.getY())/3, p4.getZ() + (p5.getZ() - p4.getZ())/3);
+
+    //             int p7 = points.size();
+    //             points.push_back(p4);
+    //             int p8 = points.size();
+    //             points.push_back(p5);
+    //             int p9 = points.size();
+    //             points.push_back(p6);
+    //         }
+
+    // if(level == 0) {
+    //     Patch patch;
+    //     for(int i = 0; i < indexes.size(); ++i)
+    //         patch.addPoint(patches[0].getPoints()[indexes[i]]);
+    //     addPatch(patch);
+    // } else {
+    //     for(int i = 0; i < indexes.size(); ++i) {
+    //         vector<Point> points = patches[0].getPoints();
+    //         vector<int> newIndexes = indexes;
+    //         newIndexes.erase(newIndexes.begin()+i);
+    //         tessellate(level-1, newIndexes);
+    //         for(int j = 0; j < indexes.size(); ++j) {
+    //             if(j == i) continue;
+    //             Patch patch;
+    //             Point p1 = points[indexes[i]], p2 = points[indexes[j]];
+    //             Point p3 = Point(p1.getX() + (p2.getX()-p1.getX())/2, p1.getY() + (p2.getY()-p1.getY())/2, p1.getZ() + (p2.getZ()-p1.getZ())/2);
+    //             patch.addPoint(p1);
+    //             patch.addPoint(p2);
+    //             patch.addPoint(p3);
+    //             addPatch(patch);
+    //         }
+    //     }
+    // }
