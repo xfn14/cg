@@ -16,6 +16,14 @@ void Translate::addPoint(Point p) {
     Translate::path.push_back(p);
 }
 
+float Translate::getTime() {
+    return Translate::time;
+}
+
+bool Translate::getAlign() {
+    return Translate::align;
+}
+
 float Rotate::getAngle() {
     return Rotate::angle;
 }

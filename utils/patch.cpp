@@ -23,7 +23,7 @@ vector<Point> Patch::tessellate(int level) {
     vector<Point> controlPoints = getPoints();
     int n = controlPoints.size();
     float step = 1.0f / level;
-    for(float t = 0.0f; t <= 1.0f; t += step) {
+    for(float t = .01f; t <= 1.0f; t += step) {
         Point point;
         for(int i = 0; i < n; i++) {
             float b = binomial(n, i);

@@ -208,7 +208,7 @@ void World::parseTransform(XMLElement * elem, Group *g) {
             child->QueryFloatAttribute("z", &z);
             g->addRotate(*(new Rotate(angle, x, y, z)));
         } else if(strcmp(child->Value(), "translate") == 0) {
-            Translate translate = NULL;
+            Translate translate;
             if(child->Attribute("time") != NULL) {
                 float x, y, z;
                 child->QueryFloatAttribute("x", &x);
@@ -253,7 +253,8 @@ void World::parseTransform(XMLElement * elem, Group *g) {
 void Model::drawModel(Color color) {
     for(Patch patch : getPatches()) {
         vector<Point> primitives = patch.getPoints();
-        glBegin(GL_TRIANGLES);
+        // glBegin(GL_TRIANGLES);
+        glBegin(GL_LINE_STRIP);
         for (int i = 0; i < primitives.size(); i++) {
             // glColor3f(static_cast <float> (rand()) / static_cast <float> (RAND_MAX),
             //           static_cast <float> (rand()) / static_cast <float> (RAND_MAX),

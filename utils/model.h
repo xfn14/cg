@@ -5,6 +5,7 @@
 
 #include "patch.h"
 #include "../engine/transforms.h"
+#include "../utils/matrix.h"
 
 using namespace std;
 
@@ -21,6 +22,7 @@ class Model {
 
         void addPatch(Patch patch);
         vector<Patch> getPatches();
+        void readModelPatch(string path);
         void writeToFile(string path);
         int readModel(string path);
         void drawModel(Color color);

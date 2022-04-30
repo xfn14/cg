@@ -17,6 +17,10 @@ class Translate {
         vector<Point> path;
 
     public:
+        Translate() {
+
+        }
+        
         Translate(float i, float j, float u) {
             Translate::x = i;
             Translate::y = j;
@@ -25,19 +29,19 @@ class Translate {
             Translate::align = false;
         }
 
-        Translate(float time) {
+        Translate(float t) {
             Translate::x = -1;
             Translate::y = -1;
             Translate::z = -1;
-            Translate::time = time;
+            Translate::time = t;
             Translate::align = false;
         }
 
-        Translate(float time, bool align) {
+        Translate(float t, bool align) {
             Translate::x = -1;
             Translate::y = -1;
             Translate::z = -1;
-            Translate::time = time;
+            Translate::time = t;
             Translate::align = align;
         }
 

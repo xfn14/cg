@@ -8,6 +8,25 @@ vector<Patch > Model::getPatches() {
     return patches;
 }
 
+void Model::readModelPatch(string path) {
+    ifstream file(path);
+
+    string np;
+    std::getline(file, np);
+    int n = stoi(np);
+
+    Patch patch;
+    for(int i = 0; i < n; i++) {
+        string line;
+        std::getline(file, line);
+        float x, y, z;
+        sscanf(line.c_str(), "%f %f %f", &x, &y, &z);
+        if(x != 0 && y != 0 && z != 0)
+            patch.addPoint(Point(x, y, z));
+    }
+    addPatch(patch);
+}
+
 void Model::writeToFile(string path) {
     ofstream file(path);
 
@@ -99,13 +118,12 @@ void Model::tessellate(int level, string path) {
 
     int i;
     for(i = 0; i < patches.size(); ++i) {
-
-
         vector<Point> crtTriangles = patches[i].tessellate(level);
         for(Point triangle : crtTriangles)
             points.push_back(triangle);
     }
     ofstream file(path + ".model");
+    file << points.size() << endl;
     for(Point point : points){
         file << point.getX() << " " << point.getY() << " " << point.getZ() << endl;
     }

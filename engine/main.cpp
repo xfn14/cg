@@ -1,5 +1,6 @@
 #include "main.h"
 
+string filename;
 World world;
 int degree = 0, axisOnOff = 1;
 
@@ -16,7 +17,8 @@ void changeSize(int w, int h) {
 }
 
 void setCamera() {
-    Camera camera = world.getCamera();
+    Camera camera = *(new Camera());
+    // Camera camera = world.getCamera();
     Point pos = camera.getPosition(),
           center = camera.getLookAt(),
           up = camera.getUp();
@@ -156,7 +158,10 @@ void renderScene(void) {
     
     glRotatef(degree, 0, 1, 0);
 
-    renderModels(*world.getGroup());
+    Model model;
+    model.readModelPatch(filename);
+    model.drawModel(*(new Color(255, 0, 0)));
+    // renderModels(*world.getGroup());
 
     glutSwapBuffers();
 
@@ -196,16 +201,7 @@ void printInfo() {
 }
 
 int main(int argc, char** argv) {
-    // Initialize the World
-    if(argc != 3) {
-        cout << "./engine <path> <xml_file>" << endl;
-        return 0;
-    }
-    string path = argv[1];
-    string xmlFile = argv[2];
-    world.parseXML(path, xmlFile);
-
-    // Window settings
+    filename = argv[1];
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowPosition(100, 100);
@@ -227,6 +223,37 @@ int main(int argc, char** argv) {
 
     // Initialize window
     glutMainLoop();
+    // Initialize the World
+    // if(argc != 3) {
+    //     cout << "./engine <path> <xml_file>" << endl;
+    //     return 0;
+    // }
+    // string path = argv[1];
+    // string xmlFile = argv[2];
+    // world.parseXML(path, xmlFile);
+
+    // Window settings
+    // glutInit(&argc, argv);
+    // glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
+    // glutInitWindowPosition(100, 100);
+    // glutInitWindowSize(800, 800);
+    // glutCreateWindow("CG@GRUPO39@21/22");
+    // printInfo();
+
+    // // Handlers
+    // glutReshapeFunc(changeSize);
+    // glutIdleFunc(renderScene);
+    // glutDisplayFunc(renderScene);
+    // glutSpecialFunc(keyboard_special);
+    // glutKeyboardFunc(keyboard);
+
+    // // Settings
+    // glEnable(GL_DEPTH_TEST);
+    // glEnable(GL_CULL_FACE);
+    // //glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+    // // Initialize window
+    // glutMainLoop();
 
     return 1;
 }

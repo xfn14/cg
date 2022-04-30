@@ -34,6 +34,8 @@ add_executable(${PROJECT_NAME}
 	utils/patch.h
 	utils/point.cpp
 	utils/point.h
+	utils/matrix.cpp
+	utils/matrix.h
 	libs/tinyxml2.cpp
 	libs/tinyxml2.h
 	
