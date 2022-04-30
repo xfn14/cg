@@ -13,7 +13,7 @@ class Model {
         vector<Patch> patches;
 
     public:
-        Model();
+        Model(){}
 
         Model(string path) {
             Model::readModel(path);
@@ -24,7 +24,7 @@ class Model {
         void writeToFile(string path);
         int readModel(string path);
         void drawModel(Color color);
-        void tessellate(int level);
+        void tessellate(int level, string path);
 };
 
 #endif

@@ -94,7 +94,7 @@ int Model::readModel(string path) {
 
 // Tessellate the bezier surface that contains a vector of patch into triangles and output them to a file
 // with each line containing the indexes of the 3 points of the triangle
-void Model::tessellate(int level) {
+void Model::tessellate(int level, string path) {
     vector<Patch> patches = getPatches();
     vector<Point> points;
     vector<vector<int>> triangles;
@@ -108,7 +108,14 @@ void Model::tessellate(int level) {
         for(vector<int> triangle : crtTriangles)
             triangles.push_back(triangle);
     }
-
+    ofstream file(path + ".model");
+    for(vector<int> triangle : triangles){
+        for(int num : triangle){
+            file << " " << num;
+        }
+        file << endl;
+    }
+    file.close();
 }
 
     // vector<Patch> patches = getPatches();

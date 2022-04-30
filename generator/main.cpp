@@ -245,11 +245,11 @@ void anel(float radius1, float radius2, int slices, string filename){
 
 
 int main(int argc, char const *argv[]) {
-    if(argc == 2) {
+    if(argc == 3) {
         string filename = argv[1];
         int tesselation = stoi(argv[2]);
         Model model = Model(filename);
-        model.tesselate(tesselation);
+        model.tessellate(tesselation, filename);
     }
     if (argc == 5 && strcmp(argv[1], "plane") == 0) {
         plane(
