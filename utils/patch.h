@@ -1,8 +1,10 @@
 #ifndef _BEZIER_PATCH_
 #define _BEZIER_PATCH_
 
-#include <iostream>
+#define _USE_MATH_DEFINES
+#include <cmath>
 #include <vector>
+#include <iostream>
 
 #include "point.h"
 
@@ -15,7 +17,7 @@ class Patch {
     public:
         void addPoint(Point);
         vector<Point> getPoints();
-        vector<vector<int>> tessellate(int level);
+        vector<Point> tessellate(int level);
 };
 
 #endif
