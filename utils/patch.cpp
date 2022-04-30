@@ -8,8 +8,8 @@ vector<Point> Patch::getPoints() {
     return controlPoints;
 }
 
-int binomial(int n, int k) {
-    int res = 1;
+float binomial(int n, int k) {
+    float res = 1;
     for(int i = 1; i <= k; i++) {
         res *= n - k + i;
         res /= i;
@@ -36,6 +36,7 @@ vector<Point> Patch::tessellate(int level) {
         }
         points.push_back(point);
     }
+    return points;
 }
 
 // vector<vector<int>> Patch::tessellate(int level) {
