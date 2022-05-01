@@ -9,34 +9,76 @@ vector<Point> Patch::getPoints() {
 }
 
 float binomial(int n, int k) {
-    float res = 1;
-    for(int i = 1; i <= k; i++) {
-        res *= n - k + i;
-        res /= i;
+    if(k == 0 || k == n) return 1;
+    else return binomial(n-1, k-1) + binomial(n-1, k);
+}
+
+float bernstein(int m, int n, float t) {
+    float b = 0;
+    for(int i = 0; i <= m; ++i) {
+        float c = binomial(m, i);
+        b += c * pow(t, i) * pow(1-t, m-i);
     }
-    return res;
+    return b;
 }
 
 // Tessellate the bezier patch into vector of Points
 vector<Point> Patch::tessellate(int level) {
-    vector<Point> points;
-    vector<Point> controlPoints = getPoints();
-    int n = controlPoints.size();
-    float step = 1.0f / level;
-    for(float t = .01f; t <= 1.0f; t += step) {
-        Point point;
-        for(int i = 0; i < n; i++) {
-            float b = binomial(n, i);
-            float x = pow(1 - t, n - i) * pow(t, i) * controlPoints[i].getX();
-            float y = pow(1 - t, n - i) * pow(t, i) * controlPoints[i].getY();
-            float z = pow(1 - t, n - i) * pow(t, i) * controlPoints[i].getZ();
-            point.setX(point.getX() + b * x);
-            point.setY(point.getY() + b * y);
-            point.setZ(point.getZ() + b * z);
+    vector<vector<Point>> points;
+    vector<Point> res;
+    int i, j, m, n;
+    for(i = 0; i < level; ++i) {
+        float u = float(i) / (float) level;
+        vector<Point> crt;
+        for(j = 0; j < level; ++j) {
+            float v = float(j) / (float) level;
+            Point point;
+            for(m = 0; m < 4; ++m) {
+                for(n = 0; n < 4; ++n) {
+                    float bm = bernstein(m, 3, u);
+                    float bn = bernstein(n, 3, v);
+                    point.addX(controlPoints[m * 4 + n].getX() * bm * bn);
+                    point.addY(controlPoints[m * 4 + n].getY() * bm * bn);
+                    point.addZ(controlPoints[m * 4 + n].getZ() * bm * bn);
+                }
+            }
+            // res.push_back(point);
+            crt[v] = point;
+            // points[u][v] = point;
         }
-        points.push_back(point);
+        points[u] = crt;
     }
-    return points;
+
+    // for(i = 0; i < level; ++i) {
+    //     for(j = 0; j < level; ++j) {
+    //         res.push_back(points[i][j+1]);
+    //         res.push_back(points[i+1][j]);
+    //         res.push_back(points[i][j]);
+
+    //         res.push_back(points[i+1][j]);
+    //         res.push_back(points[i][j+1]);
+    //         res.push_back(points[i+1][j+1]);
+    //     }
+    // }
+
+    return res;
+    // vector<Point> points;
+    // vector<Point> controlPoints = getPoints();
+    // int n = controlPoints.size();
+    // float step = 1.0f / level;
+    // for(float t = .01f; t <= 1.0f; t += step) {
+    //     Point point;
+    //     for(int i = 0; i < n; i++) {
+    //         float b = binomial(n, i);
+    //         float x = pow(1 - t, n - i) * pow(t, i) * controlPoints[i].getX();
+    //         float y = pow(1 - t, n - i) * pow(t, i) * controlPoints[i].getY();
+    //         float z = pow(1 - t, n - i) * pow(t, i) * controlPoints[i].getZ();
+    //         point.setX(point.getX() + b * x);
+    //         point.setY(point.getY() + b * y);
+    //         point.setZ(point.getZ() + b * z);
+    //     }
+    //     points.push_back(point);
+    // }
 }
 
 // vector<vector<int>> Patch::tessellate(int level) {

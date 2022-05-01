@@ -24,6 +24,9 @@ class Point{
         void setX(float);
         void setY(float);
         void setZ(float);
+        void addX(float);
+        void addY(float);
+        void addZ(float);
 };
 
 #endif

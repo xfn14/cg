@@ -115,19 +115,35 @@ int Model::readModel(string path) {
 // with each line containing the indexes of the 3 points of the triangle
 void Model::tessellate(int level, string path) {
     vector<Point> points;
-
-    int i;
-    for(i = 0; i < patches.size(); ++i) {
-        vector<Point> crtTriangles = patches[i].tessellate(level);
-        for(Point triangle : crtTriangles)
-            points.push_back(triangle);
+    for(Patch patch : patches) {
+        vector<Point> res = patch.tessellate(level);
+        for(Point point : res) {
+            cout << point.getX() << " " << point.getY() << " " << point.getZ() << endl;
+            points.push_back(point);
+        }
     }
+
     ofstream file(path + ".model");
     file << points.size() << endl;
     for(Point point : points){
         file << point.getX() << " " << point.getY() << " " << point.getZ() << endl;
     }
     file.close();
+    
+
+    // vector<Point> points;
+    // int i;
+    // for(i = 0; i < patches.size(); ++i) {
+    //     vector<Point> crtTriangles = patches[i].tessellate(level);
+    //     for(Point triangle : crtTriangles)
+    //         points.push_back(triangle);
+    // }
+    // ofstream file(path + ".model");
+    // file << points.size() << endl;
+    // for(Point point : points){
+    //     file << point.getX() << " " << point.getY() << " " << point.getZ() << endl;
+    // }
+    // file.close();
 }
 
     // vector<Patch> patches = getPatches();
