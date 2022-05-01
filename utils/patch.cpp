@@ -54,12 +54,6 @@ Point determineSection(float u, float v, const vector<Point> controlPoints){
     return bezierCurve(v, curve[0], curve[1], curve[2], curve[3]);
 }
 
-void cross(Point a, Point b, Point res) {
-    res.setX(a.getY()*b.getZ() - a.getZ()*b.getY());
-    res.setY(a.getZ()*b.getX() - a.getX()*b.getZ());
-    res.setZ(a.getX()*b.getY() - a.getY()*b.getX());
-}
-
 vector<Point> Patch::tessellate(int level) {
     vector<Point> res;
     float tessel = 1.0f/ (float) level;
@@ -79,7 +73,31 @@ vector<Point> Patch::tessellate(int level) {
             res.push_back(p3);
             res.push_back(p1);
 
+            float vector1[3], vector2[3], normal[3];
+            float x[3] = {p0.getX(),p0.getY(),p0.getZ()};
+            float y[3] = {p1.getX(),p1.getY(),p1.getZ()};
+            float z[3] = {p2.getX(),p2.getY(),p2.getZ()};
+            float w[3] = {p3.getX(),p3.getY(),p3.getZ()};
 
+            toVector(x,z,vector1);
+            toVector(x,w,vector2);
+            cross(vector1,vector2,normal);
+            normalize(normal);
+            Point n = *(new Point(normal[0], normal[1], normal[2]));
+
+            normals.push_back(n);
+            normals.push_back(n);
+            normals.push_back(n);
+
+            toVector(x,w,vector1);
+            toVector(x,y,vector2);
+            cross(vector1,vector2,normal);
+            normalize(normal);
+            n = *(new Point(normal[0], normal[1], normal[2]));
+
+            normals.push_back(n);
+            normals.push_back(n);
+            normals.push_back(n);
         }
     }
     return res;

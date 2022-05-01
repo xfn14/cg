@@ -10,6 +10,7 @@
 using namespace std;
 
 void buildRotMatrix(float *x, float *y, float *z, float *m);
+void toVector(float *a,float *b, float *res);
 void cross(float *a, float *b, float *res);
 void normalize(float *a);
 float length(float *v);

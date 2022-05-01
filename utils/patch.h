@@ -5,6 +5,7 @@
 #include <cmath>
 #include <vector>
 #include <iostream>
+#include "matrix.h"
 
 #include "point.h"
 
