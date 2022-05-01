@@ -258,7 +258,7 @@ void Model::drawModel(Color color) {
     for(Patch patch : getPatches()) {
         vector<Point> primitives = patch.getPoints();
         glBegin(GL_TRIANGLES);
-        // glBegin(GL_LINE_STRIP);
+        //glBegin(GL_LINE_STRIP);
 
         for (int i = 0; i < primitives.size(); i++) {
             // glColor3f(static_cast <float> (rand()) / static_cast <float> (RAND_MAX),

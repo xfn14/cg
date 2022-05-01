@@ -16,20 +16,6 @@ vector<Point> Patch::getNormals() {
     return Patch::normals;
 }
 
-float binomial(int n, int k) {
-    if(k == 0 || k == n) return 1;
-    else return binomial(n-1, k-1) + binomial(n-1, k);
-}
-
-float bernstein(int m, int n, float t) {
-    float b = 0;
-    for(int i = 0; i <= m; ++i) {
-        float c = binomial(m, i);
-        b += c * pow(t, i) * pow(1-t, m-i);
-    }
-    return b;
-}
-
 Point bezierCurve(float t, Point p0, Point p1, Point p2, Point p3){
     Point p;
 
@@ -47,7 +33,7 @@ Point bezierCurve(float t, Point p0, Point p1, Point p2, Point p3){
 }
 
 Point determineSection(float u, float v, const vector<Point> controlPoints){
-    int j = 1;
+    int j = 0;
     vector<Point> curve, matrix;
     for(int i=0; i < 16; i++){
         matrix.push_back(controlPoints[i]);
@@ -65,8 +51,8 @@ Point determineSection(float u, float v, const vector<Point> controlPoints){
 vector<Point> Patch::tessellate(int level) {
     vector<Point> res;
     float tessel = 1.0f/ (float) level;
-    for(int i = 0; i < level; ++i) {
-        for(int j = 0; j < level; ++j) {
+    for(int i = 0; i < level; i++) {
+        for(int j = 0; j < level; j++) {
             Point p0, p1, p2, p3;
             p0 = determineSection((float) i*tessel,(float) j*tessel,controlPoints);
             p1 = determineSection((float) i*tessel,(float) (j+1)*tessel,controlPoints);

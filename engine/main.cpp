@@ -2,7 +2,7 @@
 
 string filename;
 World world;
-float t = 0, timeUp = .01f;
+float t = 0, timeUp = .001f;
 int degree = 0, axisOnOff = 1;
 
 void changeSize(int w, int h) {

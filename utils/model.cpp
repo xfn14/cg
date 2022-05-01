@@ -47,8 +47,8 @@ void Model::writeToFile(string path) {
         vector<Point> controlPoints = patch.getPoints();
         vector<Point> normals = patch.getNormals();
         for(j = 0; j < controlPoints.size(); ++j)
-            file << controlPoints[j].getX() << " " << controlPoints[j].getY() << " " << controlPoints[j].getZ()
-            << " " << normals[j].getX() << " " << normals[j].getY() << " " << normals[j].getZ() << endl;
+            file << " " << controlPoints[j].getX() << ", " << controlPoints[j].getY() << ", " << controlPoints[j].getZ() << endl;
+            //<< " " << normals[j].getX() << " " << normals[j].getY() << " " << normals[j].getZ() << endl;
     }
 
     file.close();
@@ -89,7 +89,7 @@ int Model::readModel(string path) {
         string line;
         std::getline(file, line);
         float x, y, z, nx, ny, nz;
-        sscanf(line.c_str(), "%f %f %f %f %f %f", &x, &y, &z, &nx, &ny, &nz);
+        sscanf(line.c_str(), " %f, %f, %f", &x, &y, &z);
         points[i] = Point(x, y, z);
         normals[i] = Point(nx, ny, nz);
         
@@ -143,6 +143,6 @@ void Model::tessellate(int level, string path) {
         }
         model.addPatch(newPatch);
     }
-    model.writeToFile(path + ".model");
+    model.writeToFile("bezier.3d");
 
 }
