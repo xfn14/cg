@@ -13,8 +13,10 @@ using namespace std;
 class Patch {
     private:
         vector<Point> controlPoints;
+        vector<Point> normals;
 
-    public:
+
+public:
         void addPoint(Point);
         vector<Point> getPoints();
         vector<Point> tessellate(int level);
