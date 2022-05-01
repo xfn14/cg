@@ -14,6 +14,7 @@ class Patch {
     private:
         vector<Point> controlPoints;
         vector<Point> normals;
+        
     public:
         void addPoint(Point);
         vector<Point> getPoints();
