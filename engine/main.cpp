@@ -2,6 +2,7 @@
 
 string filename;
 World world;
+float t = 0, timeUp = .01f;
 int degree = 0, axisOnOff = 1;
 
 void changeSize(int w, int h) {
@@ -17,8 +18,7 @@ void changeSize(int w, int h) {
 }
 
 void setCamera() {
-    Camera camera = *(new Camera());
-    // Camera camera = world.getCamera();
+    Camera camera = world.getCamera();
     Point pos = camera.getPosition(),
           center = camera.getLookAt(),
           up = camera.getUp();
@@ -64,12 +64,23 @@ void transformacoes(Group group){
             if (translate.getX() != -1 && translate.getY() != -1 && translate.getZ() != -1)
                 glTranslatef(translate.getX(), translate.getY(), translate.getZ());
             else if(translate.getTime() != -1) {
-
-                if(translate.getAlign()) {
-                    glTranslatef(0.0f, 0.0f, translate.getTime());
-                } else {
-                    glTranslatef(0.0f, translate.getTime(), 0.0f);
-                }
+                float pos[3], deriv[3];
+                translate.drawCatmullRomCurve();
+                translate.getGlobalCatmullRomPoint(t, pos, deriv);
+                cout << "pos: " << pos[0] << " " << pos[1] << " " << pos[2] << endl;
+                glTranslatef(pos[0], pos[1], pos[2]);
+                float x[3] = {deriv[0], deriv[1], deriv[2]};
+                normalize(x);
+                float z[3];
+                float y_0[3] = {0,1,0};
+                cross(x,y_0,z);
+                normalize(z);
+                float y[3];
+                cross(z,x,y);
+                normalize(y);
+                float m[16];
+                buildRotMatrix(x,y,z,m);
+                glMultMatrixf(m);
             }
         }
 
@@ -81,11 +92,11 @@ void transformacoes(Group group){
 
 void Translate::getCatmullRomPoint(float t, Point p0, Point p1, Point p2, Point p3, float *pos, float *deriv) {
 	float m[4][4] = 
-        {	
+        {
             {-0.5f,  1.5f, -1.5f,  0.5f},
-			{ 1.0f, -2.5f,  2.0f, -0.5f},
-			{-0.5f,  0.0f,  0.5f,  0.0f},
-			{ 0.0f,  1.0f,  0.0f,  0.0f}
+            { 1.0f, -2.5f,  2.0f, -0.5f},
+            {-0.5f,  0.0f,  0.5f,  0.0f},
+            { 0.0f,  1.0f,  0.0f,  0.0f}
         };
 
     for(int i=0; i < 3; i++){
@@ -147,8 +158,6 @@ void renderModels(Group group) {
 }
 
 void renderScene(void) {
-    static float t = 0;
-
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
@@ -158,20 +167,38 @@ void renderScene(void) {
     
     glRotatef(degree, 0, 1, 0);
 
-    Model model;
-    model.readModelPatch(filename);
-    model.drawModel(*(new Color(255, 0, 0)));
-    // renderModels(*world.getGroup());
+    // Model model;
+    // model.readModelPatch(filename);
+    // model.drawModel(*(new Color(255, 0, 0)));
+    renderModels(*world.getGroup());
 
     glutSwapBuffers();
 
-    t += 0.01;
+    t += timeUp;
 }
 
 void keyboard(unsigned char key, int xmouse, int ymouse) {
     switch (key) {
         case 'f': // Eixos
             axisOnOff = !axisOnOff;
+            break;
+        case 'w':
+            world.addPositionCamera(1, 0, 0);
+            break;
+        case 's':
+            world.addPositionCamera(-1, 0, 0);
+            break;
+        case 'a':
+            world.addPositionCamera(0, 1, 0);
+            break;
+        case 'd':
+            world.addPositionCamera(0, -1, 0);
+            break;
+        case 'q':
+            world.addPositionCamera(0, 0, 1);
+            break;
+        case 'e':
+            world.addPositionCamera(0, 0, -1);
             break;
         default:
             break;
@@ -201,7 +228,16 @@ void printInfo() {
 }
 
 int main(int argc, char** argv) {
-    filename = argv[1];
+    // Initialize the World
+    if(argc != 3) {
+        cout << "./engine <path> <xml_file>" << endl;
+        return 0;
+    }
+    string path = argv[1];
+    string xmlFile = argv[2];
+    world.parseXML(path, xmlFile);
+
+    // Window settings
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowPosition(100, 100);
@@ -223,37 +259,6 @@ int main(int argc, char** argv) {
 
     // Initialize window
     glutMainLoop();
-    // Initialize the World
-    // if(argc != 3) {
-    //     cout << "./engine <path> <xml_file>" << endl;
-    //     return 0;
-    // }
-    // string path = argv[1];
-    // string xmlFile = argv[2];
-    // world.parseXML(path, xmlFile);
-
-    // Window settings
-    // glutInit(&argc, argv);
-    // glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
-    // glutInitWindowPosition(100, 100);
-    // glutInitWindowSize(800, 800);
-    // glutCreateWindow("CG@GRUPO39@21/22");
-    // printInfo();
-
-    // // Handlers
-    // glutReshapeFunc(changeSize);
-    // glutIdleFunc(renderScene);
-    // glutDisplayFunc(renderScene);
-    // glutSpecialFunc(keyboard_special);
-    // glutKeyboardFunc(keyboard);
-
-    // // Settings
-    // glEnable(GL_DEPTH_TEST);
-    // glEnable(GL_CULL_FACE);
-    // //glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
-    // // Initialize window
-    // glutMainLoop();
 
     return 1;
 }

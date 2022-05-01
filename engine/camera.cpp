@@ -8,6 +8,12 @@ void Camera::setPosition(Point * position) {
     Camera::position = *position;
 }
 
+void Camera::addPosition(float x, float y, float z) {
+    Camera::position.addX(x);
+    Camera::position.addY(y);
+    Camera::position.addZ(z);
+}
+
 Point Camera::getLookAt() {
     return Camera::lookAt;
 }

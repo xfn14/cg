@@ -24,6 +24,7 @@ class Camera {
         
         Point getPosition();
         void setPosition(Point * position);
+        void addPosition(float x, float y, float z);
         Point getLookAt();
         void setLookAt(Point * lookAt);
         Point getUp();

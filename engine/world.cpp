@@ -1,5 +1,9 @@
 #include "world.h"
 
+void World::addPositionCamera(float x, float y, float z) {
+    World::camera.addPosition(x, y, z);
+}
+
 void Group::addModel(Model model) {
     Group::models.push_back(model);
 }
@@ -209,28 +213,28 @@ void World::parseTransform(XMLElement * elem, Group *g) {
             g->addRotate(*(new Rotate(angle, x, y, z)));
         } else if(strcmp(child->Value(), "translate") == 0) {
             Translate translate;
-            if(child->Attribute("time") != NULL) {
+            if(child->Attribute("x") != NULL) {
                 float x, y, z;
                 child->QueryFloatAttribute("x", &x);
                 child->QueryFloatAttribute("y", &y);
                 child->QueryFloatAttribute("z", &z);
-                
             } else {
                 float time;
                 bool align = false;
+                child->QueryFloatAttribute("time", &time);
                 if(child->Attribute("align") != NULL)
                     child->QueryBoolAttribute("align", &align);
-                child->QueryFloatAttribute("time", &time);
                 translate = *(new Translate(time, align));
-                if(child->FirstChildElement() != NULL)
-                    for(XMLElement * child2 = child->FirstChildElement(); child2 != NULL; child2 = child->NextSiblingElement()){
-                        if(strcmp(child2->Value(), "point") == 0) {
-                            float x2, y2, z2;
-                            child2->QueryFloatAttribute("x", &x2);
-                            child2->QueryFloatAttribute("y", &y2);
-                            child2->QueryFloatAttribute("z", &z2);
-                            translate.addPoint(*(new Point(x2, y2, z2)));
-                        }
+                for(XMLElement * child2 = child->FirstChildElement(); child2 != NULL; child2 = child2->NextSiblingElement()){
+                    cout << child2->Value() << endl;
+                    if(strcmp(child2->Value(), "point") == 0) {
+                        float x2, y2, z2;
+                        child2->QueryFloatAttribute("x", &x2);
+                        child2->QueryFloatAttribute("y", &y2);
+                        child2->QueryFloatAttribute("z", &z2);
+                        translate.addPoint(*(new Point(x2, y2, z2)));
+                        
+                    }
                 }
             }
             g->addTranslate(translate);
@@ -253,8 +257,8 @@ void World::parseTransform(XMLElement * elem, Group *g) {
 void Model::drawModel(Color color) {
     for(Patch patch : getPatches()) {
         vector<Point> primitives = patch.getPoints();
-        // glBegin(GL_TRIANGLES);
-        glBegin(GL_LINE_STRIP);
+        glBegin(GL_TRIANGLES);
+        // glBegin(GL_LINE_STRIP);
         for (int i = 0; i < primitives.size(); i++) {
             // glColor3f(static_cast <float> (rand()) / static_cast <float> (RAND_MAX),
             //           static_cast <float> (rand()) / static_cast <float> (RAND_MAX),

@@ -53,6 +53,7 @@ class World {
 
     public:
         Camera getCamera();
+        void addPositionCamera(float x, float y, float z);
         Group* getGroup();
         void addModel(Model model);
         int parseXML(string path, string filename);
