@@ -101,11 +101,11 @@ vector<Point> Patch::tessellate(int level) {
             toVector(x,y,vector2);
             cross(vector1,vector2,normal);
             normalize(normal);
-            n = *(new Point(normal[0], normal[1], normal[2]));
+            Point m = *(new Point(normal[0], normal[1], normal[2]));
 
-            normals.push_back(n);
-            normals.push_back(n);
-            normals.push_back(n);
+            normals.push_back(m);
+            normals.push_back(m);
+            normals.push_back(m);
         }
     }
     return res;
