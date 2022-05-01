@@ -1,11 +1,19 @@
 #include "patch.h"
 
 void Patch::addPoint(Point point) {
-    controlPoints.push_back(point);
+    Patch::controlPoints.push_back(point);
 }
 
 vector<Point> Patch::getPoints() {
-    return controlPoints;
+    return Patch::controlPoints;
+}
+
+void Patch::addNormals(Point point) {
+    Patch::normals.push_back(point);
+}
+
+vector<Point> Patch::getNormals() {
+    return Patch::normals;
 }
 
 float binomial(int n, int k) {

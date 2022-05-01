@@ -45,8 +45,10 @@ void Model::writeToFile(string path) {
     file << pointIndex << endl;
     for(Patch  patch : patches){
         vector<Point> controlPoints = patch.getPoints();
+        vector<Point> normals = patch.getNormals();
         for(j = 0; j < controlPoints.size(); ++j)
-            file << controlPoints[j].getX() << " " << controlPoints[j].getY() << " " << controlPoints[j].getZ() << endl;
+            file << controlPoints[j].getX() << " " << controlPoints[j].getY() << " " << controlPoints[j].getZ()
+            << " " << normals[j].getX() << " " << normals[j].getY() << " " << normals[j].getZ() << endl;
     }
 
     file.close();
@@ -82,23 +84,33 @@ int Model::readModel(string path) {
     std::getline(file, np);
     int numPoints = stoi(np), crt = 0;
     Point points[numPoints];
+    Point normals[numPoints];
     for(i = 0; i < numPoints; ++i) {
-        string line, temp = "";
+        string line;
         std::getline(file, line);
-        float x, y, z;
-        int n = 0;
+        float x, y, z, nx, ny, nz;
+        sscanf(line.c_str(), "%f %f %f %f %f %f", &x, &y, &z, &nx, &ny, &nz);
+        points[i] = Point(x, y, z);
+        normals[i] = Point(nx, ny, nz);
         
-        for(j = 0; j < line.length()+1; ++j) {
-            if(line[j] == ',') continue;
-            else if(line[j] == ' ' && temp != "") {
-                if(n == 0) {
-                    points[crt].setX(stof(temp));
-                    n = 1;
-                } else points[crt].setY(stof(temp));
-                temp = "";
-            } else temp.push_back(line[j]);
-        } if(temp != "") points[crt].setZ(stof(temp));
-        ++crt;
+        
+
+        // float x, y, z, nx, ny, nz;
+        // sscanf(line.c_str(), "%f %f %f %f %f %f", &x, &y, &z, &nx, &ny, &nz);
+        // points[i] = Point(x, y, z);
+        // normals[i] = Point(nx, ny, nz);
+
+        // for(j = 0; j < line.length()+1; ++j) {
+        //     if(line[j] == ',') continue;
+        //     else if(line[j] == ' ' && temp != "") {
+        //         if(n == 0) {
+        //             points[crt].setX(stof(temp));
+        //             n = 1;
+        //         } else points[crt].setY(stof(temp));
+        //         temp = "";
+        //     } else temp.push_back(line[j]);
+        // } if(temp != "") points[crt].setZ(stof(temp));
+        // ++crt;
     }
 
     // Merge loaded patches indexes with loaded control points
