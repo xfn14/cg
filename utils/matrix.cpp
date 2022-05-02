@@ -26,11 +26,6 @@ void normalize(float *a) {
 	a[2] = a[2]/l;
 }
 
-float length(float *v) {
-	float res = sqrt(v[0]*v[0] + v[1]*v[1] + v[2]*v[2]);
-	return res;
-}
-
 void multMatrixVector(float *m, float *v, float *res) {
 	for (int j = 0; j < 4; ++j) {
 		res[j] = 0;

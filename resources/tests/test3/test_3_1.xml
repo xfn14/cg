@@ -1,6 +1,6 @@
 <world> 
     <camera> 
-	    <position x="10" y="30" z="8" />
+	    <position x="10" y="20" z="8" />
 	    <lookAt x="0" y="0" z="0" />
 	    <up x="0" y="1" z="0" /> 
         <projection fov="60" near="1" far="1000" />
@@ -21,7 +21,7 @@
 				<scale x="0.5" y="0.5" z="0.5" />
 			</transform>
 			<models> 
-				<model file="sphere.3d" /> <!-- generator bezier teapot.patch 10 bezier.3d -->
+				<model file="bezier.3d" /> <!-- generator bezier teapot.patch 10 bezier.3d -->
 			</models>
 		</group>
  	</group>
