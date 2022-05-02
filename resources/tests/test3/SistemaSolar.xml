@@ -1,0 +1,448 @@
+<world>
+    <camera>
+        <position x="10" y="1" z="10" />
+        <lookAt x="0" y="0" z="0" />
+        <up x="0" y="1" z="0" /> <!-- optional, use these values as default-->
+        <projection fov="60" near="1" far="1000" /> <!-- optional, use these values as default-->
+    </camera>
+
+    <group>
+        <!-- SUN  -->
+        <transform>
+            <rotate time="1" x="0" y="1" z="0" />
+            <color r="1" g="0.82" b="0"/>
+        </transform>
+        <models>
+            <model file="sphere.3d"/>
+        </models>
+
+        <!-- PLANETS AND SATELITES -->
+
+        <!-- MERCURY -->
+        <group>
+            <transform>
+                <rotate time="80" x="0" y="1" z="0" />
+                <translate x="1.5" y="0" z="0"/>
+                <scale x="0.11" y="0.11" z="0.11"/>
+                <color r="0.77" g="0.7" b="0.6"/>
+            </transform>
+            <models>
+                <model file="sphere.3d"/>
+            </models>
+        </group>
+        <!-- VENUS -->
+        <group>
+            <transform>
+                <rotate angle="87" x="0" y="1" z="0"/>
+                <translate x="2.1" y="0" z="0"/>
+                <scale x="0.18" y="0.18" z="0.18"/>
+                <color r="0.71" g="0.75" b="0.44"/>
+            </transform>
+            <models>
+                <model file="sphere.3d"/>
+            </models>
+        </group>
+        <!-- EARTH -->
+        <group>
+            <transform>
+                <rotate angle="172" x="0" y="1" z="0"/>
+                <translate x="3.1" y="0" z="0"/>
+                <scale x="0.19" y="0.19" z="0.19"/>
+                <color r="0.25" g="0.41" b="0.88"/>
+            </transform>
+            <models>
+                <model file="sphere.3d"/>
+            </models>
+            <!-- MOON -->
+            <group>
+                <transform>
+                    <translate x="1.5" y="0.5" z="0"/>
+                    <scale x="0.33" y="0.33" z="0.33"/>
+                    <color r="0.96" g="0.93" b="0.91"/>
+                </transform>
+                <models>
+                    <model file="sphere.3d"/>
+                </models>
+            </group>
+        </group>
+        <!-- MARS -->
+        <group>
+            <transform>
+                <rotate angle="277" x="0" y="1" z="0"/>
+                <translate x="4.1" y="0" z="0"/>
+                <scale x="0.13" y="0.13" z="0.13"/>
+                <color r="0.7" g="0.16" b="0.08"/>
+            </transform>
+            <models>
+                <model file="sphere.3d"/>
+            </models>
+            <!-- MARS SATELITE-->
+            <group>
+                <transform>
+                    <translate x="1.5" y="0.5" z="0"/>
+                    <scale x="0.33" y="0.33" z="0.33"/>
+                    <color r="1" g="1" b="1"/>
+                </transform>
+                <models>
+                    <model file="sphere.3d"/>
+                </models>
+            </group>
+            <!-- MARS SATELITE-->
+            <group>
+                <transform>
+                    <rotate angle="173" x="0" y="1" z="0"/>
+                    <translate x="1.5" y="-0.5" z="0"/>
+                    <scale x="0.33" y="0.33" z="0.33"/>
+                    <color r="1" g="1" b="1"/>
+                </transform>
+                <models>
+                    <model file="sphere.3d"/>
+                </models>
+            </group>
+        </group>
+        <!-- JUPITER -->
+        <group>
+            <transform>
+                <rotate angle="15" x="0" y="1" z="0"/>
+                <translate x="6.5" y="0" z="0"/>
+                <scale x="0.5" y="0.5" z="0.5"/>
+                <color r="0.95" g="0.84" b="0.59"/>
+            </transform>
+            <models>
+                <model file="sphere.3d"/>
+            </models>
+            <!-- JUPITER SATELITE-->
+            <group>
+                <transform>
+                    <translate x="1.5" y="0.5" z="0"/>
+                    <scale x="0.15" y="0.15" z="0.15"/>
+                    <color r="1" g="1" b="1"/>
+                </transform>
+                <models>
+                    <model file="sphere.3d"/>
+                </models>
+            </group>
+            <!-- JUPITER SATELITE -->
+            <group>
+                <transform>
+                    <rotate angle="87" x="0" y="1" z="0"/>
+                    <translate x="1.5" y="-0.2" z="0"/>
+                    <scale x="0.14" y="0.14" z="0.14"/>
+                    <color r="1" g="1" b="1"/>
+                </transform>
+                <models>
+                    <model file="sphere.3d"/>
+                </models>
+            </group>
+            <!-- JUPITER SATELITE -->
+            <group>
+                <transform>
+                    <rotate angle="179" x="0" y="1" z="0"/>
+                    <translate x="1.5" y="-0.5" z="0"/>
+                    <scale x="0.16" y="0.16" z="0.16"/>
+                    <color r="1" g="1" b="1"/>
+                </transform>
+                <models>
+                    <model file="sphere.3d"/>
+                </models>
+            </group>
+            <!-- JUPITER SATELITE -->
+            <group>
+                <transform>
+                    <rotate angle="287" x="0" y="1" z="0"/>
+                    <translate x="1.5" y="0.3" z="0"/>
+                    <scale x="0.15" y="0.15" z="0.15"/>
+                    <color r="1" g="1" b="1"/>
+                </transform>
+                <models>
+                    <model file="sphere.3d"/>
+                </models>
+            </group>
+        </group>
+        <!-- SATURN-->
+        <group>
+            <transform>
+                <rotate angle="107" x="0" y="1" z="0"/>
+                <translate x="8.5" y="0" z="0"/>
+                <scale x="0.45" y="0.45" z="0.45"/>
+                <color r="0.99" g="0.69" b="0.63"/>
+            </transform>
+            <models>
+                <model file="sphere.3d"/>
+            </models>
+            <!-- SATURN'S RINGS -->
+            <group>
+                <transform>
+                    <scale x="0.5" y="0.5" z="0.5"/>
+                    <color r="0.74" g="0.52" b="0.21"/>
+                </transform>
+                <models>
+                    <model file="anel.3d"/>
+                </models>
+                <group>
+                    <transform>
+                        <rotate angle="180" x="1" y="0" z="0"/>
+                        <color r="0.74" g="0.52" b="0.21"/>
+                    </transform>
+                    <models>
+                        <model file="anel.3d"/>
+                    </models>
+                </group>
+            </group>
+            <!-- SATURN SATELITE -->
+            <group>
+                <transform>
+                    <translate x="2" y="-0.5" z="0"/>
+                    <scale x="0.18" y="0.18" z="0.18"/>
+                    <color r="1" g="1" b="1"/>
+                </transform>
+                <models>
+                    <model file="sphere.3d"/>
+                </models>
+            </group>
+            <!-- SATURN SATELITE -->
+            <group>
+                <transform>
+                    <rotate angle="190" x="0" y="1" z="0"/>
+                    <translate x="2" y="0.3" z="0"/>
+                    <scale x="0.19" y="0.19" z="0.19"/>
+                    <color r="1" g="1" b="1"/>
+                </transform>
+                <models>
+                    <model file="sphere.3d"/>
+                </models>
+            </group>
+            <!-- SATURN SATELITE -->
+            <group>
+                <transform>
+                    <rotate angle="250" x="0" y="1" z="0"/>
+                    <translate x="2" y="-0.5" z="0"/>
+                    <scale x="0.17" y="0.17" z="0.17"/>
+                    <color r="1" g="1" b="1"/>
+                </transform>
+                <models>
+                    <model file="sphere.3d"/>
+                </models>
+            </group>
+        </group>
+        <!-- URANUS -->
+        <group>
+            <transform>
+                <rotate angle="195" x="0" y="1" z="0"/>
+                <translate x="10" y="0" z="0"/>
+                <scale x="0.38" y="0.38" z="0.38"/>
+                <color r="0.63" g="0.81" b="0.99"/>
+            </transform>
+            <models>
+                <model file="sphere.3d"/>
+            </models>
+            <!-- URANUS SATELITE -->
+            <group>
+                <transform>
+                    <translate x="1.5" y="0.2" z="0"/>
+                    <scale x="0.19" y="0.19" z="0.19"/>
+                    <color r="1" g="1" b="1"/>
+                </transform>
+                <models>
+                    <model file="sphere.3d"/>
+                </models>
+            </group>
+            <!-- URANUS SATELITE -->
+            <group>
+                <transform>
+                    <rotate angle="190" x="0" y="1" z="0"/>
+                    <translate x="1.5" y="0.4" z="0"/>
+                    <scale x="0.20" y="0.20" z="0.20"/>
+                    <color r="1" g="1" b="1"/>
+                </transform>
+                <models>
+                    <model file="sphere.3d"/>
+                </models>
+            </group>
+        </group>
+        <!-- NEPTUN -->
+        <group>
+            <transform>
+                <rotate angle="300" x="0" y="1" z="0"/>
+                <translate x="11" y="0" z="0"/>
+                <scale x="0.37" y="0.37" z="0.37"/>
+                <color r="0.63" g="0.99" b="0.89"/>
+            </transform>
+            <models>
+                <model file="sphere.3d"/>
+            </models>
+            <!-- NEPTUN SATELITE -->
+            <group>
+                <transform>
+                    <translate x="1.5" y="0.5" z="0"/>
+                    <scale x="0.21" y="0.21" z="0.21"/>
+                    <color r="1" g="1" b="1"/>
+                </transform>
+                <models>
+                    <model file="sphere.3d"/>
+                </models>
+            </group>
+        </group>
+        <!-- WORMHOLE -->
+        <group>
+            <transform>
+                <rotate angle="340" x="0" y="1" z="0"/>
+                <rotate angle="160" x="0" y="0" z="1"/>
+                <rotate angle="30" x="1" y="0" z="0"/>
+                <translate x="60" y="0" z="0"/>
+                <scale x="0.8" y="0.8" z="0.8"/>
+                <color r="0.31" g="0.19" b="0.49"/>
+            </transform>
+            <models>
+                <model file="tronco1.3d"/>
+            </models>
+            <group>
+                <transform>
+                    <translate x="0" y="1" z="0"/>
+                    <color r="0.26" g="0.15" b="0.42"/>
+                </transform>
+                <models>
+                    <model file="cone.3d"/>
+                </models>
+            </group>
+        </group>
+        <!-- SPACESHIP -->
+        <group>
+            <transform>
+                <rotate angle="10" x="0" y="0" z="1"/>
+                <translate x="0" y="5" z="0" />
+                <scale x="0.1" y="0.1" z="0.1"/>
+            </transform>
+
+            <group>
+                <transform>
+                    <translate x="0" y="2" z="0" />
+                    <color r="1" g="1" b="1"/>
+                </transform>
+                <models>
+                    <model file="tronco2.3d" />
+                </models>
+                <group>
+                    <transform>
+                        <translate x="0" y="2" z="0" />
+                        <scale x="1.5" y="1.5" z="1.5"/>
+                        <color r="1" g="1" b="1"/>
+                    </transform>
+                    <models>
+                        <model file="sphere.3d" />
+                    </models>
+                    <!-- janela 1 -->
+                    <group>
+                        <transform>
+                            <translate x="0.7" y="0" z="0" />
+                            <scale x="0.4" y="0.4" z="0.4"/>
+                            <color r="0.65" g="0.88" b="0.88"/>
+                        </transform>
+                        <models>
+                            <model file="sphere.3d" />
+                        </models>
+                    </group>
+                    <!-- janela 2 -->
+                    <group>
+                        <transform>
+                            <translate x="-0.7" y="0" z="0" />
+                            <scale x="0.4" y="0.4" z="0.4"/>
+                            <color r="0.65" g="0.88" b="0.88"/>
+                        </transform>
+                        <models>
+                            <model file="sphere.3d" />
+                        </models>
+                    </group>
+                </group>
+
+                <!-- Pernas -->
+                <group>
+                    <transform>
+                        <rotate angle="175" x="1" y="0" z="0"/>
+                        <rotate angle="-20" x="0" y="0" z="1"/>
+                        <translate x="0" y="1.7" z="0" />
+                        <scale x="0.6" y="1.3" z="0.6"/>
+                        <color r="0.94" g="0.61" b="0.33"/>
+                    </transform>
+                    <models>
+                        <model file="cone.3d" />
+                    </models>
+                    <group>
+                        <transform>
+                            <rotate angle="100" x="0" y="1" z="0"/>
+                            <color r="1" g="0" b="0"/>
+                        </transform>
+                        <models>
+                            <model file="cone.3d" />
+                        </models>
+                    </group>
+                </group>
+                <group>
+                    <transform>
+                        <rotate angle="175" x="1" y="0" z="0"/>
+                        <rotate angle="20" x="0" y="0" z="1"/>
+                        <translate x="0" y="1.7" z="0" />
+                        <scale x="0.6" y="1.3" z="0.6"/>
+                        <color r="0.94" g="0.61" b="0.33"/>
+                    </transform>
+                    <models>
+                        <model file="cone.3d" />
+                    </models>
+                    <group>
+                        <transform>
+                            <rotate angle="100" x="" y="1" z="0"/>
+                            <color r="1" g="0" b="0"/>
+                        </transform>
+                        <models>
+                            <model file="cone.3d" />
+                        </models>
+                    </group>
+                </group>
+
+
+                <group>
+                    <transform>
+                        <rotate angle="-160" x="1" y="0" z="0"/>
+                        <rotate angle="-40" x="1" y="0" z="0"/>
+                        <translate x="0" y="1.7" z="0" />
+                        <scale x="0.6" y="1.3" z="0.6"/>
+                        <color r="0.94" g="0.61" b="0.33"/>
+                    </transform>
+                    <models>
+                        <model file="cone.3d" />
+                    </models>
+                    <group>
+                        <transform>
+                            <rotate angle="100" x="0" y="1" z="0"/>
+                            <color r="1" g="0" b="0"/>
+                        </transform>
+                        <models>
+                            <model file="cone.3d" />
+                        </models>
+                    </group>
+                </group>
+                <group>
+                    <transform>
+                        <rotate angle="-160" x="1" y="0" z="0"/>
+                        <rotate angle="20" x="0" y="1" z="0"/>
+                        <translate x="0" y="1.7" z="0" />
+                        <scale x="0.6" y="1.3" z="0.6"/>
+                        <color r="0.94" g="0.61" b="0.33"/>
+                    </transform>
+                    <models>
+                        <model file="cone.3d" />
+                    </models>
+                    <group>
+                        <transform>
+                            <rotate angle="100" x="" y="1" z="0"/>
+                            <color r="1" g="0" b="0"/>
+                        </transform>
+                        <models>
+                            <model file="cone.3d" />
+                        </models>
+                    </group>
+                </group>
+            </group>
+        </group>
+    </group>
+</world>

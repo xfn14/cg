@@ -286,6 +286,7 @@ void Model::drawModel(Color color) {
     for(Patch patch : patches)
         size += patch.getPoints().size();
 
+    glColor3f(color.getR(), color.getG(), color.getB());
     glBindBuffer(GL_ARRAY_BUFFER, vboId);
     glVertexPointer(3, GL_FLOAT, 0, 0);
     glDrawArrays(GL_TRIANGLES, 0, size);
