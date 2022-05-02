@@ -264,7 +264,7 @@ void Model::drawModel(Color color) {
             // glColor3f(static_cast <float> (rand()) / static_cast <float> (RAND_MAX),
             //           static_cast <float> (rand()) / static_cast <float> (RAND_MAX),
             //           static_cast <float> (rand()) / static_cast <float> (RAND_MAX));
-            
+
             Point point = primitives[i];
             glColor3f(color.getR(), color.getG(), color.getB());
             glVertex3f(point.getX(), point.getY(), point.getZ());
@@ -272,3 +272,22 @@ void Model::drawModel(Color color) {
         glEnd();
     }
 }
+
+//GLuint buffers[1];
+//
+//void Model::drawModel(Color color) {
+//    glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
+//    glVertexPointer(3,GL_FLOAT, 0, 0);
+//
+//    for(Patch patch : getPatches()) {
+//        vector<Point> primitives = patch.getPoints();
+//        for (int i = 0; i < primitives.size(); i++) {
+//
+//
+//            Point point = primitives[i];
+//            glColor3f(color.getR(), color.getG(), color.getB());
+//            glVertex3f(point.getX(), point.getY(), point.getZ());
+//            glDrawArrays(GL_TRIANGLES, 0, primitives.size());
+//       }
+//    }
+//}

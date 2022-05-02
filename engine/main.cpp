@@ -2,6 +2,11 @@
 
 string filename;
 World world;
+
+int startX, startY, tracking = 0;
+float camX = 0, camY = 0, camZ = 0;
+int alpha = 0, beta = 0, r = 5;
+
 float t = 0, timeUp = .001f;
 int degree = 0, axisOnOff = 1;
 
@@ -23,7 +28,7 @@ void setCamera() {
           center = camera.getLookAt(),
           up = camera.getUp();
     gluLookAt(
-        pos.getX(), pos.getY(), pos.getZ(),
+        pos.getX() + camX, pos.getY() + camY, pos.getZ() + camZ,
         center.getX(), center.getY(), center.getZ(),
         up.getX(), up.getY(), up.getZ()
     );
@@ -221,6 +226,72 @@ void keyboard_special(int key, int a, int b){
     glutPostRedisplay();
 }
 
+void processMouseButtons(int button, int state, int xx, int yy) {
+
+    if (state == GLUT_DOWN)  {
+        startX = xx;
+        startY = yy;
+        if (button == GLUT_LEFT_BUTTON)
+            tracking = 1;
+        else if (button == GLUT_RIGHT_BUTTON)
+            tracking = 2;
+        else
+            tracking = 0;
+    }
+    else if (state == GLUT_UP) {
+        if (tracking == 1) {
+            alpha += (xx - startX);
+            beta += (yy - startY);
+        }
+        else if (tracking == 2) {
+
+            r -= yy - startY;
+            if (r < 3)
+                r = 3.0;
+        }
+        tracking = 0;
+    }
+}
+
+
+void processMouseMotion(int xx, int yy) {
+
+    int deltaX, deltaY;
+    int alphaAux, betaAux;
+    int rAux;
+
+    if (!tracking)
+        return;
+
+    deltaX = xx - startX;
+    deltaY = yy - startY;
+
+    if (tracking == 1) {
+
+
+        alphaAux = alpha + deltaX;
+        betaAux = beta + deltaY;
+
+        if (betaAux > 85.0)
+            betaAux = 85.0;
+        else if (betaAux < -85.0)
+            betaAux = -85.0;
+
+        rAux = r;
+    }
+    else if (tracking == 2) {
+
+        alphaAux = alpha;
+        betaAux = beta;
+        rAux = r - deltaY;
+        if (rAux < 3)
+            rAux = 3;
+    }
+    camX = rAux * sin(alphaAux * 3.14 / 180.0) * cos(betaAux * 3.14 / 180.0);
+    camZ = rAux * cos(alphaAux * 3.14 / 180.0) * cos(betaAux * 3.14 / 180.0);
+    camY = rAux * 							     sin(betaAux * 3.14 / 180.0);
+}
+
 void printInfo() {
     printf("Vendor: %s\n", glGetString(GL_VENDOR));
     printf("Renderer: %s\n", glGetString(GL_RENDERER));
@@ -249,8 +320,11 @@ int main(int argc, char** argv) {
     glutReshapeFunc(changeSize);
     glutIdleFunc(renderScene);
     glutDisplayFunc(renderScene);
+
     glutSpecialFunc(keyboard_special);
     glutKeyboardFunc(keyboard);
+    glutMouseFunc(processMouseButtons);
+    glutMotionFunc(processMouseMotion);
 
     // Settings
     glEnable(GL_DEPTH_TEST);
