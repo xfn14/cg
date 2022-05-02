@@ -72,8 +72,7 @@ void transformacoes(Group group){
     vector<Translate> translates = group.getTranslate();
     if(!translates.empty())
         for(Translate translate : translates) {
-            cout << translate.getX() << " " << translate.getY() << " " << translate.getZ() << endl;
-            if (translate.getX() != -1 && translate.getY() != -1 && translate.getZ() != -1)
+            if (translate.getX() != -1)
                 glTranslatef(translate.getX(), translate.getY(), translate.getZ());
             else if(translate.getTime() != -1) {
                 float pos[3], deriv[3];

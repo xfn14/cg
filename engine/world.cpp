@@ -225,6 +225,7 @@ void World::parseTransform(XMLElement * elem, Group *g) {
                 child->QueryFloatAttribute("x", &x);
                 child->QueryFloatAttribute("y", &y);
                 child->QueryFloatAttribute("z", &z);
+                translate = *(new Translate(x, y, z));
             } else {
                 float time;
                 bool align = false;
