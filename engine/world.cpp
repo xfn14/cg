@@ -197,6 +197,7 @@ void World::parseModels(string path, XMLElement * elem, Group * g) {
             Model model;
             cout << path << filename << " model loaded." << endl;
             model.readModel(path + filename);
+            model.initVbo();
             g->addModel(model);
         }
     }
@@ -232,14 +233,12 @@ void World::parseTransform(XMLElement * elem, Group *g) {
                     child->QueryBoolAttribute("align", &align);
                 translate = *(new Translate(time, align));
                 for(XMLElement * child2 = child->FirstChildElement(); child2 != NULL; child2 = child2->NextSiblingElement()){
-                    cout << child2->Value() << endl;
                     if(strcmp(child2->Value(), "point") == 0) {
                         float x2, y2, z2;
                         child2->QueryFloatAttribute("x", &x2);
                         child2->QueryFloatAttribute("y", &y2);
                         child2->QueryFloatAttribute("z", &z2);
                         translate.addPoint(*(new Point(x2, y2, z2)));
-                        
                     }
                 }
             }
@@ -260,39 +259,50 @@ void World::parseTransform(XMLElement * elem, Group *g) {
     }
 }
 
-void Model::drawModel(Color color) {
-    for(Patch patch : getPatches()) {
-        vector<Point> primitives = patch.getPoints();
-        glBegin(GL_TRIANGLES);
-        //glBegin(GL_LINE_STRIP);
+void Model::initVbo() {
+    Model::vbo = 1;
+    int size = 0;
+    for(Patch patch : patches)
+        size += patch.getPoints().size();
+    float* arr_vert = (float*) malloc(sizeof(float) * size * 3);
 
-        for (int i = 0; i < primitives.size(); i++) {
-            // glColor3f(static_cast <float> (rand()) / static_cast <float> (RAND_MAX),
-            //           static_cast <float> (rand()) / static_cast <float> (RAND_MAX),
-            //           static_cast <float> (rand()) / static_cast <float> (RAND_MAX));
-            Point point = primitives[i];
-            glColor3f(color.getR(), color.getG(), color.getB());
-            glVertex3f(point.getX(), point.getY(), point.getZ());
+    int i = 0;
+    for(Patch patch : patches)
+        for(Point point : patch.getPoints()) {
+            arr_vert[i] = point.getX();
+            arr_vert[i + 1] = point.getY();
+            arr_vert[i + 2] = point.getZ();
+            i += 3;
         }
-        glEnd();
-    }
+
+    glGenBuffers(1, &vboId);
+    glBindBuffer(GL_ARRAY_BUFFER, vboId);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * i, arr_vert, GL_STATIC_DRAW);
+    free(arr_vert);
 }
 
-//GLuint buffers[1];
-//
-//void Model::drawModel(Color color) {
-//    glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
-//    glVertexPointer(3,GL_FLOAT, 0, 0);
-//
-//    for(Patch patch : getPatches()) {
-//        vector<Point> primitives = patch.getPoints();
-//        for (int i = 0; i < primitives.size(); i++) {
-//
-//
-//            Point point = primitives[i];
-//            glColor3f(color.getR(), color.getG(), color.getB());
-//            glVertex3f(point.getX(), point.getY(), point.getZ());
-//            glDrawArrays(GL_TRIANGLES, 0, primitives.size());
-//       }
-//    }
-//}
+void Model::drawModel(Color color) {
+    int size = 0;
+    for(Patch patch : patches)
+        size += patch.getPoints().size();
+
+    glBindBuffer(GL_ARRAY_BUFFER, vboId);
+    glVertexPointer(3, GL_FLOAT, 0, 0);
+    glDrawArrays(GL_TRIANGLES, 0, size);
+
+    // for(Patch patch : getPatches()) {
+    //     vector<Point> primitives = patch.getPoints();
+    //     glBegin(GL_TRIANGLES);
+    //     //glBegin(GL_LINE_STRIP);
+
+    //     for (int i = 0; i < primitives.size(); i++) {
+    //         // glColor3f(static_cast <float> (rand()) / static_cast <float> (RAND_MAX),
+    //         //           static_cast <float> (rand()) / static_cast <float> (RAND_MAX),
+    //         //           static_cast <float> (rand()) / static_cast <float> (RAND_MAX));
+    //         Point point = primitives[i];
+    //         glColor3f(color.getR(), color.getG(), color.getB());
+    //         glVertex3f(point.getX(), point.getY(), point.getZ());
+    //     }
+    //     glEnd();
+    // }
+}

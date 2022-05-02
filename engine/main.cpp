@@ -74,7 +74,7 @@ void transformacoes(Group group){
                 int t = floor((float) tempo / (float) 1000 / translate.getTime());
                 float p = ((float) tempo / (float) 1000 - t * translate.getTime()) / translate.getTime();
                 translate.getGlobalCatmullRomPoint(p, pos, deriv);
-                cout << "pos: " << pos[0] << " " << pos[1] << " " << pos[2] << endl;
+                // cout << "pos: " << pos[0] << " " << pos[1] << " " << pos[2] << endl;
                 glTranslatef(pos[0], pos[1], pos[2]);
                 float x[3] = {deriv[0], deriv[1], deriv[2]};
                 normalize(x);
@@ -153,8 +153,11 @@ void renderModels(Group group) {
 
     vector<Model> models = group.getModels();
     if (!models.empty())
-        for (Model model: models)
+        for (Model model: models) {
+            // if(model.getVbo() == 0)
+            //     model.initVbo();
             model.drawModel(group.getColor());
+        }
 
     vector<Group> subGroups = group.getGroups();
     if (!subGroups.empty())
@@ -175,9 +178,6 @@ void renderScene(void) {
     
     glRotatef(degree, 0, 1, 0);
 
-    // Model model;
-    // model.readModelPatch(filename);
-    // model.drawModel(*(new Color(255, 0, 0)));
     renderModels(*world.getGroup());
 
     glutSwapBuffers();
@@ -308,7 +308,6 @@ int main(int argc, char** argv) {
     }
     string path = argv[1];
     string xmlFile = argv[2];
-    world.parseXML(path, xmlFile);
 
     // Window settings
     glutInit(&argc, argv);
@@ -329,9 +328,12 @@ int main(int argc, char** argv) {
     glutMotionFunc(processMouseMotion);
 
     // Settings
+    glewInit();
+    glEnableClientState(GL_VERTEX_ARRAY);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
-    //glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+    world.parseXML(path, xmlFile);
 
     // Initialize window
     glutMainLoop();

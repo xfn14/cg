@@ -1,11 +1,15 @@
 #include "model.h"
 
+int Model::getVbo() {
+    return Model::vbo;
+}
+
 void Model::addPatch(Patch  patch) {
-    patches.push_back(patch);
+    Model::patches.push_back(patch);
 }
 
 vector<Patch > Model::getPatches() {
-    return patches;
+    return Model::patches;
 }
 
 void Model::readModelPatch(string path) {
@@ -125,8 +129,6 @@ int Model::readModel(string path) {
     return 1;
 }
 
-// Tessellate the bezier surface that contains a vector of patch into triangles and output them to a file
-// with each line containing the indexes of the 3 points of the triangle
 void Model::tessellate(int level, string path) {
     Model model;
     vector<Point> points;
