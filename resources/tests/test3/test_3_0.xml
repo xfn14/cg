@@ -21,7 +21,7 @@
                 <scale x="1" y="1" z="1" />
             </transform>
             <models> 
-                <model file="box.3d" />
+                <model file="bezier.3d" />
             </models>
         </group>
      </group>
