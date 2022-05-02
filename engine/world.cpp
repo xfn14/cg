@@ -263,7 +263,6 @@ void Model::drawModel(Color color) {
             // glColor3f(static_cast <float> (rand()) / static_cast <float> (RAND_MAX),
             //           static_cast <float> (rand()) / static_cast <float> (RAND_MAX),
             //           static_cast <float> (rand()) / static_cast <float> (RAND_MAX));
-            
             Point point = primitives[i];
             glColor3f(color.getR(), color.getG(), color.getB());
             glVertex3f(point.getX(), point.getY(), point.getZ());
