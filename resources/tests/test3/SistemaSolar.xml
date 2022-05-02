@@ -8,20 +8,21 @@
 
     <group>
         <!-- SUN  -->
-        <transform>
-            <rotate time="1" x="0" y="1" z="0" />
-            <color r="1" g="0.82" b="0"/>
-        </transform>
-        <models>
-            <model file="sphere.3d"/>
-        </models>
-
+        <group>
+            <transform>
+                <rotate time="20" x="0" y="1" z="0" />
+                <color r="1" g="0.82" b="0"/>
+            </transform>
+            <models>
+                <model file="sphere.3d"/>
+            </models>
+        </group>
         <!-- PLANETS AND SATELITES -->
 
         <!-- MERCURY -->
         <group>
             <transform>
-                <rotate time="80" x="0" y="1" z="0" />
+                <rotate time="30" x="0" y="1" z="0" />
                 <translate x="1.5" y="0" z="0"/>
                 <scale x="0.11" y="0.11" z="0.11"/>
                 <color r="0.77" g="0.7" b="0.6"/>
@@ -33,6 +34,7 @@
         <!-- VENUS -->
         <group>
             <transform>
+                <rotate time="60" x="0" y="-1" z="0" />
                 <rotate angle="87" x="0" y="1" z="0"/>
                 <translate x="2.1" y="0" z="0"/>
                 <scale x="0.18" y="0.18" z="0.18"/>
@@ -45,6 +47,7 @@
         <!-- EARTH -->
         <group>
             <transform>
+                <rotate time="50" x="0" y="1" z="0" />
                 <rotate angle="172" x="0" y="1" z="0"/>
                 <translate x="3.1" y="0" z="0"/>
                 <scale x="0.19" y="0.19" z="0.19"/>
@@ -68,6 +71,7 @@
         <!-- MARS -->
         <group>
             <transform>
+                <rotate time="60" x="0" y="1" z="0" />
                 <rotate angle="277" x="0" y="1" z="0"/>
                 <translate x="4.1" y="0" z="0"/>
                 <scale x="0.13" y="0.13" z="0.13"/>
@@ -103,6 +107,7 @@
         <!-- JUPITER -->
         <group>
             <transform>
+                <rotate time="60" x="0" y="1" z="0" />
                 <rotate angle="15" x="0" y="1" z="0"/>
                 <translate x="6.5" y="0" z="0"/>
                 <scale x="0.5" y="0.5" z="0.5"/>
@@ -162,6 +167,7 @@
         <!-- SATURN-->
         <group>
             <transform>
+                <rotate time="70" x="0" y="1" z="0" />
                 <rotate angle="107" x="0" y="1" z="0"/>
                 <translate x="8.5" y="0" z="0"/>
                 <scale x="0.45" y="0.45" z="0.45"/>
@@ -228,6 +234,7 @@
         <!-- URANUS -->
         <group>
             <transform>
+                <rotate time="80" x="0" y="-1" z="0" />
                 <rotate angle="195" x="0" y="1" z="0"/>
                 <translate x="10" y="0" z="0"/>
                 <scale x="0.38" y="0.38" z="0.38"/>
@@ -263,6 +270,7 @@
         <!-- NEPTUN -->
         <group>
             <transform>
+                <rotate time="90" x="0" y="1" z="0" />
                 <rotate angle="300" x="0" y="1" z="0"/>
                 <translate x="11" y="0" z="0"/>
                 <scale x="0.37" y="0.37" z="0.37"/>
@@ -309,13 +317,19 @@
         <!-- SPACESHIP -->
         <group>
             <transform>
-                <rotate angle="10" x="0" y="0" z="1"/>
                 <translate x="0" y="5" z="0" />
+                <translate time = "10" align="True" >
+                    <point x = "0" y = "0" z = "4" />
+                    <point x = "4" y = "0" z = "0" />
+                    <point x = "0" y = "0" z = "-4" />
+                    <point x = "-4" y = "10" z = "0" />
+                </translate>
                 <scale x="0.1" y="0.1" z="0.1"/>
             </transform>
 
             <group>
                 <transform>
+                    <rotate angle="-90" x="0" y="0" z="1"/>
                     <translate x="0" y="2" z="0" />
                     <color r="1" g="1" b="1"/>
                 </transform>
@@ -390,7 +404,7 @@
                     </models>
                     <group>
                         <transform>
-                            <rotate angle="100" x="" y="1" z="0"/>
+                            <rotate angle="100" x="0" y="1" z="0"/>
                             <color r="1" g="0" b="0"/>
                         </transform>
                         <models>
@@ -434,7 +448,7 @@
                     </models>
                     <group>
                         <transform>
-                            <rotate angle="100" x="" y="1" z="0"/>
+                            <rotate angle="100" x="0" y="1" z="0"/>
                             <color r="1" g="0" b="0"/>
                         </transform>
                         <models>
@@ -443,6 +457,22 @@
                     </group>
                 </group>
             </group>
+        </group>
+        <!-- Cometa -->
+        <group>
+            <transform>
+                <rotate angle="90" x="1" y="0" z="1"/>
+                <translate time = "10" align="True" >
+                    <point x = "0" y = "0" z = "10" />
+                    <point x = "10" y = "0" z = "0" />
+                    <point x = "0" y = "0" z = "-10" />
+                </translate>
+                <scale x="0.1" y="0.1" z="0.1"/>
+                <color r="0.32" g="0.17" b="0.15"/>
+            </transform>
+            <models>
+                <model file="bezier.3d" />
+            </models>
         </group>
     </group>
 </world>
