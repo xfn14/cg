@@ -40,6 +40,10 @@ float Rotate::getZ() {
     return Rotate::z;
 }
 
+float Rotate::getTime() {
+    return Rotate::time;
+}
+
 float Scale::getX() {
     return Scale::x;
 }

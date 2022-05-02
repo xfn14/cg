@@ -59,6 +59,7 @@ class Translate {
 class Rotate {
     private:
         float angle, x, y, z;
+        int time;
 
     public:
         Rotate(float a, float i, float j, float u) {
@@ -66,12 +67,22 @@ class Rotate {
             Rotate::x = i;
             Rotate::y = j;
             Rotate::z = u;
+            Rotate::time = -1;
+        }
+
+        Rotate(int t, float i, float j, float u) {
+            Rotate::angle = -1;
+            Rotate::x = i;
+            Rotate::y = j;
+            Rotate::z = u;
+            Rotate::time = t;
         }
 
         float getAngle();
         float getX();
         float getY();
         float getZ();
+        float getTime();
 };
 
 class Scale {
