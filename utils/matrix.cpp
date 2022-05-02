@@ -7,6 +7,12 @@ void buildRotMatrix(float *x, float *y, float *z, float *m) {
 	m[12] = 0; m[13] = 0; m[14] = 0; m[15] = 1;
 }
 
+void toVector(float *a,float *b, float *res){
+    res[0] = b[0] - a[0];
+    res[1] = b[1] - a[1];
+    res[2] = b[2] - a[2];
+}
+
 void cross(float *a, float *b, float *res) {
 	res[0] = a[1]*b[2] - a[2]*b[1];
 	res[1] = a[2]*b[0] - a[0]*b[2];

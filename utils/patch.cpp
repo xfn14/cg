@@ -16,20 +16,6 @@ vector<Point> Patch::getNormals() {
     return Patch::normals;
 }
 
-float binomial(int n, int k) {
-    if(k == 0 || k == n) return 1;
-    else return binomial(n-1, k-1) + binomial(n-1, k);
-}
-
-float bernstein(int m, int n, float t) {
-    float b = 0;
-    for(int i = 0; i <= m; ++i) {
-        float c = binomial(m, i);
-        b += c * pow(t, i) * pow(1-t, m-i);
-    }
-    return b;
-}
-
 Point bezierCurve(float t, Point p0, Point p1, Point p2, Point p3){
     Point p;
 
@@ -47,7 +33,7 @@ Point bezierCurve(float t, Point p0, Point p1, Point p2, Point p3){
 }
 
 Point determineSection(float u, float v, const vector<Point> controlPoints){
-    int j = 1;
+    int j = 0;
     vector<Point> curve, matrix;
     for(int i=0; i < 16; i++){
         matrix.push_back(controlPoints[i]);
@@ -62,17 +48,11 @@ Point determineSection(float u, float v, const vector<Point> controlPoints){
     return bezierCurve(v, curve[0], curve[1], curve[2], curve[3]);
 }
 
-void cross(Point a, Point b, Point res) {
-    res.setX(a.getY()*b.getZ() - a.getZ()*b.getY());
-    res.setY(a.getZ()*b.getX() - a.getX()*b.getZ());
-    res.setZ(a.getX()*b.getY() - a.getY()*b.getX());
-}
-
 vector<Point> Patch::tessellate(int level) {
     vector<Point> res;
     float tessel = 1.0f/ (float) level;
-    for(int i = 0; i < level; ++i) {
-        for(int j = 0; j < level; ++j) {
+    for(int i = 0; i < level; i++) {
+        for(int j = 0; j < level; j++) {
             Point p0, p1, p2, p3;
             p0 = determineSection((float) i*tessel,(float) j*tessel,controlPoints);
             p1 = determineSection((float) i*tessel,(float) (j+1)*tessel,controlPoints);
@@ -87,7 +67,31 @@ vector<Point> Patch::tessellate(int level) {
             res.push_back(p3);
             res.push_back(p1);
 
+            float vector1[3], vector2[3], normal[3];
+            float x[3] = {p0.getX(),p0.getY(),p0.getZ()};
+            float y[3] = {p1.getX(),p1.getY(),p1.getZ()};
+            float z[3] = {p2.getX(),p2.getY(),p2.getZ()};
+            float w[3] = {p3.getX(),p3.getY(),p3.getZ()};
 
+            toVector(x,z,vector1);
+            toVector(x,w,vector2);
+            cross(vector1,vector2,normal);
+            normalize(normal);
+            Point n = *(new Point(normal[0], normal[1], normal[2]));
+
+            normals.push_back(n);
+            normals.push_back(n);
+            normals.push_back(n);
+
+            toVector(x,w,vector1);
+            toVector(x,y,vector2);
+            cross(vector1,vector2,normal);
+            normalize(normal);
+            Point m = *(new Point(normal[0], normal[1], normal[2]));
+
+            normals.push_back(m);
+            normals.push_back(m);
+            normals.push_back(m);
         }
     }
     return res;

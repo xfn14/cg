@@ -5,9 +5,9 @@
 	    <up x="0" y="1" z="0" /> <!-- optional, use these values as default-->
         <projection fov="60" near="1" far="1000" /> <!-- optional, use these values as default-->
     </camera>
-	<group> 
+	<group>
 		<transform>
-			<rotate angle="-90" x = "1" y="0" z = "0" /> 
+			<rotate angle="-90" x = "1" y="0" z = "0" />
 		</transform>
   		<models> 
 			<model file="bezier.3d" /> <!-- generator bezier teapot.patch 10 bezier.3d -->
