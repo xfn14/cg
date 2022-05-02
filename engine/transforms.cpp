@@ -28,6 +28,10 @@ float Rotate::getAngle() {
     return Rotate::angle;
 }
 
+float Rotate::setAngle(float a) {
+    return Rotate::angle = a;
+}
+
 float Rotate::getX() {
     return Rotate::x;
 }

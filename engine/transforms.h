@@ -71,7 +71,7 @@ class Rotate {
         }
 
         Rotate(int t, float i, float j, float u) {
-            Rotate::angle = -1;
+            Rotate::angle = 0;
             Rotate::x = i;
             Rotate::y = j;
             Rotate::z = u;
@@ -79,6 +79,7 @@ class Rotate {
         }
 
         float getAngle();
+        float setAngle(float a);
         float getX();
         float getY();
         float getZ();

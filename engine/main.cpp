@@ -60,8 +60,14 @@ void renderAxis() {
 void transformacoes(Group group){
     vector<Rotate> rotates = group.getRotate();
     if(!rotates.empty())
-        for(Rotate rotate : rotates)
+        for(Rotate rotate : rotates) {
+            if(rotate.getTime() != -1) {
+                int t = floor((float) tempo / (float) 1000 / rotate.getTime());
+                float p = ((float) tempo / (float) 1000 - t * rotate.getTime()) / rotate.getTime();
+                rotate.setAngle(p * 360);
+            }
             glRotatef(rotate.getAngle(), rotate.getX(), rotate.getY(), rotate.getZ());
+        }
 
     vector<Translate> translates = group.getTranslate();
     if(!translates.empty())
