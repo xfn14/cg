@@ -261,25 +261,44 @@ void World::parseTransform(XMLElement * elem, Group *g) {
 }
 
 void Model::initVbo() {
-    Model::vbo = 1;
     int size = 0;
     for(Patch patch : patches)
         size += patch.getPoints().size();
     float* arr_vert = (float*) malloc(sizeof(float) * size * 3);
+    float* arr_norm = (float*) malloc(sizeof(float) * size * 3);
+    float* arr_text = (float*) malloc(sizeof(float) * size * 2);
 
-    int i = 0;
+    int i;
     for(Patch patch : patches)
-        for(Point point : patch.getPoints()) {
-            arr_vert[i] = point.getX();
-            arr_vert[i + 1] = point.getY();
-            arr_vert[i + 2] = point.getZ();
-            i += 3;
+        for (i = 0; i < patch.getPoints().size(); ++i) {
+            arr_vert[i * 3] = patch.getPoints()[i].getX();
+            arr_vert[i * 3 + 1] = patch.getPoints()[i].getY();
+            arr_vert[i * 3 + 2] = patch.getPoints()[i].getZ();
+
+            arr_norm[i * 3] = patch.getNormals()[i].getX();
+            arr_norm[i * 3 + 1] = patch.getNormals()[i].getY();
+            arr_norm[i * 3 + 2] = patch.getNormals()[i].getZ();
+
+            arr_text[i * 2] = patch.getTexture()[i].getX();
+            arr_text[i * 2 + 1] = patch.getTexture()[i].getY();
         }
 
     glGenBuffers(1, &vboId);
+    glGenBuffers(1, &normalsId);
+    glGenBuffers(1, &textureId);
+    
     glBindBuffer(GL_ARRAY_BUFFER, vboId);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * i, arr_vert, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * i * 3, arr_vert, GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ARRAY_BUFFER, normalsId);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * i * 3, arr_norm, GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ARRAY_BUFFER, textureId);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * i * 2, arr_text, GL_STATIC_DRAW);
+
     free(arr_vert);
+    free(arr_norm);
+    free(arr_text);
 }
 
 void Model::drawModel(Color color) {
@@ -287,9 +306,18 @@ void Model::drawModel(Color color) {
     for(Patch patch : patches)
         size += patch.getPoints().size();
 
-    glColor3f(color.getR(), color.getG(), color.getB());
+    // glColor3f(color.getR(), color.getG(), color.getB());
+    
     glBindBuffer(GL_ARRAY_BUFFER, vboId);
     glVertexPointer(3, GL_FLOAT, 0, 0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, normalsId);
+    glNormalPointer(GL_FLOAT, 0, 0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, textureId);
+    glTexCoordPointer(2, GL_FLOAT, 0, 0);
+    glBindTexture(GL_TEXTURE_2D, texture);
+
     glDrawArrays(GL_TRIANGLES, 0, size);
 
     // for(Patch patch : getPatches()) {

@@ -18,8 +18,7 @@ using namespace std;
 
 class Model {
     private:
-        int vbo = 0;
-        GLuint vboId;
+        GLuint vboId, normalsId, textureId, texture;
         vector<Patch> patches;
 
     public:
@@ -39,6 +38,7 @@ class Model {
         int readModel(string path);
         void drawModel(Color color);
         void tessellate(int level, string path);
+        void loadTexture(string path);
 };
 
 #endif

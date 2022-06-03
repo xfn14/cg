@@ -1,7 +1,7 @@
 #include "model.h"
 
 int Model::getVbo() {
-    return Model::vbo;
+    return Model::vboId;
 }
 
 void Model::addPatch(Patch  patch) {
@@ -50,9 +50,11 @@ void Model::writeToFile(string path) {
     for(Patch  patch : patches){
         vector<Point> controlPoints = patch.getPoints();
         vector<Point> normals = patch.getNormals();
+        vector<Point> textures = patch.getTexture();
         for(j = 0; j < controlPoints.size(); ++j)
-            file << " " << controlPoints[j].getX() << ", " << controlPoints[j].getY() << ", " << controlPoints[j].getZ() << endl;
-            //<< " " << normals[j].getX() << " " << normals[j].getY() << " " << normals[j].getZ() << endl;
+            file << " " << controlPoints[j].getX() << ", " << controlPoints[j].getY() << ", " << controlPoints[j].getZ()
+                 << " " << normals[j].getX() << " " << normals[j].getY() << " " << normals[j].getZ()
+                 << " " << textures[j].getX() << " " << textures[j].getY() << endl;
     }
 
     file.close();
@@ -89,32 +91,15 @@ int Model::readModel(string path) {
     int numPoints = stoi(np), crt = 0;
     Point points[numPoints];
     Point normals[numPoints];
+    Point textures[numPoints];
     for(i = 0; i < numPoints; ++i) {
         string line;
         std::getline(file, line);
-        float x, y, z, nx, ny, nz;
-        sscanf(line.c_str(), " %f, %f, %f", &x, &y, &z);
+        float x, y, z, nx, ny, nz, tx, ty;
+        sscanf(line.c_str(), " %f, %f, %f, %f, %f, %f, %f, %f, %f", &x, &y, &z, &nx, &ny, &nz, &tx, &ty);
         points[i] = Point(x, y, z);
         normals[i] = Point(nx, ny, nz);
-        
-        
-
-        // float x, y, z, nx, ny, nz;
-        // sscanf(line.c_str(), "%f %f %f %f %f %f", &x, &y, &z, &nx, &ny, &nz);
-        // points[i] = Point(x, y, z);
-        // normals[i] = Point(nx, ny, nz);
-
-        // for(j = 0; j < line.length()+1; ++j) {
-        //     if(line[j] == ',') continue;
-        //     else if(line[j] == ' ' && temp != "") {
-        //         if(n == 0) {
-        //             points[crt].setX(stof(temp));
-        //             n = 1;
-        //         } else points[crt].setY(stof(temp));
-        //         temp = "";
-        //     } else temp.push_back(line[j]);
-        // } if(temp != "") points[crt].setZ(stof(temp));
-        // ++crt;
+        textures[i] = Point(tx, ty, 0);
     }
 
     // Merge loaded patches indexes with loaded control points
@@ -123,6 +108,7 @@ int Model::readModel(string path) {
         for(int idx : crtPatch) {
             patch->addPoint(points[idx]);
             patch->addNormals(normals[idx]);
+            patch->addTexture(textures[idx]);
         }
         addPatch(*patch);
     }
@@ -146,5 +132,8 @@ void Model::tessellate(int level, string path) {
         model.addPatch(newPatch);
     }
     model.writeToFile("bezier.3d");
+}
 
+void Model::loadTexture(string path) {
+    // TODO
 }

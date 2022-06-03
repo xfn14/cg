@@ -15,12 +15,15 @@ class Patch {
     private:
         vector<Point> controlPoints;
         vector<Point> normals;
+        vector<Point> textures;
         
     public:
         void addPoint(Point);
         vector<Point> getPoints();
         void addNormals(Point);
         vector<Point> getNormals();
+        void addTexture(Point);
+        vector<Point> getTexture();
         vector<Point> tessellate(int level);
 };
 

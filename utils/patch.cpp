@@ -16,6 +16,14 @@ vector<Point> Patch::getNormals() {
     return Patch::normals;
 }
 
+void Patch::addTexture(Point point) {
+    Patch::textures.push_back(point);
+}
+
+vector<Point> Patch::getTexture() {
+    return Patch::textures;
+}
+
 Point bezierCurve(float t, Point p0, Point p1, Point p2, Point p3){
     Point p;
 
