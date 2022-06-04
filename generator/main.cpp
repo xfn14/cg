@@ -16,29 +16,29 @@ void plane(float units, int divisions, string filename){
             patch.addPoint(*(new Point(x + (float) (j+1)*div, 0, z + (float) (i+1)*div)));
             patch.addPoint(*(new Point(x + (float) (j+1)*div, 0, z + (float) i*div)));
 
-            /*
-            normal.push_back(new Point(0, 1, 0));
-            normal.push_back(new Point(0, 1, 0));
-            normal.push_back(new Point(0, 1, 0));
 
-            texture.push_back(new Point(j*divt, 1-i*divt, 0));
-            texture.push_back(new Point((j+1)*divt, 1-(i+1)*divt, 0));
-            texture.push_back(new Point((j+1)*divt, 1-i*divt, 0));
-             */
+            patch.addNormals(*(new Point(0, 1, 0)));
+            patch.addNormals(*(new Point(0, 1, 0)));
+            patch.addNormals(*(new Point(0, 1, 0)));
+
+            patch.addTexture(*(new Point((float) j*divt, 1 - (float)i*divt, 0)));
+            patch.addTexture(*(new Point((float) (j+1)*divt, 1 - (float)(i+1)*divt, 0)));
+            patch.addTexture(*(new Point((float) (j+1)*divt, 1 - (float)i*divt, 0)));
+
 
             patch.addPoint(*(new Point(x + (float) j*div, 0, z + (float) i*div)));
             patch.addPoint(*(new Point(x + (float) j*div, 0, z + (float) (i+1)*div)));
             patch.addPoint(*(new Point(x + (float) (j+1)*div, 0, z + (float) (i+1)*div)));
 
-            /*
-            normal.push_back(new Point(0, 1, 0));
-            normal.push_back(new Point(0, 1, 0));
-            normal.push_back(new Point(0, 1, 0));
 
-            texture.push_back(new Point(j*divt, 1-i*divt, 0));
-            texture.push_back(new Point(j*divt, 1-(i+1)*divt, 0));
-            texture.push_back(new Point((j+1)*divt, 1-(i+1)*divt, 0));
-            */
+            patch.addNormals(*(new Point(0, 1, 0)));
+            patch.addNormals(*(new Point(0, 1, 0)));
+            patch.addNormals(*(new Point(0, 1, 0)));
+
+            patch.addTexture(*(new Point(j*divt, 1-i*divt, 0)));
+            patch.addTexture(*(new Point(j*divt, 1-(i+1)*divt, 0)));
+            patch.addTexture(*(new Point((j+1)*divt, 1-(i+1)*divt, 0)));
+
 
 
             model.addPatch(patch);
@@ -63,174 +63,174 @@ void box(float units, int grid, string filename){
             patch.addPoint(*(new Point(x + (float) j*div, -y, z + (float) i*div)));
             patch.addPoint(*(new Point(x + (float) j*div, -y, z + (float) (i+1)*div)));
 
-            /*
-            normal.push_back(new Point(0, 1, 0));
-            normal.push_back(new Point(0, 1, 0));
-            normal.push_back(new Point(0, 1, 0));
 
-            texture.push_back(new Point(0.25+(j+1)*divx, 1-(i+1)*divy, 0));
-            texture.push_back(new Point(0.25+j*divx, 1-i*divy, 0));
-            texture.push_back(new Point(0.25+j*divx, 1-(i+1)*divy, 0));
-             */
+            patch.addNormals(*(new Point(0, 1, 0)));
+            patch.addNormals(*(new Point(0, 1, 0)));
+            patch.addNormals(*(new Point(0, 1, 0)));
+
+            patch.addTexture(*(new Point(0.25+(j+1)*divx, 1-(i+1)*divy, 0)));
+            patch.addTexture(*(new Point(0.25+j*divx, 1-i*divy, 0)));
+            patch.addTexture(*(new Point(0.25+j*divx, 1-(i+1)*divy, 0)));
+
 
             patch.addPoint(*(new Point(x + (float) (j+1)*div, -y, z + (float) (i+1)*div)));
             patch.addPoint(*(new Point(x + (float) (j+1)*div, -y, z + (float) i*div)));
             patch.addPoint(*(new Point(x + (float) j*div, -y, z + (float) i*div)));
 
-            /*
-            normal.push_back(new Point(0, 1, 0));
-            normal.push_back(new Point(0, 1, 0));
-            normal.push_back(new Point(0, 1, 0));
+
+            patch.addNormals(*(new Point(0, 1, 0)));
+            patch.addNormals(*(new Point(0, 1, 0)));
+            patch.addNormals(*(new Point(0, 1, 0)));
 
             texture.push_back(new Point(0.25+(j+1)*divx, 1-(i+1)*divy, 0));
             texture.push_back(new Point(0.25+(j+1)*divx, 1-i*divy, 0));
             texture.push_back(new Point(0.25+j*divx, 1-i*divy, 0));
-             */
+
 
             //face de baixo
             patch.addPoint(*(new Point(x + (float) j*div, y, z + (float) i*div)));
             patch.addPoint(*(new Point(x + (float) (j+1)*div, y, z + (float) (i+1)*div)));
             patch.addPoint(*(new Point(x + (float) j*div, y, z + (float) (i+1)*div)));
 
-            /*
-            normal.push_back(new Point(0, -1, 0));
-            normal.push_back(new Point(0, -1, 0));
-            normal.push_back(new Point(0, -1, 0));
+
+            patch.addNormals(*(new Point(0, -1, 0)));
+            patch.addNormals(*(new Point(0, -1, 0)));
+            patch.addNormals(*(new Point(0, -1, 0)));
 
             texture.push_back(new Point(0.25+j*divx, 0.33-i*divy, 0));
             texture.push_back(new Point(0.25+(j+1)*divx, 0.33-(i+1)*divy, 0));
             texture.push_back(new Point(0.25+j*divx, 0.33-(i+1)*divy, 0));
-             */
+
 
             patch.addPoint(*(new Point(x + (float) (j+1)*div, y, z + (float) (i+1)*div)));
             patch.addPoint(*(new Point(x + (float) j*div, y, z + (float) i*div)));
             patch.addPoint(*(new Point(x + (float) (j+1)*div, y, z + (float) i*div)));
 
-            /*
-            normal.push_back(new Point(0, -1, 0));
-            normal.push_back(new Point(0, -1, 0));
-            normal.push_back(new Point(0, -1, 0));
+
+            patch.addNormals(*(new Point(0, -1, 0)));
+            patch.addNormals(*(new Point(0, -1, 0)));
+            patch.addNormals(*(new Point(0, -1, 0)));
 
             texture.push_back(new Point(0.25+(j+1)*divx, 0.33-(i+1)*divy, 0));
             texture.push_back(new Point(0.25+j*divx, 0.33-i*divy, 0));
             texture.push_back(new Point(0.25+(j+1)*divx, 0.33-i*divy, 0));
-             */
+
 
             //face lateral -x
             patch.addPoint(*(new Point(x , y + (float) i*div, z + (float) j*div)));
             patch.addPoint(*(new Point(x , y + (float) (i+1)*div, z + (float) (j+1)*div)));
             patch.addPoint(*(new Point(x , y + (float) (i+1)*div, z + (float) j*div)));
 
-            /*
-            normal.push_back(new Point(-1, 0, 0));
-            normal.push_back(new Point(-1, 0, 0));
-            normal.push_back(new Point(-1, 0, 0));
+
+            patch.addNormals(*(new Point(-1, 0, 0)));
+            patch.addNormals(*(new Point(-1, 0, 0)));
+            patch.addNormals(*(new Point(-1, 0, 0)));
 
             texture.push_back(new Point(j*divx, 0.66-i*divy, 0));
             texture.push_back(new Point((j+1)*divx, 0.66-(i+1)*divy, 0));
             texture.push_back(new Point(j*divx, 0.66-(i+1)*divy, 0));
-             */
+
 
             patch.addPoint(*(new Point(x , y + (float) (i+1)*div, z + (float) (j+1)*div)));
             patch.addPoint(*(new Point(x , y + (float) i*div, z + (float) j*div)));
             patch.addPoint(*(new Point(x , y + (float) i*div, z + (float) (j+1)*div)));
 
-            /*
-            normal.push_back(new Point(-1, 0, 0));
-            normal.push_back(new Point(-1, 0, 0));
-            normal.push_back(new Point(-1, 0, 0));
+
+            patch.addNormals(*(new Point(-1, 0, 0)));
+            patch.addNormals(*(new Point(-1, 0, 0)));
+            patch.addNormals(*(new Point(-1, 0, 0)));
 
              texture.push_back(new Point((j+1)*divx, 0.66-(i+1)*divy, 0));
             texture.push_back(new Point(j*divx, 0.66-i*divy, 0));
             texture.push_back(new Point((j+1)*divx, 0.66-i*divy, 0));
-             */
+
 
             //face lateral x
             patch.addPoint(*(new Point(-x, y + (float) i*div, z + (float) j*div )));
             patch.addPoint(*(new Point(-x, y + (float) (i+1)*div, z + (float) j*div)));
             patch.addPoint(*(new Point(-x, y + (float) (i+1)*div, z + (float) (j+1)*div)));
 
-            /*
-            normal.push_back(new Point(1, 0, 0));
-            normal.push_back(new Point(1, 0, 0));
-            normal.push_back(new Point(1, 0, 0));
 
-             texture.push_back(new Point(0.5+j*divx, 0.66-i*divy, 0));
+            patch.addNormals(*(new Point(1, 0, 0)));
+            patch.addNormals(*(new Point(1, 0, 0)));
+            patch.addNormals(*(new Point(1, 0, 0)));
+
+            texture.push_back(new Point(0.5+j*divx, 0.66-i*divy, 0));
             texture.push_back(new Point(0.5+j*divx, 0.66-(i+1)*divy, 0));
             texture.push_back(new Point(0.5+(j+1)*divx, 0.66-(i+1)*divy, 0));
-             */
+
 
             patch.addPoint(*(new Point(-x, y + (float) (i+1)*div, z + (float) (j+1)*div)));
             patch.addPoint(*(new Point(-x, y + (float) i*div, z + (float) (j+1)*div)));
             patch.addPoint(*(new Point(-x, y + (float) i*div, z + (float) j*div)));
 
-            /*
-            normal.push_back(new Point(1, 0, 0));
-            normal.push_back(new Point(1, 0, 0));
-            normal.push_back(new Point(1, 0, 0));
+
+            patch.addNormals(*(new Point(1, 0, 0)));
+            patch.addNormals(*(new Point(1, 0, 0)));
+            patch.addNormals(*(new Point(1, 0, 0)));
 
             texture.push_back(new Point(0.5+(j+1)*divx, 0.66-(i+1)*divy, 0));
             texture.push_back(new Point(0.5+(j+1)*divx, 0.66-i*divy, 0));
             texture.push_back(new Point(0.5+j*divx, 0.66-i*divy, 0));
-             */
+
 
             //face lateral z
             patch.addPoint(*(new Point(x + (float) (j+1)*div, y + (float) (i+1)*div, -z)));
             patch.addPoint(*(new Point(x + (float) j*div, y + (float) i*div, -z)));
             patch.addPoint(*(new Point(x + (float) (j+1)*div, y + (float) i*div, -z)));
 
-            /*
-            normal.push_back(new Point(0, 0, 1));
-            normal.push_back(new Point(0, 0, 1));
-            normal.push_back(new Point(0, 0, 1));
+
+            patch.addNormals(*(new Point(0, 0, 1)));
+            patch.addNormals(*(new Point(0, 0, 1)));
+            patch.addNormals(*(new Point(0, 0, 1)));
 
              texture.push_back(new Point(0.25+(j+1)*divx, 0.66-(i+1)*divy, 0));
             texture.push_back(new Point(0.25+j*divx, 0.66-i*divy, 0));
             texture.push_back(new Point(0.25+(j+1)*divx, 0.66-i*divy, 0));
-             */
+
 
             patch.addPoint(*(new Point(x + (float) (j+1)*div, y + (float) (i+1)*div, -z)));
             patch.addPoint(*(new Point(x + (float) j*div, y + (float) (i+1)*div, -z)));
             patch.addPoint(*(new Point(x + (float) j*div, y + (float) i*div, -z)));
 
-            /*
-            normal.push_back(new Point(0, 0, 1));
-            normal.push_back(new Point(0, 0, 1));
-            normal.push_back(new Point(0, 0, 1));
+
+            patch.addNormals(*(new Point(0, 0, 1)));
+            patch.addNormals(*(new Point(0, 0, 1)));
+            patch.addNormals(*(new Point(0, 0, 1)));
 
              texture.push_back(new Point(0.25+(j+1)*divx, 0.66-(i+1)*divy, 0));
             texture.push_back(new Point(0.25+j*divx, 0.66-(i+1)*divy, 0));
             texture.push_back(new Point(0.25+j*divx, 0.66-i*divy, 0));
-             */
+
 
             //face lateral -z
             patch.addPoint(*(new Point(x + (float) j*div, y + (float) i*div, z)));
             patch.addPoint(*(new Point(x + (float) j*div, y + (float) (i+1)*div, z)));
             patch.addPoint(*(new Point(x + (float) (j+1)*div, y + (float) (i+1)*div, z)));
 
-            /*
-            normal.push_back(new Point(0, 0, -1));
-            normal.push_back(new Point(0, 0, -1));
-            normal.push_back(new Point(0, 0, -1));
+
+            patch.addNormals(*(new Point(0, 0, -1)));
+            patch.addNormals(*(new Point(0, 0, -1)));
+            patch.addNormals(*(new Point(0, 0, -1)));
 
              texture.push_back(new Point(0.75+j*divx, 0.66-i*divy, 0));
             texture.push_back(new Point(0.75+j*divx, 0.66-(i+1)*divy, 0));
             texture.push_back(new Point(0.75+(j+1)*divx, 0.66-(i+1)*divy, 0));
-             */
+
 
             patch.addPoint(*(new Point(x + (float) (j+1)*div, y + (float) (i+1)*div, z)));
             patch.addPoint(*(new Point(x + (float) (j+1)*div, y + (float) i*div, z)));
             patch.addPoint(*(new Point(x + (float) j*div, y + (float) i*div, z)));
 
-            /*
-            normal.push_back(new Point(0, 0, -1));
-            normal.push_back(new Point(0, 0, -1));
-            normal.push_back(new Point(0, 0, -1));
+
+            patch.addNormals(*(new Point(0, 0, -1)));
+            patch.addNormals(*(new Point(0, 0, -1)));
+            patch.addNormals(*(new Point(0, 0, -1)));
 
              texture.push_back(new Point(0.75+(j+1)*divx, 0.66-(i+1)*divy, 0));
             texture.push_back(new Point(0.75+(j+1)*divx, 0.66-i*divy, 0));
             texture.push_back(new Point(0.75+j*divx, 0.66-i*divy, 0));
-             */
+
 
             model.addPatch(patch);
 
