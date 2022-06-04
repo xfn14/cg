@@ -20,6 +20,7 @@ class Model {
     private:
         GLuint vboId, normalsId, textureId, texture;
         vector<Patch> patches;
+        ModelColor colors;
 
     public:
         Model(){
