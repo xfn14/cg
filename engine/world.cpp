@@ -1,5 +1,13 @@
 #include "world.h"
 
+vector<Light> World::getLights() {
+    return World::lights;
+}
+
+void World::addLight(Light light) {
+    World::lights.push_back(light);
+}
+
 void World::addPositionCamera(float x, float y, float z) {
     World::camera.addPosition(x, y, z);
 }
@@ -128,8 +136,13 @@ int World::parseXML(string path, string filename) {
     if(!doc.LoadFile(file.c_str())){
         XMLElement * cameraElem = doc.FirstChildElement("world")->FirstChildElement("camera");
         XMLElement * groupElem = doc.FirstChildElement("world")->FirstChildElement("group");
-        
+        XMLElement * lightElem = doc.FirstChildElement("world")->FirstChildElement("light");
+
         World::parseCamera(cameraElem);
+
+        if (lightElem != NULL)
+            World::parseLights(lightElem);
+
         Group *g = (new Group());
         World::parseGroup(path, groupElem, g);
         World::group = g;
@@ -173,18 +186,51 @@ void World::parseCamera(XMLElement * elem) {
     World::camera.setFar(far);
 }
 
+void World::parseLights(XMLElement * elem) {
+    for(XMLElement * child = elem->FirstChildElement(); child != NULL; child = child->NextSiblingElement()){
+        if(strcmp(child->Value(), "light") == 0){
+            const char * type;
+            child->QueryStringAttribute("type", &type);
+            if(strcmp(type, "point") == 0) {
+                float posX, posY, posZ;
+                child->QueryFloatAttribute("posX", &posX);
+                child->QueryFloatAttribute("posY", &posY);
+                child->QueryFloatAttribute("posZ", &posZ);
+                World::lights.push_back(*(new Light(POINT, *(new Point(posX, posY, posZ)))));
+            } else if(strcmp(type, "directional") == 0) {
+                float dirX, dirY, dirZ;
+                child->QueryFloatAttribute("dirX", &dirX);
+                child->QueryFloatAttribute("dirY", &dirY);
+                child->QueryFloatAttribute("dirZ", &dirZ);
+                World::lights.push_back(*(new Light(DIRECTIONAL, *(new Point(dirX, dirY, dirZ)))));
+            } else if(strcmp(type, "spotlight") == 0) {
+                float posX, posY, posZ, dirX, dirY, dirZ;
+                int cutoff;
+                child->QueryFloatAttribute("posX", &posX);
+                child->QueryFloatAttribute("posY", &posY);
+                child->QueryFloatAttribute("posZ", &posZ);
+                child->QueryFloatAttribute("dirX", &dirX);
+                child->QueryFloatAttribute("dirY", &dirY);
+                child->QueryFloatAttribute("dirZ", &dirZ);
+                child->QueryIntAttribute("cutoff", &cutoff);
+                World::lights.push_back(*(new Light(*(new Point(posX, posY, posZ)), *(new Point(dirX, dirY, dirZ)), cutoff)));	
+            }
+        }
+    }
+}
+
 void World::parseGroup(string path, XMLElement * elem, Group *g) {
     for(XMLElement * child = elem->FirstChildElement(); child != NULL; child = child->NextSiblingElement()){
-
-        if(strcmp(child->Value(),"models") == 0){// Load models
+        if(strcmp(child->Value(), "models") == 0) // Load models
             parseModels(path, child, g);
-        }
-        if(strcmp(child->Value(),"group") == 0) {
+
+        if(strcmp(child->Value(), "group") == 0) {
             Group *subGroup = (new Group());
             parseGroup(path, child, subGroup);
             g->addGroup(*subGroup);
         }
-        if(strcmp(child->Value(),"transform") == 0)
+
+        if(strcmp(child->Value(), "transform") == 0)
             World::parseTransform(child, g);
     }
 
@@ -192,11 +238,19 @@ void World::parseGroup(string path, XMLElement * elem, Group *g) {
 
 void World::parseModels(string path, XMLElement * elem, Group * g) {
     for(XMLElement * child = elem->FirstChildElement(); child != NULL; child = child->NextSiblingElement()){
-        if(strcmp(child->Value(),"model") == 0) {
+        if(strcmp(child->Value(), "model") == 0) {
             string filename = child->Attribute("file");
             Model model;
             cout << path << filename << " model loaded." << endl;
             model.readModel(path + filename);
+
+            // Load model color and textures
+            for(XMLElement * modelChild = child->FirstChildElement(); modelChild != NULL; modelChild = modelChild->NextSiblingElement()){
+                if(modelChild->Value() == "color") {
+                    
+                }
+            }
+
             model.initVbo();
             g->addModel(model);
         }
@@ -250,7 +304,8 @@ void World::parseTransform(XMLElement * elem, Group *g) {
             child->QueryFloatAttribute("y", &y);
             child->QueryFloatAttribute("z", &z);
             g->addScale(*(new Scale(x, y, z)));
-        } else if(strcmp(child->Value(), "color") == 0) {
+        }
+        else if(strcmp(child->Value(), "color") == 0) {
             float r, gg, b;
             child->QueryFloatAttribute("r", &r);
             child->QueryFloatAttribute("g", &gg);

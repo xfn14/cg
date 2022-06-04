@@ -11,6 +11,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
+#include "light.h"
 #include "camera.h"
 #include "transforms.h"
 #include "../utils/model.h"
@@ -50,8 +51,11 @@ class World {
     private:
         Camera camera;
         Group * group;
+        vector<Light> lights;
 
     public:
+        vector<Light> getLights();
+        void addLight(Light light);
         Camera getCamera();
         void addPositionCamera(float x, float y, float z);
         Group* getGroup();
@@ -61,6 +65,7 @@ class World {
         void parseGroup(string path, XMLElement * elem, Group *g);
         void parseModels(string path, XMLElement * elem, Group *g);
         void parseTransform(XMLElement * elem, Group * g);
+        void parseLights(XMLElement * elem);
 };
 
 #endif
