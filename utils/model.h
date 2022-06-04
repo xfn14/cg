@@ -13,6 +13,7 @@
 #include "patch.h"
 #include "../engine/transforms.h"
 #include "../utils/matrix.h"
+#include "../engine/light.h"
 
 using namespace std;
 

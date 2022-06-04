@@ -96,7 +96,7 @@ int Model::readModel(string path) {
         string line;
         std::getline(file, line);
         float x, y, z, nx, ny, nz, tx, ty;
-        sscanf(line.c_str(), " %f, %f, %f, %f, %f, %f, %f, %f, %f", &x, &y, &z, &nx, &ny, &nz, &tx, &ty);
+        sscanf(line.c_str(), " %f, %f, %f, %f, %f, %f, %f, %f", &x, &y, &z, &nx, &ny, &nz, &tx, &ty);
         points[i] = Point(x, y, z);
         normals[i] = Point(nx, ny, nz);
         textures[i] = Point(tx, ty, 0);

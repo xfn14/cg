@@ -14,6 +14,8 @@ add_executable(${PROJECT_NAME}
 	utils/point.h
 	utils/matrix.cpp
 	utils/matrix.h
+	engine/light.cpp
+	engine/light.h
 )
 
 # Engine Build
@@ -40,7 +42,8 @@ add_executable(${PROJECT_NAME}
 	utils/matrix.h
 	libs/tinyxml2.cpp
 	libs/tinyxml2.h
-	
+	engine/light.cpp
+	engine/light.h
 )
 
 find_package(OpenGL REQUIRED)
