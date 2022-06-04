@@ -133,7 +133,3 @@ void Model::tessellate(int level, string path) {
     }
     model.writeToFile("bezier.3d");
 }
-
-void Model::loadTexture(string path) {
-    // TODO
-}

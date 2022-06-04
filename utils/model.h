@@ -21,7 +21,7 @@ class Model {
     private:
         GLuint vboId, normalsId, textureId, texture;
         vector<Patch> patches;
-        ModelColor colors;
+        ModelColor color;
 
     public:
         Model(){
@@ -31,6 +31,8 @@ class Model {
             Model::readModel(path);
         }
         
+        ModelColor getColor();
+        void setColor(ModelColor color);
         int getVbo();
         void initVbo();
         void addPatch(Patch patch);

@@ -1,5 +1,13 @@
 #include "world.h"
 
+void Model::setColor(ModelColor color) {
+    Model::color = color;
+}
+
+ModelColor Model::getColor() {
+    return Model::color;
+}
+
 vector<Light> World::getLights() {
     return World::lights;
 }
@@ -247,7 +255,40 @@ void World::parseModels(string path, XMLElement * elem, Group * g) {
             // Load model color and textures
             for(XMLElement * modelChild = child->FirstChildElement(); modelChild != NULL; modelChild = modelChild->NextSiblingElement()){
                 if(modelChild->Value() == "color") {
-                    
+                    // Check if RGB values need to be between 0-1
+                    float diffuse[4] = {200, 200, 200, 1};
+                    float ambient[4] = {50, 50, 50, 1};
+                    float specular[4] = {0, 0, 0, 1};
+                    float emissive[4] = {0, 0, 0, 1};
+                    float shine = 0;
+
+                    XMLElement * diffElem = modelChild->FirstChildElement("diffuse");
+                    XMLElement * ambElem = modelChild->FirstChildElement("ambient");
+                    XMLElement * specElem = modelChild->FirstChildElement("specular");
+                    XMLElement * emiElem = modelChild->FirstChildElement("emissive");
+
+                    diffElem->QueryFloatAttribute("R", &diffuse[0]);
+                    diffElem->QueryFloatAttribute("G", &diffuse[1]);
+                    diffElem->QueryFloatAttribute("B", &diffuse[2]);
+
+                    ambElem->QueryFloatAttribute("R", &ambient[0]);
+                    ambElem->QueryFloatAttribute("G", &ambient[1]);
+                    ambElem->QueryFloatAttribute("B", &ambient[2]);
+
+                    specElem->QueryFloatAttribute("R", &specular[0]);
+                    specElem->QueryFloatAttribute("G", &specular[1]);
+                    specElem->QueryFloatAttribute("B", &specular[2]);
+
+                    emiElem->QueryFloatAttribute("R", &emissive[0]);
+                    emiElem->QueryFloatAttribute("G", &emissive[1]);
+                    emiElem->QueryFloatAttribute("B", &emissive[2]);
+
+                    modelChild->QueryFloatAttribute("shine", &shine);
+
+                    model.setColor(*(new ModelColor(diffuse, ambient, specular, emissive, shine)));
+                } else if(modelChild->Value() == "texture") {
+                    string textPath = modelChild->Attribute("file");
+                    model.loadTexture(path + textPath);
                 }
             }
 
@@ -361,6 +402,14 @@ void Model::drawModel(Color color) {
     for(Patch patch : patches)
         size += patch.getPoints().size();
 
+    ModelColor modelColor = Model::getColor();
+    
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, modelColor.getDiffuse());
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, modelColor.getAmbient());
+    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, modelColor.getEmission());
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, modelColor.getSpecular());
+    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, modelColor.getShininess());
+
     // glColor3f(color.getR(), color.getG(), color.getB());
     
     glBindBuffer(GL_ARRAY_BUFFER, vboId);
@@ -373,7 +422,11 @@ void Model::drawModel(Color color) {
     glTexCoordPointer(2, GL_FLOAT, 0, 0);
     glBindTexture(GL_TEXTURE_2D, texture);
 
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_LIGHTING);
     glDrawArrays(GL_TRIANGLES, 0, size);
+    glDisable(GL_TEXTURE_2D);
+    glDisable(GL_LIGHTING);
 
     // for(Patch patch : getPatches()) {
     //     vector<Point> primitives = patch.getPoints();
@@ -390,4 +443,32 @@ void Model::drawModel(Color color) {
     //     }
     //     glEnd();
     // }
+}
+
+void Model::loadTexture(string path) {
+    unsigned int t, tw, th;
+    unsigned char *texData;
+
+    ilInit();
+    ilEnable(IL_ORIGIN_SET);
+    ilOriginFunc(IL_ORIGIN_LOWER_LEFT);
+    ilGenImages(1,&t);
+    ilBindImage(t);
+    ilLoadImage((ILstring) path.c_str());
+    tw = ilGetInteger(IL_IMAGE_WIDTH);
+    th = ilGetInteger(IL_IMAGE_HEIGHT);
+    ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
+    texData = ilGetData();
+
+    glGenTextures(1, &texture);
+    
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tw, th, 0, GL_RGBA, GL_UNSIGNED_BYTE, texData);
+    glGenerateMipmap(GL_TEXTURE_2D);
 }

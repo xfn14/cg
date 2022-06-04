@@ -338,6 +338,7 @@ int main(int argc, char** argv) {
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
+    glEnable(GL_RESCALE_NORMAL);
 
     world.parseXML(path, xmlFile);
 
