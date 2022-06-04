@@ -53,8 +53,8 @@ void Model::writeToFile(string path) {
         vector<Point> textures = patch.getTexture();
         for(j = 0; j < controlPoints.size(); ++j)
             file << " " << controlPoints[j].getX() << ", " << controlPoints[j].getY() << ", " << controlPoints[j].getZ()
-                 << " " << normals[j].getX() << " " << normals[j].getY() << " " << normals[j].getZ()
-                 << " " << textures[j].getX() << " " << textures[j].getY() << endl;
+                 << ", " << normals[j].getX() << ", " << normals[j].getY() << ", " << normals[j].getZ()
+                 << ", " << textures[j].getX() << ", " << textures[j].getY() << endl;
     }
 
     file.close();

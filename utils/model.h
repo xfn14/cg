@@ -19,16 +19,28 @@ using namespace std;
 
 class Model {
     private:
+        float sizes[3];
         GLuint vboId, normalsId, textureId, texture;
         vector<Patch> patches;
         ModelColor color;
+        string textura;
 
     public:
         Model(){
+            textura = "";
         }
 
         Model(string path) {
+            textura = "";
             Model::readModel(path);
+        }
+
+        Model(string path, string a) {
+            textura = a;
+            Model::readModel(path);
+        }
+        void setTextura(string textura){
+            Model::textura=textura;
         }
         
         ModelColor getColor();

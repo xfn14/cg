@@ -289,6 +289,7 @@ void World::parseModels(string path, XMLElement * elem, Group * g) {
                 } else if(modelChild->Value() == "texture") {
                     string textPath = modelChild->Attribute("file");
                     model.loadTexture(path + textPath);
+                    model.setTextura(path+textPath);
                 }
             }
 
@@ -357,12 +358,17 @@ void World::parseTransform(XMLElement * elem, Group *g) {
 }
 
 void Model::initVbo() {
-    int size = 0;
-    for(Patch patch : patches)
-        size += patch.getPoints().size();
-    float* arr_vert = (float*) malloc(sizeof(float) * size * 3);
-    float* arr_norm = (float*) malloc(sizeof(float) * size * 3);
-    float* arr_text = (float*) malloc(sizeof(float) * size * 2);
+
+
+    for(Patch patch : patches) {
+        sizes[0] += patch.getPoints().size();
+        sizes[1] += patch.getNormals().size();
+        sizes[2] += patch.getTexture().size();
+    }
+
+    float* arr_vert = (float*) malloc(sizeof(float) * sizes[0] * 3);
+    float* arr_norm = (float*) malloc(sizeof(float) * sizes[1] * 3);
+    float* arr_text = (float*) malloc(sizeof(float) * sizes[2] * 2);
 
     int i;
     for(Patch patch : patches)
@@ -415,12 +421,16 @@ void Model::drawModel(Color color) {
     glBindBuffer(GL_ARRAY_BUFFER, vboId);
     glVertexPointer(3, GL_FLOAT, 0, 0);
 
-    glBindBuffer(GL_ARRAY_BUFFER, normalsId);
-    glNormalPointer(GL_FLOAT, 0, 0);
+    if(sizes[1]) {
+        glBindBuffer(GL_ARRAY_BUFFER, normalsId);
+        glNormalPointer(GL_FLOAT, 0, 0);
+    }
 
-    glBindBuffer(GL_ARRAY_BUFFER, textureId);
-    glTexCoordPointer(2, GL_FLOAT, 0, 0);
-    glBindTexture(GL_TEXTURE_2D, texture);
+    if(strcmp(Model::textura.c_str(),"") != 0) {
+        glBindBuffer(GL_ARRAY_BUFFER, textureId);
+        glTexCoordPointer(2, GL_FLOAT, 0, 0);
+        glBindTexture(GL_TEXTURE_2D, texture);
+    }
 
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_LIGHTING);
@@ -428,21 +438,6 @@ void Model::drawModel(Color color) {
     glDisable(GL_TEXTURE_2D);
     glDisable(GL_LIGHTING);
 
-    // for(Patch patch : getPatches()) {
-    //     vector<Point> primitives = patch.getPoints();
-    //     glBegin(GL_TRIANGLES);
-    //     //glBegin(GL_LINE_STRIP);
-
-    //     for (int i = 0; i < primitives.size(); i++) {
-    //         // glColor3f(static_cast <float> (rand()) / static_cast <float> (RAND_MAX),
-    //         //           static_cast <float> (rand()) / static_cast <float> (RAND_MAX),
-    //         //           static_cast <float> (rand()) / static_cast <float> (RAND_MAX));
-    //         Point point = primitives[i];
-    //         glColor3f(color.getR(), color.getG(), color.getB());
-    //         glVertex3f(point.getX(), point.getY(), point.getZ());
-    //     }
-    //     glEnd();
-    // }
 }
 
 void Model::loadTexture(string path) {
