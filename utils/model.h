@@ -13,6 +13,7 @@
 #include "patch.h"
 #include "../engine/transforms.h"
 #include "../utils/matrix.h"
+#include "../engine/light.h"
 
 using namespace std;
 
@@ -20,7 +21,7 @@ class Model {
     private:
         GLuint vboId, normalsId, textureId, texture;
         vector<Patch> patches;
-        ModelColor colors;
+        ModelColor color;
 
     public:
         Model(){
@@ -30,6 +31,8 @@ class Model {
             Model::readModel(path);
         }
         
+        ModelColor getColor();
+        void setColor(ModelColor color);
         int getVbo();
         void initVbo();
         void addPatch(Patch patch);

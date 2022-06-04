@@ -18,7 +18,7 @@ class Translate {
 
     public:
         Translate() {
-
+            
         }
         
         Translate(float i, float j, float u) {
