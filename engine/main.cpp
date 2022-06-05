@@ -179,6 +179,27 @@ void renderModels(Group group) {
     glPopMatrix();
 }
 
+void Light::render() {
+    GLfloat ambiente [4] = {0.2,0.2,0.2,1.0};
+    GLfloat diff     [4] = {1.0,1.0,1.0,0.0};
+    GLfloat spec     [4] = {1.0,1.0,1.0,1.0};
+
+    glLightfv(GL_LIGHT0, GL_AMBIENT, ambiente);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, diff);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, spec);
+
+    if(type == POINT || type == DIRECTIONAL) {
+        float pose[4] = {pos.getX(), pos.getY(), pos.getZ(), type == POINT ? 1 : 0};
+        glLightfv(GL_LIGHT0, GL_POSITION, pose);
+    } else if(type == SPOTLIGHT) {
+        float dire[3] = {dir.getX(), dir.getY(), dir.getZ()};
+        float pose[4] = {pos.getX(), pos.getY(), pos.getZ(), 1};
+        glLightfv(GL_LIGHT0, GL_POSITION, pose);
+        glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, dire);
+        glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, cutoff);
+    }
+}
+
 void renderScene(void) {
     tempo = glutGet(GLUT_ELAPSED_TIME);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -193,6 +214,8 @@ void renderScene(void) {
     renderAxis();
     
     //glRotatef(degree, 0, 1, 0);
+    for(Light light : world.getLights())
+        light.render();
 
     renderModels(*world.getGroup());
 
