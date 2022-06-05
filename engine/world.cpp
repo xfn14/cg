@@ -205,25 +205,26 @@ void World::parseLights(XMLElement * elem) {
             child->QueryStringAttribute("type", &type);
             if(strcmp(type, "point") == 0) {
                 float posX, posY, posZ;
-                child->QueryFloatAttribute("posX", &posX);
-                child->QueryFloatAttribute("posY", &posY);
-                child->QueryFloatAttribute("posZ", &posZ);
+                child->QueryFloatAttribute("posx", &posX);
+                child->QueryFloatAttribute("posy", &posY);
+                child->QueryFloatAttribute("posz", &posZ);
                 World::lights.push_back(*(new Light(POINT, *(new Point(posX, posY, posZ)))));
             } else if(strcmp(type, "directional") == 0) {
+                cout << "bla" << endl;
                 float dirX, dirY, dirZ;
-                child->QueryFloatAttribute("dirX", &dirX);
-                child->QueryFloatAttribute("dirY", &dirY);
-                child->QueryFloatAttribute("dirZ", &dirZ);
+                child->QueryFloatAttribute("dirx", &dirX);
+                child->QueryFloatAttribute("diry", &dirY);
+                child->QueryFloatAttribute("dirz", &dirZ);
                 World::lights.push_back(*(new Light(DIRECTIONAL, *(new Point(dirX, dirY, dirZ)))));
             } else if(strcmp(type, "spotlight") == 0) {
                 float posX, posY, posZ, dirX, dirY, dirZ;
                 int cutoff;
-                child->QueryFloatAttribute("posX", &posX);
-                child->QueryFloatAttribute("posY", &posY);
-                child->QueryFloatAttribute("posZ", &posZ);
-                child->QueryFloatAttribute("dirX", &dirX);
-                child->QueryFloatAttribute("dirY", &dirY);
-                child->QueryFloatAttribute("dirZ", &dirZ);
+                child->QueryFloatAttribute("posx", &posX);
+                child->QueryFloatAttribute("posy", &posY);
+                child->QueryFloatAttribute("posz", &posZ);
+                child->QueryFloatAttribute("dirx", &dirX);
+                child->QueryFloatAttribute("diry", &dirY);
+                child->QueryFloatAttribute("dirz", &dirZ);
                 child->QueryIntAttribute("cutoff", &cutoff);
                 World::lights.push_back(*(new Light(*(new Point(posX, posY, posZ)), *(new Point(dirX, dirY, dirZ)), cutoff)));
             }
@@ -398,6 +399,14 @@ void Model::drawModel(Color color) {
 
     ModelColor modelColor = Model::getColor();
 
+    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, modelColor.getDiffuse());
+    glMaterialfv(GL_FRONT, GL_AMBIENT, modelColor.getAmbient());
+    glMaterialfv(GL_FRONT, GL_SPECULAR, modelColor.getSpecular());
+    glMaterialfv(GL_FRONT, GL_EMISSION, modelColor.getEmission());
+    glMaterialf(GL_FRONT, GL_SHININESS, modelColor.getShininess());
+
+    //cout << modelColor.getEmission()[0] << modelColor.getEmission()[1] << modelColor.getEmission()[2] << endl;
+
     if(Model::texture == 1){
         glBindTexture(GL_TEXTURE_2D, texture);
         glBindBuffer(GL_ARRAY_BUFFER, vboId);
@@ -424,7 +433,6 @@ void Model::drawModel(Color color) {
 
         glBindBuffer(GL_ARRAY_BUFFER, normalsId);
         glNormalPointer(GL_FLOAT, 0, 0);
-
 
         glEnable(GL_LIGHTING);
         glDrawArrays(GL_TRIANGLES, 0, size);

@@ -10,7 +10,10 @@
 		<light type="directional" dirx="-1" diry="0.7" dirz="0.5"/>
 	</lights>
 	<group>
-		<group> 
+		<group>
+			<transform>
+				<scale x="2" y="2" z="2" />
+			</transform>
 			<models> 
 				<model file="plane.3d" > <!-- generator plane 1 3 plane_nt.3d -->
 					<color>
@@ -59,7 +62,7 @@
 		</group>
 		<group> 
 			<transform> 
-				<translate x = "-0.5" y = "0" z = "0.5" />
+				<translate x = "-0.5" y = "-0.5" z = "0" />
 				<scale x="0.1" y="0.1" z="0.1" />
 				<rotate angle="-90" x="1" y="0" z="0" />
 			</transform>

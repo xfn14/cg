@@ -1,6 +1,6 @@
 <world>
     <camera> 
-	    <position x="10" y="10" z="10" />
+	    <position x="1.757135" y="1.799201" z="3.416921" />
 	    <lookAt x="0" y="0" z="0" />
 	    <up x="0" y="1" z="0" />
         <projection fov="60" near="1" far="1000" /> 
@@ -11,8 +11,7 @@
 	</lights>
 	<group> 
   		<models> 
-			<model file="bezier.3d" > <!-- generator box 2 3 box_nt.3d -->
-				<texture file="teapot.jpg"/>
+			<model file="box.3d" > <!-- generator box 2 3 box_nt.3d -->
 				<color>
                     <diffuse R="200" G="200" B="0" />
                     <ambient R="50" G="50" B="0" />

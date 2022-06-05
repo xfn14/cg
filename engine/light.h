@@ -19,10 +19,10 @@ class ModelColor {
 
         ModelColor(float diffuse[4], float ambient[4], float specular[4], float emission[4], float shininess) {
             for(int i = 0; i < 4; ++i) {
-                ModelColor::diffuse[i] = diffuse[i];
-                ModelColor::ambient[i] = ambient[i];
-                ModelColor::specular[i] = specular[i];
-                ModelColor::emission[i] = emission[i];
+                ModelColor::diffuse[i] = diffuse[i]/255;
+                ModelColor::ambient[i] = ambient[i]/255;
+                ModelColor::specular[i] = specular[i]/255;
+                ModelColor::emission[i] = emission[i]/255;
             }
             ModelColor::shininess = shininess;
         }

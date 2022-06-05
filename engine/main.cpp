@@ -177,15 +177,16 @@ void renderModels(Group group) {
 }
 
 void Light::render() {
-    // GLfloat ambiente [4] = {1.0,1.0,1.0,1.0};
-    // GLfloat diff     [4] = {1.0,1.0,1.0,0.0};
-    // GLfloat spec     [4] = {1.0,1.0,1.0,1.0};
+    GLfloat ambiente [4] = {1.0,1.0,1.0,1.0};
+    GLfloat diff     [4] = {1.0,1.0,1.0,0.0};
+    GLfloat spec     [4] = {1.0,1.0,1.0,1.0};
 
-    // glLightfv(GL_LIGHT0, GL_AMBIENT, ambiente);
-    // glLightfv(GL_LIGHT0, GL_DIFFUSE, diff);
-    // glLightfv(GL_LIGHT0, GL_SPECULAR, spec);
+    glLightfv(GL_LIGHT0, GL_AMBIENT, ambiente);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, diff);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, spec);
 
     float pose[4] = {pos.getX(), pos.getY(), pos.getZ(), type == POINT || type == SPOTLIGHT ? 1.0f : 0.0f};
+    cout << pos.getX() <<  pos.getY() <<  pos.getZ() << endl;
     glLightfv(GL_LIGHT0, GL_POSITION, pose);
 
     if(type == SPOTLIGHT) {
@@ -212,8 +213,10 @@ void renderScene(void) {
     renderAxis();
     
     //glRotatef(degree, 0, 1, 0);
-    for(Light light : world.getLights())
+    for(Light light : world.getLights()) {
         light.render();
+        cout << "bla" << endl;
+    }
 
     renderModels(*world.getGroup());
 
