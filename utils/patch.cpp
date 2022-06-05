@@ -91,6 +91,10 @@ vector<Point> Patch::tessellate(int level) {
             normals.push_back(n);
             normals.push_back(n);
 
+            textures.push_back(*(new Point(0,0,0)));
+            textures.push_back(*(new Point(1,0,0)));
+            textures.push_back(*(new Point(1,1,0)));
+
             toVector(x,w,vector1);
             toVector(x,y,vector2);
             cross(vector1,vector2,normal);
@@ -100,6 +104,12 @@ vector<Point> Patch::tessellate(int level) {
             normals.push_back(m);
             normals.push_back(m);
             normals.push_back(m);
+
+
+            textures.push_back(*(new Point(0,0,0)));
+            textures.push_back(*(new Point(1,0,0)));
+            textures.push_back(*(new Point(0,1,0)));
+
         }
     }
     return res;

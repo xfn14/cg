@@ -11,8 +11,8 @@
 	</lights>
 	<group> 
   		<models> 
-			<model file="anel.3d" > <!-- generator box 2 3 box_nt.3d -->
-				<texture file="saturn_ring_alpha.png"/>
+			<model file="bezier.3d" > <!-- generator box 2 3 box_nt.3d -->
+				<texture file="teapot.jpg"/>
 				<color>
                     <diffuse R="200" G="200" B="0" />
                     <ambient R="50" G="50" B="0" />

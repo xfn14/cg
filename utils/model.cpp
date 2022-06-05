@@ -117,17 +117,24 @@ int Model::readModel(string path) {
 
 void Model::tessellate(int level, string path) {
     Model model;
-    vector<Point> points;
-    for (Patch patch: patches) {
+    //vector<Point> points;
+    for (Patch patch : patches) {
         Patch newPatch;
         vector<Point> res = patch.tessellate(level);
         int i = 0;
         for (Point point: res) {
-            cout << point.getX() << " " << point.getY() << " " << point.getZ() << endl;
-            points.push_back(point);
+            //points.push_back(point);
             newPatch.addPoint(point);
-            newPatch.addNormals(patch.getNormals()[i]);
+            //newPatch.addNormals(patch.getNormals()[i]);
+            //newPatch.addTexture(patch.getTexture()[i]);
+            //cout << patch.getTexture()[i].getX() << endl;
             i++;
+        }
+        for (Point point : patch.getNormals()){
+            newPatch.addNormals(point);
+        }
+        for (Point point : patch.getTexture()){
+            newPatch.addTexture(point);
         }
         model.addPatch(newPatch);
     }
