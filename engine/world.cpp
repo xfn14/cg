@@ -145,7 +145,7 @@ int World::parseXML(string path, string filename) {
     if(!doc.LoadFile(file.c_str())){
         XMLElement * cameraElem = doc.FirstChildElement("world")->FirstChildElement("camera");
         XMLElement * groupElem = doc.FirstChildElement("world")->FirstChildElement("group");
-        XMLElement * lightElem = doc.FirstChildElement("world")->FirstChildElement("light");
+        XMLElement * lightElem = doc.FirstChildElement("world")->FirstChildElement("lights");
 
         World::parseCamera(cameraElem);
 
@@ -259,7 +259,7 @@ void World::parseModels(string path, XMLElement * elem, Group * g) {
 
             // Load model color and textures
             for(XMLElement * modelChild = child->FirstChildElement(); modelChild != NULL; modelChild = modelChild->NextSiblingElement()){
-                if(strcmp(modelChild->Value(),"color")==0) {
+                if(strcmp(modelChild->Value(), "color")==0) {
                     // Check if RGB values need to be between 0-1
                     float diffuse[4] = {0, 0, 0, 1};
                     float ambient[4] = {0, 0, 0, 1};
@@ -271,6 +271,7 @@ void World::parseModels(string path, XMLElement * elem, Group * g) {
                     XMLElement * ambElem = modelChild->FirstChildElement("ambient");
                     XMLElement * specElem = modelChild->FirstChildElement("specular");
                     XMLElement * emiElem = modelChild->FirstChildElement("emissive");
+                    XMLElement * shineElem = modelChild->FirstChildElement("shininess");
 
                     diffElem->QueryFloatAttribute("R", &diffuse[0]);
                     diffElem->QueryFloatAttribute("G", &diffuse[1]);
@@ -288,7 +289,7 @@ void World::parseModels(string path, XMLElement * elem, Group * g) {
                     emiElem->QueryFloatAttribute("G", &emissive[1]);
                     emiElem->QueryFloatAttribute("B", &emissive[2]);
 
-                    modelChild->QueryFloatAttribute("shine", &shine);
+                    shineElem->QueryFloatAttribute("value", &shine);
 
                     model.setColor(*(new ModelColor(diffuse, ambient, specular, emissive, shine)));
                 } else if(strcmp(modelChild->Value(), "texture")==0) {
@@ -399,7 +400,7 @@ void Model::drawModel(Color color) {
 
     ModelColor modelColor = Model::getColor();
 
-    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, modelColor.getDiffuse());
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, modelColor.getDiffuse());
     glMaterialfv(GL_FRONT, GL_AMBIENT, modelColor.getAmbient());
     glMaterialfv(GL_FRONT, GL_SPECULAR, modelColor.getSpecular());
     glMaterialfv(GL_FRONT, GL_EMISSION, modelColor.getEmission());
@@ -418,7 +419,6 @@ void Model::drawModel(Color color) {
         glBindBuffer(GL_ARRAY_BUFFER, textureId);
         glTexCoordPointer(2, GL_FLOAT, 0, 0);
         //glBindTexture(GL_TEXTURE_2D, texture);
-
 
         glEnable(GL_TEXTURE_2D);
         glEnable(GL_LIGHTING);
