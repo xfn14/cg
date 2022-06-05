@@ -68,6 +68,7 @@ vector<Group> Group::getGroups() {
     return Group::subGroups;
 }
 
+
 void Group::translate(float x, float y, float z) {
     for(Model model : Group::models)
         for(Patch patch : model.getPatches())
@@ -221,7 +222,7 @@ void World::parseLights(XMLElement * elem) {
                 child->QueryFloatAttribute("dirY", &dirY);
                 child->QueryFloatAttribute("dirZ", &dirZ);
                 child->QueryIntAttribute("cutoff", &cutoff);
-                World::lights.push_back(*(new Light(*(new Point(posX, posY, posZ)), *(new Point(dirX, dirY, dirZ)), cutoff)));	
+                World::lights.push_back(*(new Light(*(new Point(posX, posY, posZ)), *(new Point(dirX, dirY, dirZ)), cutoff)));
             }
         }
     }
@@ -254,10 +255,10 @@ void World::parseModels(string path, XMLElement * elem, Group * g) {
 
             // Load model color and textures
             for(XMLElement * modelChild = child->FirstChildElement(); modelChild != NULL; modelChild = modelChild->NextSiblingElement()){
-                if(modelChild->Value() == "color") {
+                if(strcmp(modelChild->Value(),"color")==0) {
                     // Check if RGB values need to be between 0-1
-                    float diffuse[4] = {200, 200, 200, 1};
-                    float ambient[4] = {50, 50, 50, 1};
+                    float diffuse[4] = {0, 0, 0, 1};
+                    float ambient[4] = {0, 0, 0, 1};
                     float specular[4] = {0, 0, 0, 1};
                     float emissive[4] = {0, 0, 0, 1};
                     float shine = 0;
@@ -286,9 +287,9 @@ void World::parseModels(string path, XMLElement * elem, Group * g) {
                     modelChild->QueryFloatAttribute("shine", &shine);
 
                     model.setColor(*(new ModelColor(diffuse, ambient, specular, emissive, shine)));
-                } else if(modelChild->Value() == "texture") {
+                } else if(strcmp(modelChild->Value(), "texture")==0) {
                     string textPath = modelChild->Attribute("file");
-                    model.loadTexture(path + textPath);
+                    model.texture = model.loadTexture(path + textPath);
                 }
             }
 
@@ -410,13 +411,15 @@ void Model::drawModel(Color color) {
         size += patch.getPoints().size();
 
     ModelColor modelColor = Model::getColor();
-    
+
     //glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, modelColor.getDiffuse());
-    //glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, modelColor.getAmbient());
+    //glMaterialfv(GL_FRONT, GL_AMBIENT, modelColor.getAmbient());
     //glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, modelColor.getEmission());
     //glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, modelColor.getSpecular());
     //glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, modelColor.getShininess());
 
+
+    if(Model::texture == 1){
     // glColor3f(color.getR(), color.getG(), color.getB());
     glBindTexture(GL_TEXTURE_2D, texture);
     glBindBuffer(GL_ARRAY_BUFFER, vboId);
@@ -436,10 +439,24 @@ void Model::drawModel(Color color) {
     glBindTexture(GL_TEXTURE_2D, 0);
     glDisable(GL_TEXTURE_2D);
     glDisable(GL_LIGHTING);
+    } else {
+        glBindBuffer(GL_ARRAY_BUFFER, vboId);
+        glVertexPointer(3, GL_FLOAT, 0, 0);
+
+        glBindBuffer(GL_ARRAY_BUFFER, normalsId);
+        glNormalPointer(GL_FLOAT, 0, 0);
+
+
+        glEnable(GL_LIGHTING);
+        glDrawArrays(GL_TRIANGLES, 0, size);
+
+        glDisable(GL_LIGHTING);
+    }
+
 
 }
 
-void Model::loadTexture(string path) {
+int Model::loadTexture(string path) {
     unsigned int t, tw, th;
     unsigned char *texData;
 
@@ -467,4 +484,6 @@ void Model::loadTexture(string path) {
     glGenerateMipmap(GL_TEXTURE_2D);
 
     glBindTexture(GL_TEXTURE_2D, 0);
+
+    return texture;
 }

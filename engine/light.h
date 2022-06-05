@@ -14,13 +14,14 @@ class ModelColor {
         float diffuse[4], ambient[4], specular[4], emission[4], shininess;
 
     public:
-        ModelColor() : 
-            diffuse{200, 200, 200, 1} , 
-            ambient{50, 50, 50, 1} , 
+        ModelColor() {}
+        /*
+            diffuse{200, 200, 200, 1} ,
+            ambient{50, 50, 50, 1} ,
             specular{0, 0, 0, 1} , 
-            emission{0, 0, 0, 1} { 
+            emission{0, 0, 0, 1} {
             shininess = 0;
-        }
+        }*/
 
         ModelColor(float diffuse[4], float ambient[4], float specular[4], float emission[4], float shininess) {
             for(int i = 0; i < 4; ++i) {

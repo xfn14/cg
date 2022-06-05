@@ -339,24 +339,24 @@ void sphere(float radius, int slices, int stacks, string filename){
                 patch.addNormals(*(new Point(sinf(theta2)*sinf(beta1),cosf(theta2),sinf(theta2)*cosf(beta1))));
                 patch.addNormals(*(new Point(sinf(theta2)*sinf(beta2),cosf(theta2),sinf(theta2)*cosf(beta2))));
 
-                patch.addTexture(*(new Point((float)j*textV, (float)i*textH, 0)));
-                patch.addTexture(*(new Point((float)j*textV, (float)(i+1)*textH, 0)));
-                patch.addTexture(*(new Point((float)(j+1)*textV, (float)(i+1)*textH, 0)));
+                patch.addTexture(*(new Point((float)i*textH, 1-(float)j*textV, 0)));
+                patch.addTexture(*(new Point((float)i*textH, 1-(float)(j+1)*textV, 0)));
+                patch.addTexture(*(new Point((float)(i+1)*textH, 1-(float)(j+1)*textV, 0)));
 
             } else if (j == stacks - 1) {
                 //triangulo de baixo
-                patch.addPoint(*(new Point(radius*sinf(theta2)*sinf(beta2), radius*cosf(theta2), radius*sinf(theta2)*cosf(beta2))));
-                patch.addPoint(*(new Point(radius*sinf(theta2)*sinf(beta1), radius*cosf(theta2), radius*sinf(theta2)*cosf(beta1))));
+                patch.addPoint(*(new Point(radius*sinf(theta1)*sinf(beta2), radius*cosf(theta1), radius*sinf(theta1)*cosf(beta2))));
+                patch.addPoint(*(new Point(radius*sinf(theta1)*sinf(beta1), radius*cosf(theta1), radius*sinf(theta1)*cosf(beta1))));
                 patch.addPoint(*(new Point(0, -radius, 0)));
 
 
-                patch.addNormals(*(new Point(sinf(theta2)*sinf(beta2), cosf(theta2), sinf(theta2)*cosf(beta2))));
-                patch.addNormals(*(new Point(sinf(theta2)*sinf(beta1), cosf(theta2), sinf(theta2)*cosf(beta1))));
+                patch.addNormals(*(new Point(sinf(theta1)*sinf(beta2), cosf(theta1), sinf(theta1)*cosf(beta2))));
+                patch.addNormals(*(new Point(sinf(theta1)*sinf(beta1), cosf(theta1), sinf(theta1)*cosf(beta1))));
                 patch.addNormals(*(new Point(0,-1,0)));
 
-                patch.addTexture(*(new Point((float)(j+1)*textV, (float)(i+1)*textH, 0)));
-                patch.addTexture(*(new Point((float)j*textV, (float)(i+1)*textH, 0)));
-                patch.addTexture(*(new Point((float)j*textV, (float)i*textH, 0)));
+                patch.addTexture(*(new Point((float)(i+1)*textH, 1-(float)j*textV, 0)));
+                patch.addTexture(*(new Point((float)i*textH, 1-(float)j*textV, 0)));
+                patch.addTexture(*(new Point((float)i*textH, 1-(float)(j+1)*textV, 0)));
 
 
             } else{
@@ -369,9 +369,9 @@ void sphere(float radius, int slices, int stacks, string filename){
                 patch.addNormals(*(new Point(sinf(theta2)*sinf(beta1), cosf(theta2), sinf(theta2)*cosf(beta1))));
                 patch.addNormals(*(new Point(sinf(theta2)*sinf(beta2), cosf(theta2), sinf(theta2)*cosf(beta2))));
 
-                patch.addTexture(*(new Point((float)j*textV, (float)i*textH, 0)));
-                patch.addTexture(*(new Point((float)j*textV, (float)(i+1)*textH, 0)));
-                patch.addTexture(*(new Point((float)(j+1)*textV, (float)(i+1)*textH, 0)));
+                patch.addTexture(*(new Point((float)i*textH, 1-(float)j*textV, 0)));
+                patch.addTexture(*(new Point((float)i*textH, 1-(float)(j+1)*textV, 0)));
+                patch.addTexture(*(new Point((float)(i+1)*textH, 1-(float)(j+1)*textV, 0)));
 
 
                 patch.addPoint(*(new Point(radius*sinf(theta1)*sinf(beta2), radius*cosf(theta1), radius*sinf(theta1)*cosf(beta2))));
@@ -383,9 +383,9 @@ void sphere(float radius, int slices, int stacks, string filename){
                 patch.addNormals(*(new Point(sinf(theta1)*sinf(beta1), cosf(theta1), sinf(theta1)*cosf(beta1))));
                 patch.addNormals(*(new Point(sinf(theta2)*sinf(beta2), cosf(theta2), sinf(theta2)*cosf(beta2))));
 
-                patch.addTexture(*(new Point((float)(j+1)*textV, (float)i*textH, 0)));
-                patch.addTexture(*(new Point((float)j*textV, (float)i*textH, 0)));
-                patch.addTexture(*(new Point((float)(j+1)*textV, (float)(i+1)*textH, 0)));
+                patch.addTexture(*(new Point((float)(i+1)*textH, 1-(float)j*textV, 0)));
+                patch.addTexture(*(new Point((float)i*textH, 1-(float)j*textV, 0)));
+                patch.addTexture(*(new Point((float)(i+1)*textH, 1-(float)(j+1)*textV, 0)));
 
             }
             model.addPatch(patch);
@@ -457,9 +457,9 @@ void tronco(float radius1, float radius2, float height, int slices, int stacks, 
             patch.addNormals(*(new Point(sinf(angle2), normalAlt, cosf(angle2))));
             patch.addNormals(*(new Point(sinf(angle1), normalAlt, cosf(angle1))));
 
-            patch.addTexture(*(new Point((float)j*textV, 0.375f + (float)i*textH, 0)));
-            patch.addTexture(*(new Point((float)(j+1)*textV, 0.375f + (float)i*textH, 0)));
-            patch.addTexture(*(new Point((float)j*textV, 0.375f + (float)(i+1)*textH, 0)));
+            patch.addTexture(*(new Point((float)i*textH, 0.375f + (float)j*textV, 0)));
+            patch.addTexture(*(new Point((float)(i+1)*textH, 0.375f + (float)j*textV, 0)));
+            patch.addTexture(*(new Point((float)i*textH, 0.375f + (float)(j+1)*textV, 0)));
 
 
             patch.addPoint(*(new Point(raioStack2 * sinf(angle1), alturaS2, raioStack2 * cosf(angle1))));
@@ -471,9 +471,9 @@ void tronco(float radius1, float radius2, float height, int slices, int stacks, 
             patch.addNormals(*(new Point(sinf(angle2), normalAlt, cosf(angle2))));
             patch.addNormals(*(new Point(sinf(angle2), normalAlt, cosf(angle2))));
 
-            patch.addTexture(*(new Point((float)j*textV, 0.375f + (float)(i+1)*textH, 0)));
-            patch.addTexture(*(new Point((float)(j+1)*textV, 0.375f + (float)i*textH, 0)));
-            patch.addTexture(*(new Point((float)(j+1)*textV, 0.375f + (float)(i+1)*textH, 0)));
+            patch.addTexture(*(new Point((float)i*textH, 0.375f + (float)(j+1)*textV, 0)));
+            patch.addTexture(*(new Point((float)(i+1)*textH, 0.375f + (float)j*textV, 0)));
+            patch.addTexture(*(new Point((float)(i+1)*textH, 0.375f + (float)(j+1)*textV, 0)));
 
 
             model.addPatch(patch);
@@ -506,9 +506,9 @@ void anel(float radius1, float radius2, int slices, string filename){
         patch.addNormals(*(new Point(0, 1, 0)));
         patch.addNormals(*(new Point(0, 1, 0)));
 
-        patch.addTexture(*(new Point(0, 1, 0)));
-        patch.addTexture(*(new Point(1, 0, 0)));
+        patch.addTexture(*(new Point(0, 0, 0)));
         patch.addTexture(*(new Point(1, 1, 0)));
+        patch.addTexture(*(new Point(0, 1, 0)));
 
 
         patch.addPoint(*(new Point(radius2 * sinf(angle1), y, radius2 * cosf(angle1))));
@@ -520,9 +520,9 @@ void anel(float radius1, float radius2, int slices, string filename){
         patch.addNormals(*(new Point(0, 1, 0)));
         patch.addNormals(*(new Point(0, 1, 0)));
 
-        patch.addTexture(*(new Point(0, 1, 0)));
         patch.addTexture(*(new Point(0, 0, 0)));
         patch.addTexture(*(new Point(1, 0, 0)));
+        patch.addTexture(*(new Point(1, 1, 0)));
 
 
         model.addPatch(patch);

@@ -31,6 +31,7 @@ class Group {
         vector<Scale> scales;
         vector<Group> subGroups;
 
+
     public:
         void addModel(Model model);
         vector<Model> getModels();
