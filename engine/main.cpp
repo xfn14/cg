@@ -4,7 +4,12 @@ string filename;
 World world;
 
 int startX, startY, tracking = 0;
-float camX = 0, camY = 0, camZ = 0;
+Camera camera = world.getCamera();
+Point pos = camera.getPosition(),
+      center = camera.getLookAt(),
+      up = camera.getUp();
+
+float camX=pos.getX(),camY=pos.getY(),camZ=pos.getZ();
 int alpha = 0, beta = 0, r = 5;
 
 int tempo;
@@ -13,26 +18,27 @@ int degree = 0, axisOnOff = 1;
 void changeSize(int w, int h) {
     if (h == 0) h = 1;
     float ratio = w * 1.0f / h;
-    Camera camera = world.getCamera();
+    //Camera camera = world.getCamera();
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
+    glViewport(0, 0, w, h);
     gluPerspective(camera.getFov(), ratio, camera.getNear(), camera.getFar());
     glMatrixMode(GL_MODELVIEW);
-    glViewport(0, 0, w, h);
 }
 
-void setCamera() {
-    Camera camera = world.getCamera();
-    Point pos = camera.getPosition(),
-          center = camera.getLookAt(),
-          up = camera.getUp();
-    gluLookAt(
-        pos.getX(), pos.getY(), pos.getZ(),
-        center.getX(), center.getY(), center.getZ(),
-        up.getX(), up.getY(), up.getZ()
-    );
-}
+//void setCamera() {
+//    Camera camera = world.getCamera();
+//    Point pos = camera.getPosition(),
+//          center = camera.getLookAt(),
+//          up = camera.getUp();
+//
+//    gluLookAt(
+//        camX, camY, camZ,
+//        center.getX(), center.getY(), center.getZ(),
+//        up.getX(), up.getY(), up.getZ()
+//    );
+//}
 
 void renderAxis() {
     if(axisOnOff) {
@@ -160,8 +166,8 @@ void renderModels(Group group) {
     vector<Model> models = group.getModels();
     if (!models.empty())
         for (Model model: models) {
-            // if(model.getVbo() == 0)
-            //     model.initVbo();
+             //if(model.getVbo() == 0)
+             //    model.initVbo();
             model.drawModel(group.getColor());
         }
 
@@ -178,11 +184,15 @@ void renderScene(void) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
-    setCamera();
+    gluLookAt(
+            camX, camY, camZ,
+            center.getX(), center.getY(), center.getZ(),
+            up.getX(), up.getY(), up.getZ()
+    );
 
     renderAxis();
     
-    glRotatef(degree, 0, 1, 0);
+    //glRotatef(degree, 0, 1, 0);
 
     renderModels(*world.getGroup());
 
@@ -274,8 +284,6 @@ void processMouseMotion(int xx, int yy) {
     deltaY = yy - startY;
 
     if (tracking == 1) {
-
-
         alphaAux = alpha + deltaX;
         betaAux = beta + deltaY;
 
@@ -287,7 +295,6 @@ void processMouseMotion(int xx, int yy) {
         rAux = r;
     }
     else if (tracking == 2) {
-
         alphaAux = alpha;
         betaAux = beta;
         rAux = r - deltaY;
@@ -297,13 +304,31 @@ void processMouseMotion(int xx, int yy) {
     camX = rAux * sin(alphaAux * 3.14 / 180.0) * cos(betaAux * 3.14 / 180.0);
     camZ = rAux * cos(alphaAux * 3.14 / 180.0) * cos(betaAux * 3.14 / 180.0);
     camY = rAux * 							     sin(betaAux * 3.14 / 180.0);
-    world.addPositionCamera(camX,camY,camZ);
+    //world.addPositionCamera(camX,camY,camZ);
 }
 
 void printInfo() {
     printf("Vendor: %s\n", glGetString(GL_VENDOR));
     printf("Renderer: %s\n", glGetString(GL_RENDERER));
     printf("Version: %s\n", glGetString(GL_VERSION));
+}
+
+void initGL() {
+
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_NORMAL_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+    glClearColor(0, 0, 0, 0);
+
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+    glEnable(GL_RESCALE_NORMAL);
+    glEnable(GL_TEXTURE_2D);
+
 }
 
 int main(int argc, char** argv) {
@@ -328,17 +353,18 @@ int main(int argc, char** argv) {
     glutIdleFunc(renderScene);
     glutDisplayFunc(renderScene);
 
-    glutSpecialFunc(keyboard_special);
-    glutKeyboardFunc(keyboard);
+    //glutSpecialFunc(keyboard_special);
+    //glutKeyboardFunc(keyboard);
     glutMouseFunc(processMouseButtons);
     glutMotionFunc(processMouseMotion);
 
     // Settings
     glewInit();
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-    glEnable(GL_RESCALE_NORMAL);
+    initGL();
+    //glEnableClientState(GL_VERTEX_ARRAY);
+    //glEnable(GL_DEPTH_TEST);
+    //glEnable(GL_CULL_FACE);
+    //glEnable(GL_RESCALE_NORMAL);
 
     world.parseXML(path, xmlFile);
 

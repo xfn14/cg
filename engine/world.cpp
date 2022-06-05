@@ -289,7 +289,6 @@ void World::parseModels(string path, XMLElement * elem, Group * g) {
                 } else if(modelChild->Value() == "texture") {
                     string textPath = modelChild->Attribute("file");
                     model.loadTexture(path + textPath);
-                    model.setTextura(path+textPath);
                 }
             }
 
@@ -358,31 +357,32 @@ void World::parseTransform(XMLElement * elem, Group *g) {
 }
 
 void Model::initVbo() {
+    int size = 0;
+    for(Patch patch : patches)
+        size += patch.getPoints().size();
+    float* arr_vert = (float*) malloc(sizeof(float) * size * 3);
+    float* arr_norm = (float*) malloc(sizeof(float) * size * 3);
+    float* arr_text = (float*) malloc(sizeof(float) * size * 2);
 
-
-    for(Patch patch : patches) {
-        sizes[0] += patch.getPoints().size();
-        sizes[1] += patch.getNormals().size();
-        sizes[2] += patch.getTexture().size();
-    }
-
-    float* arr_vert = (float*) malloc(sizeof(float) * sizes[0] * 3);
-    float* arr_norm = (float*) malloc(sizeof(float) * sizes[1] * 3);
-    float* arr_text = (float*) malloc(sizeof(float) * sizes[2] * 2);
+    vector<float> arr_vert2,arr_norm2,arr_text2;
 
     int i;
     for(Patch patch : patches)
-        for (i = 0; i < patch.getPoints().size(); ++i) {
-            arr_vert[i * 3] = patch.getPoints()[i].getX();
-            arr_vert[i * 3 + 1] = patch.getPoints()[i].getY();
-            arr_vert[i * 3 + 2] = patch.getPoints()[i].getZ();
+        for (i=0; i < patch.getPoints().size(); ++i) {
+            arr_vert2.push_back(patch.getPoints()[i].getX());
+            arr_vert2.push_back(patch.getPoints()[i].getY());
+            arr_vert2.push_back(patch.getPoints()[i].getZ());
 
-            arr_norm[i * 3] = patch.getNormals()[i].getX();
-            arr_norm[i * 3 + 1] = patch.getNormals()[i].getY();
-            arr_norm[i * 3 + 2] = patch.getNormals()[i].getZ();
+            arr_norm2.push_back(patch.getNormals()[i].getX());
+            arr_norm2.push_back(patch.getNormals()[i].getY());
+            arr_norm2.push_back(patch.getNormals()[i].getZ());
 
-            arr_text[i * 2] = patch.getTexture()[i].getX();
-            arr_text[i * 2 + 1] = patch.getTexture()[i].getY();
+            //printf("%f %f %f\n", arr_norm[i*3], arr_norm[i*3+1], arr_norm[i*3+2]);
+
+            arr_text2.push_back(patch.getTexture()[i].getX());
+            arr_text2.push_back(patch.getTexture()[i].getY());
+
+            //printf("%f %f\n", arr_text[i*2],arr_text[i*2+1]);
         }
 
     glGenBuffers(1, &vboId);
@@ -390,13 +390,14 @@ void Model::initVbo() {
     glGenBuffers(1, &textureId);
     
     glBindBuffer(GL_ARRAY_BUFFER, vboId);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * i * 3, arr_vert, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * arr_vert2.size(), arr_vert2.data(), GL_STATIC_DRAW);
+    //printf("%d",i*3);
 
     glBindBuffer(GL_ARRAY_BUFFER, normalsId);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * i * 3, arr_norm, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * arr_norm2.size(), arr_norm2.data(), GL_STATIC_DRAW);
 
     glBindBuffer(GL_ARRAY_BUFFER, textureId);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * i * 2, arr_text, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * arr_text2.size(), arr_text2.data(), GL_STATIC_DRAW);
 
     free(arr_vert);
     free(arr_norm);
@@ -410,31 +411,29 @@ void Model::drawModel(Color color) {
 
     ModelColor modelColor = Model::getColor();
     
-    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, modelColor.getDiffuse());
-    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, modelColor.getAmbient());
-    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, modelColor.getEmission());
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, modelColor.getSpecular());
-    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, modelColor.getShininess());
+    //glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, modelColor.getDiffuse());
+    //glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, modelColor.getAmbient());
+    //glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, modelColor.getEmission());
+    //glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, modelColor.getSpecular());
+    //glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, modelColor.getShininess());
 
     // glColor3f(color.getR(), color.getG(), color.getB());
-    
+    glBindTexture(GL_TEXTURE_2D, texture);
     glBindBuffer(GL_ARRAY_BUFFER, vboId);
     glVertexPointer(3, GL_FLOAT, 0, 0);
 
-    if(sizes[1]) {
-        glBindBuffer(GL_ARRAY_BUFFER, normalsId);
-        glNormalPointer(GL_FLOAT, 0, 0);
-    }
+    glBindBuffer(GL_ARRAY_BUFFER, normalsId);
+    glNormalPointer(GL_FLOAT, 0, 0);
 
-    if(strcmp(Model::textura.c_str(),"") != 0) {
-        glBindBuffer(GL_ARRAY_BUFFER, textureId);
-        glTexCoordPointer(2, GL_FLOAT, 0, 0);
-        glBindTexture(GL_TEXTURE_2D, texture);
-    }
+    glBindBuffer(GL_ARRAY_BUFFER, textureId);
+    glTexCoordPointer(2, GL_FLOAT, 0, 0);
+    //glBindTexture(GL_TEXTURE_2D, texture);
+
 
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_LIGHTING);
     glDrawArrays(GL_TRIANGLES, 0, size);
+    glBindTexture(GL_TEXTURE_2D, 0);
     glDisable(GL_TEXTURE_2D);
     glDisable(GL_LIGHTING);
 
@@ -466,4 +465,6 @@ void Model::loadTexture(string path) {
         
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tw, th, 0, GL_RGBA, GL_UNSIGNED_BYTE, texData);
     glGenerateMipmap(GL_TEXTURE_2D);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
 }

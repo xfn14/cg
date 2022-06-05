@@ -49,11 +49,10 @@ void plane(float units, int divisions, string filename){
 
 void box(float units, int grid, string filename){
     Model model;
-    float x, y, z, div, divx, divy;
+    float x, y, z, div, divt;
     x = y = z = - units/2;
     div = units/(float) grid;
-    divx =  (float) 0.25 / (float) grid;
-    divy = (float)0.33 /(float)grid;
+    divt =  (float) 1 / (float) grid;
 
     for (int i=0; i < grid; i++){
         for(int j=0; j < grid; j++){
@@ -68,9 +67,9 @@ void box(float units, int grid, string filename){
             patch.addNormals(*(new Point(0, 1, 0)));
             patch.addNormals(*(new Point(0, 1, 0)));
 
-            patch.addTexture(*(new Point(0.25f+(float)(j+1)*divx, 1-(float)(i+1)*divy, 0)));
-            patch.addTexture(*(new Point(0.25f+(float)j*divx, 1-(float)i*divy, 0)));
-            patch.addTexture(*(new Point(0.25f+(float)j*divx, 1-(float)(i+1)*divy, 0)));
+            patch.addTexture(*(new Point((float)(j+1)*divt, 1-(float)(i+1)*divt, 0)));
+            patch.addTexture(*(new Point((float)j*divt, 1-(float)i*divt, 0)));
+            patch.addTexture(*(new Point((float)j*divt, 1-(float)(i+1)*divt, 0)));
 
 
             patch.addPoint(*(new Point(x + (float) (j+1)*div, -y, z + (float) (i+1)*div)));
@@ -82,9 +81,9 @@ void box(float units, int grid, string filename){
             patch.addNormals(*(new Point(0, 1, 0)));
             patch.addNormals(*(new Point(0, 1, 0)));
 
-            patch.addTexture(*(new Point(0.25f+(float)(j+1)*divx, 1-(float)(i+1)*divy, 0)));
-            patch.addTexture(*(new Point(0.25f+(float)(j+1)*divx, 1-(float)i*divy, 0)));
-            patch.addTexture(*(new Point(0.25f+(float)j*divx, 1-(float)i*divy, 0)));
+            patch.addTexture(*(new Point((float)(j+1)*divt, 1-(float)(i+1)*divt, 0)));
+            patch.addTexture(*(new Point((float)(j+1)*divt, 1-(float)i*divt, 0)));
+            patch.addTexture(*(new Point((float)j*divt, 1-(float)i*divt, 0)));
 
 
             //face de baixo
@@ -97,9 +96,9 @@ void box(float units, int grid, string filename){
             patch.addNormals(*(new Point(0, -1, 0)));
             patch.addNormals(*(new Point(0, -1, 0)));
 
-            patch.addTexture(*(new Point(0.25f+(float)j*divx, 0.33f-(float)i*divy, 0)));
-            patch.addTexture(*(new Point(0.25f+(float)(j+1)*divx, 0.33f-(float)(i+1)*divy, 0)));
-            patch.addTexture(*(new Point(0.25f+(float)j*divx, 0.33f-(float)(i+1)*divy, 0)));
+            patch.addTexture(*(new Point((float)j*divt, 1-(float)i*divt, 0)));
+            patch.addTexture(*(new Point((float)(j+1)*divt, 1-(float)(i+1)*divt, 0)));
+            patch.addTexture(*(new Point((float)j*divt, 1-(float)(i+1)*divt, 0)));
 
 
             patch.addPoint(*(new Point(x + (float) (j+1)*div, y, z + (float) (i+1)*div)));
@@ -111,9 +110,9 @@ void box(float units, int grid, string filename){
             patch.addNormals(*(new Point(0, -1, 0)));
             patch.addNormals(*(new Point(0, -1, 0)));
 
-            patch.addTexture(*(new Point(0.25f+(float)(j+1)*divx, 0.33f-(float)(i+1)*divy, 0)));
-            patch.addTexture(*(new Point(0.25f+(float)j*divx, 0.33f-(float)i*divy, 0)));
-            patch.addTexture(*(new Point(0.25f+(float)(j+1)*divx, 0.33f-(float)i*divy, 0)));
+            patch.addTexture(*(new Point((float)(j+1)*divt, 1-(float)(i+1)*divt, 0)));
+            patch.addTexture(*(new Point((float)j*divt, 1-(float)i*divt, 0)));
+            patch.addTexture(*(new Point((float)(j+1)*divt, 1-(float)i*divt, 0)));
 
 
             //face lateral -x
@@ -126,9 +125,9 @@ void box(float units, int grid, string filename){
             patch.addNormals(*(new Point(-1, 0, 0)));
             patch.addNormals(*(new Point(-1, 0, 0)));
 
-            patch.addTexture(*(new Point((float)j*divx, 0.66f-(float)i*divy, 0)));
-            patch.addTexture(*(new Point((float)(j+1)*divx, 0.66f-(float)(i+1)*divy, 0)));
-            patch.addTexture(*(new Point((float)j*divx, 0.66f-(float)(i+1)*divy, 0)));
+            patch.addTexture(*(new Point((float)j*divt, 1-(float)i*divt, 0)));
+            patch.addTexture(*(new Point((float)(j+1)*divt, 1-(float)(i+1)*divt, 0)));
+            patch.addTexture(*(new Point((float)j*divt, 1-(float)(i+1)*divt, 0)));
 
 
             patch.addPoint(*(new Point(x , y + (float) (i+1)*div, z + (float) (j+1)*div)));
@@ -140,9 +139,9 @@ void box(float units, int grid, string filename){
             patch.addNormals(*(new Point(-1, 0, 0)));
             patch.addNormals(*(new Point(-1, 0, 0)));
 
-            patch.addTexture(*(new Point((float)(j+1)*divx, 0.66f-(float)(i+1)*divy, 0)));
-            patch.addTexture(*(new Point((float)j*divx, 0.66f-(float)i*divy, 0)));
-            patch.addTexture(*(new Point((float)(j+1)*divx, 0.66f-(float)i*divy, 0)));
+            patch.addTexture(*(new Point((float)(j+1)*divt, 1-(float)(i+1)*divt, 0)));
+            patch.addTexture(*(new Point((float)j*divt, 1-(float)i*divt, 0)));
+            patch.addTexture(*(new Point((float)(j+1)*divt, 1-(float)i*divt, 0)));
 
 
             //face lateral x
@@ -155,9 +154,9 @@ void box(float units, int grid, string filename){
             patch.addNormals(*(new Point(1, 0, 0)));
             patch.addNormals(*(new Point(1, 0, 0)));
 
-            patch.addTexture(*(new Point(0.5f+(float)j*divx, 0.66f-(float)i*divy, 0)));
-            patch.addTexture(*(new Point(0.5f+(float)j*divx, 0.66f-(float)(i+1)*divy, 0)));
-            patch.addTexture(*(new Point(0.5f+(float)(j+1)*divx, 0.66f-(float)(i+1)*divy, 0)));
+            patch.addTexture(*(new Point((float)j*divt, 1-(float)i*divt, 0)));
+            patch.addTexture(*(new Point((float)j*divt, 1-(float)(i+1)*divt, 0)));
+            patch.addTexture(*(new Point((float)(j+1)*divt, 1-(float)(i+1)*divt, 0)));
 
 
             patch.addPoint(*(new Point(-x, y + (float) (i+1)*div, z + (float) (j+1)*div)));
@@ -169,9 +168,9 @@ void box(float units, int grid, string filename){
             patch.addNormals(*(new Point(1, 0, 0)));
             patch.addNormals(*(new Point(1, 0, 0)));
 
-            patch.addTexture(*(new Point(0.5f+(float)(j+1)*divx, 0.66f-(float)(i+1)*divy, 0)));
-            patch.addTexture(*(new Point(0.5f+(float)(j+1)*divx, 0.66f-(float)i*divy, 0)));
-            patch.addTexture(*(new Point(0.5f+(float)j*divx, 0.66f-(float)i*divy, 0)));
+            patch.addTexture(*(new Point((float)(j+1)*divt, 1-(float)(i+1)*divt, 0)));
+            patch.addTexture(*(new Point((float)(j+1)*divt, 1-(float)i*divt, 0)));
+            patch.addTexture(*(new Point((float)j*divt, 1-(float)i*divt, 0)));
 
 
             //face lateral z
@@ -184,9 +183,9 @@ void box(float units, int grid, string filename){
             patch.addNormals(*(new Point(0, 0, 1)));
             patch.addNormals(*(new Point(0, 0, 1)));
 
-            patch.addTexture(*(new Point(0.25f+(float)(j+1)*divx, 0.66f-(float)(i+1)*divy, 0)));
-            patch.addTexture(*(new Point(0.25f+(float)j*divx, 0.66f-(float)i*divy, 0)));
-            patch.addTexture(*(new Point(0.25f+(float)(j+1)*divx, 0.66f-(float)i*divy, 0)));
+            patch.addTexture(*(new Point((float)(j+1)*divt, 1-(float)(i+1)*divt, 0)));
+            patch.addTexture(*(new Point((float)j*divt, 1-(float)i*divt, 0)));
+            patch.addTexture(*(new Point((float)(j+1)*divt, 1-(float)i*divt, 0)));
 
 
             patch.addPoint(*(new Point(x + (float) (j+1)*div, y + (float) (i+1)*div, -z)));
@@ -198,9 +197,9 @@ void box(float units, int grid, string filename){
             patch.addNormals(*(new Point(0, 0, 1)));
             patch.addNormals(*(new Point(0, 0, 1)));
 
-            patch.addTexture(*(new Point(0.25f+(float)(j+1)*divx, 0.66f-(float)(i+1)*divy, 0)));
-            patch.addTexture(*(new Point(0.25f+(float)j*divx, 0.66f-(float)(i+1)*divy, 0)));
-            patch.addTexture(*(new Point(0.25f+(float)j*divx, 0.66f-(float)i*divy, 0)));
+            patch.addTexture(*(new Point((float)(j+1)*divt, 1-(float)(i+1)*divt, 0)));
+            patch.addTexture(*(new Point((float)j*divt, 1-(float)(i+1)*divt, 0)));
+            patch.addTexture(*(new Point((float)j*divt, 1-(float)i*divt, 0)));
 
 
             //face lateral -z
@@ -213,9 +212,9 @@ void box(float units, int grid, string filename){
             patch.addNormals(*(new Point(0, 0, -1)));
             patch.addNormals(*(new Point(0, 0, -1)));
 
-            patch.addTexture(*(new Point(0.75f+(float)j*divx, 0.66f-(float)i*divy, 0)));
-            patch.addTexture(*(new Point(0.75f+(float)j*divx, 0.66f-(float)(i+1)*divy, 0)));
-            patch.addTexture(*(new Point(0.75f+(float)(j+1)*divx, 0.66f-(float)(i+1)*divy, 0)));
+            patch.addTexture(*(new Point((float)j*divt, 1-(float)i*divt, 0)));
+            patch.addTexture(*(new Point((float)j*divt, 1-(float)(i+1)*divt, 0)));
+            patch.addTexture(*(new Point((float)(j+1)*divt, 1-(float)(i+1)*divt, 0)));
 
 
             patch.addPoint(*(new Point(x + (float) (j+1)*div, y + (float) (i+1)*div, z)));
@@ -227,9 +226,9 @@ void box(float units, int grid, string filename){
             patch.addNormals(*(new Point(0, 0, -1)));
             patch.addNormals(*(new Point(0, 0, -1)));
 
-            patch.addTexture(*(new Point(0.75f+(float)(j+1)*divx, 0.66f-(float)(i+1)*divy, 0)));
-            patch.addTexture(*(new Point(0.75f+(float)(j+1)*divx, 0.66f-(float)i*divy, 0)));
-            patch.addTexture(*(new Point(0.75f+(float)j*divx, 0.66f-(float)i*divy, 0)));
+            patch.addTexture(*(new Point((float)(j+1)*divt, 1-(float)(i+1)*divt, 0)));
+            patch.addTexture(*(new Point((float)(j+1)*divt, 1-(float)i*divt, 0)));
+            patch.addTexture(*(new Point((float)j*divt, 1-(float)i*divt, 0)));
 
 
             model.addPatch(patch);

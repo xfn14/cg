@@ -14,13 +14,14 @@ class Camera {
 
     public:
         Camera(){
-            setPosition(new Point(5, 2, 5));
+            setPosition(new Point(2, 2, 3));
             setLookAt(new Point(0, 0, 0));
             setUp(new Point(0, 1, 0));
             Camera::fov = 60;
             Camera::near = 1;
             Camera::far = 1000;
         }
+
         
         Point getPosition();
         void setPosition(Point * position);
