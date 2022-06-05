@@ -19,7 +19,6 @@ using namespace std;
 
 class Model {
     private:
-
         GLuint vboId, normalsId, textureId;
         vector<Patch> patches;
         ModelColor color;
