@@ -216,7 +216,7 @@ void World::parseLights(XMLElement * elem) {
                 child->QueryFloatAttribute("diry", &dirY);
                 child->QueryFloatAttribute("dirz", &dirZ);
                 World::lights.push_back(*(new Light(DIRECTIONAL, *(new Point(dirX, dirY, dirZ)))));
-            } else if(strcmp(type, "spotlight") == 0) {
+            } else if(strcmp(type, "spot") == 0) {
                 float posX, posY, posZ, dirX, dirY, dirZ;
                 int cutoff;
                 child->QueryFloatAttribute("posx", &posX);
@@ -400,15 +400,11 @@ void Model::drawModel(Color color) {
 
     ModelColor modelColor = Model::getColor();
 
-    glMaterialfv(GL_FRONT, GL_DIFFUSE, modelColor.getDiffuse());
-    glMaterialfv(GL_FRONT, GL_AMBIENT, modelColor.getAmbient());
-    glMaterialfv(GL_FRONT, GL_SPECULAR, modelColor.getSpecular());
-    glMaterialfv(GL_FRONT, GL_EMISSION, modelColor.getEmission());
-    glMaterialf(GL_FRONT, GL_SHININESS, modelColor.getShininess());
+
 
     //cout << modelColor.getEmission()[0] << modelColor.getEmission()[1] << modelColor.getEmission()[2] << endl;
 
-    if(Model::texture == 1){
+    if(Model::texture != 0){
         glBindTexture(GL_TEXTURE_2D, texture);
         glBindBuffer(GL_ARRAY_BUFFER, vboId);
         glVertexPointer(3, GL_FLOAT, 0, 0);
@@ -427,7 +423,15 @@ void Model::drawModel(Color color) {
         glDisable(GL_TEXTURE_2D);
         glDisable(GL_LIGHTING);
     } else {
+
+        glMaterialfv(GL_FRONT, GL_DIFFUSE, modelColor.getDiffuse());
+        glMaterialfv(GL_FRONT, GL_AMBIENT, modelColor.getAmbient());
+        glMaterialfv(GL_FRONT, GL_SPECULAR, modelColor.getSpecular());
+        glMaterialfv(GL_FRONT, GL_EMISSION, modelColor.getEmission());
+        glMaterialf(GL_FRONT, GL_SHININESS, modelColor.getShininess());
+
         glColor3f(color.getR(), color.getG(), color.getB());
+
         glBindBuffer(GL_ARRAY_BUFFER, vboId);
         glVertexPointer(3, GL_FLOAT, 0, 0);
 

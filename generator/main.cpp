@@ -21,9 +21,9 @@ void plane(float units, int divisions, string filename){
             patch.addNormals(*(new Point(0, 1, 0)));
             patch.addNormals(*(new Point(0, 1, 0)));
 
-            patch.addTexture(*(new Point((float) j*divt, 1 - (float)i*divt, 0)));
-            patch.addTexture(*(new Point((float) (j+1)*divt, 1 - (float)(i+1)*divt, 0)));
-            patch.addTexture(*(new Point((float) (j+1)*divt, 1 - (float)i*divt, 0)));
+            patch.addTexture(*(new Point(0, 1, 0)));
+            patch.addTexture(*(new Point(1, 0, 0)));
+            patch.addTexture(*(new Point(1, 1, 0)));
 
 
             patch.addPoint(*(new Point(x + (float) j*div, 0, z + (float) i*div)));
@@ -35,9 +35,9 @@ void plane(float units, int divisions, string filename){
             patch.addNormals(*(new Point(0, 1, 0)));
             patch.addNormals(*(new Point(0, 1, 0)));
 
-            patch.addTexture(*(new Point((float)j*divt, 1-(float)i*divt, 0)));
-            patch.addTexture(*(new Point((float)j*divt, 1-(float)(i+1)*divt, 0)));
-            patch.addTexture(*(new Point((float)(j+1)*divt, 1-(float)(i+1)*divt, 0)));
+            patch.addTexture(*(new Point(0, 1, 0)));
+            patch.addTexture(*(new Point(0, 0, 0)));
+            patch.addTexture(*(new Point(1, 0, 0)));
 
 
 

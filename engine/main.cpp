@@ -18,7 +18,6 @@ int degree = 0, axisOnOff = 1;
 void changeSize(int w, int h) {
     if (h == 0) h = 1;
     float ratio = w * 1.0f / h;
-    //Camera camera = world.getCamera();
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -26,19 +25,6 @@ void changeSize(int w, int h) {
     gluPerspective(camera.getFov(), ratio, camera.getNear(), camera.getFar());
     glMatrixMode(GL_MODELVIEW);
 }
-
-//void setCamera() {
-//    Camera camera = world.getCamera();
-//    Point pos = camera.getPosition(),
-//          center = camera.getLookAt(),
-//          up = camera.getUp();
-//
-//    gluLookAt(
-//        camX, camY, camZ,
-//        center.getX(), center.getY(), center.getZ(),
-//        up.getX(), up.getY(), up.getZ()
-//    );
-//}
 
 void renderAxis() {
     if(axisOnOff) {
@@ -86,7 +72,6 @@ void transformacoes(Group group) {
                 int t = floor((float) tempo / (float) 1000 / translate.getTime());
                 float p = ((float) tempo / (float) 1000 - t * translate.getTime()) / translate.getTime();
                 translate.getGlobalCatmullRomPoint(p, pos, deriv);
-                // cout << "pos: " << pos[0] << " " << pos[1] << " " << pos[2] << endl;
                 glTranslatef(pos[0], pos[1], pos[2]);
                 float x[3] = {deriv[0], deriv[1], deriv[2]};
                 normalize(x);
@@ -177,7 +162,7 @@ void renderModels(Group group) {
 }
 
 void Light::render() {
-    GLfloat ambiente [4] = {0.2,0.2,0.2,1.0};
+    GLfloat ambiente [4] = {1.0,1.0,1.0,1.0};
     GLfloat diff     [4] = {1.0,1.0,1.0,0.0};
     GLfloat spec     [4] = {1.0,1.0,1.0,1.0};
 
@@ -199,10 +184,8 @@ void renderScene(void) {
     tempo = glutGet(GLUT_ELAPSED_TIME);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
-
-
-    // cout << camera.getPosition().getX() << " " << camera.getPosition().getY() << " " << camera.getPosition().getZ() << endl;
-
+    for(Light light : world.getLights())
+        light.render();
     gluLookAt(
             camX, camY, camZ,
             center.getX(), center.getY(), center.getZ(),
@@ -210,10 +193,9 @@ void renderScene(void) {
     );
 
     renderAxis();
-    
+
     //glRotatef(degree, 0, 1, 0);
-    for(Light light : world.getLights())
-        light.render();
+
 
     renderModels(*world.getGroup());
 
@@ -325,7 +307,6 @@ void processMouseMotion(int xx, int yy) {
     camX = rAux * sin(alphaAux * 3.14 / 180.0) * cos(betaAux * 3.14 / 180.0);
     camZ = rAux * cos(alphaAux * 3.14 / 180.0) * cos(betaAux * 3.14 / 180.0);
     camY = rAux * 							     sin(betaAux * 3.14 / 180.0);
-    // world.addPositionCamera(camX,camY,camZ);
 }
 
 void printInfo() {
@@ -350,8 +331,8 @@ void initGL() {
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
 
-    // float amb[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
-	// glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
+     float amb[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	 glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
 }
 
 int main(int argc, char** argv) {
@@ -384,10 +365,6 @@ int main(int argc, char** argv) {
     // Settings
     glewInit();
     initGL();
-    //glEnableClientState(GL_VERTEX_ARRAY);
-    //glEnable(GL_DEPTH_TEST);
-    //glEnable(GL_CULL_FACE);
-    //glEnable(GL_RESCALE_NORMAL);
 
     world.parseXML(path, xmlFile);
 
