@@ -164,35 +164,38 @@ int World::parseXML(string path, string filename) {
 }
 
 void World::parseCamera(XMLElement * elem) {
+    Camera cam = Camera();
     float posX, posY, posZ;
     XMLElement * positionElem = elem->FirstChildElement("position");
     positionElem->QueryFloatAttribute("x", &posX);
     positionElem->QueryFloatAttribute("y", &posY);
     positionElem->QueryFloatAttribute("z", &posZ);
-    World::camera.setPosition(new Point(posX, posY, posZ));
+    cam.setPosition(new Point(posX, posY, posZ));
 
     float lookAtX, lookAtY, lookAtZ;
     XMLElement * lookAtElem = elem->FirstChildElement("lookAt");
     lookAtElem->QueryFloatAttribute("x", &lookAtX);
     lookAtElem->QueryFloatAttribute("y", &lookAtY);
     lookAtElem->QueryFloatAttribute("z", &lookAtZ);
-    World::camera.setLookAt(new Point(lookAtX, lookAtY, lookAtZ));
+    cam.setLookAt(new Point(lookAtX, lookAtY, lookAtZ));
 
     float upX, upY, upZ;
     XMLElement * upElem = elem->FirstChildElement("up");
     upElem->QueryFloatAttribute("x", &upX);
     upElem->QueryFloatAttribute("y", &upY);
     upElem->QueryFloatAttribute("z", &upZ);
-    World::camera.setUp(new Point(upX, upY, upZ));
+    cam.setUp(new Point(upX, upY, upZ));
 
     float fov, near, far;
     XMLElement * projectionElem = elem->FirstChildElement("projection");
     projectionElem->QueryFloatAttribute("fov", &fov);
     projectionElem->QueryFloatAttribute("near", &near);
     projectionElem->QueryFloatAttribute("far", &far);
-    World::camera.setFov(fov);
-    World::camera.setNear(near);
-    World::camera.setFar(far);
+    cam.setFov(fov);
+    cam.setNear(near);
+    cam.setFar(far);
+
+    World::camera = cam;
 }
 
 void World::parseLights(XMLElement * elem) {

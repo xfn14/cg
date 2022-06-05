@@ -3,12 +3,6 @@
 
 #include "../utils/point.h"
 
-enum Type {
-    POINT,
-    DIRECTIONAL,
-    SPOTLIGHT
-};
-
 class ModelColor {
     private:
         float diffuse[4], ambient[4], specular[4], emission[4], shininess;
@@ -40,6 +34,12 @@ class ModelColor {
         float getShininess();
 };
 
+enum Type {
+    POINT,
+    DIRECTIONAL,
+    SPOTLIGHT
+};
+
 class Light {
     private:
         Type type;
@@ -53,6 +53,7 @@ class Light {
         Point getPosition();
         Point getDirection();
         int getCutoff();
+        void render();
 };
 
 #endif
