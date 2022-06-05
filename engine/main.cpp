@@ -4,13 +4,13 @@ string filename;
 World world;
 
 int startX, startY, tracking = 0;
-Camera camera = world.getCamera();
-Point pos = camera.getPosition(),
-      center = camera.getLookAt(),
-      up = camera.getUp();
+Camera camera;
+Point pos,
+      center,
+      up;
 
-float camX=pos.getX(),camY=pos.getY(),camZ=pos.getZ();
-int alpha = 0, beta = 0, r = 5;
+float camX,camY,camZ;
+int alpha = 0, beta = 0, r;
 
 int tempo;
 int degree = 0, axisOnOff = 1;
@@ -189,7 +189,7 @@ void Light::render() {
     glLightfv(GL_LIGHT0, GL_SPECULAR, spec);
 
     if(type == POINT || type == DIRECTIONAL) {
-        float pose[4] = {pos.getX(), pos.getY(), pos.getZ(), type == POINT ? 1 : 0};
+        float pose[4] = {pos.getX(), pos.getY(), pos.getZ(), type == POINT ? 1.0f : 0.0f};
         glLightfv(GL_LIGHT0, GL_POSITION, pose);
     } else if(type == SPOTLIGHT) {
         float dire[3] = {dir.getX(), dir.getY(), dir.getZ()};
@@ -204,6 +204,9 @@ void renderScene(void) {
     tempo = glutGet(GLUT_ELAPSED_TIME);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
+
+
+    // cout << camera.getPosition().getX() << " " << camera.getPosition().getY() << " " << camera.getPosition().getZ() << endl;
 
     gluLookAt(
             camX, camY, camZ,
@@ -327,7 +330,7 @@ void processMouseMotion(int xx, int yy) {
     camX = rAux * sin(alphaAux * 3.14 / 180.0) * cos(betaAux * 3.14 / 180.0);
     camZ = rAux * cos(alphaAux * 3.14 / 180.0) * cos(betaAux * 3.14 / 180.0);
     camY = rAux * 							     sin(betaAux * 3.14 / 180.0);
-    //world.addPositionCamera(camX,camY,camZ);
+    // world.addPositionCamera(camX,camY,camZ);
 }
 
 void printInfo() {
@@ -390,6 +393,11 @@ int main(int argc, char** argv) {
     //glEnable(GL_RESCALE_NORMAL);
 
     world.parseXML(path, xmlFile);
+    
+    camera = world.getCamera();
+    pos = camera.getPosition(); center = camera.getLookAt(); up = camera.getUp();
+    camX = pos.getX(); camY = pos.getY(); camZ = pos.getZ();
+    r = sqrt(pow(camX, 2) + pow(camY, 2) + pow(camZ, 2));
 
     // Initialize window
     glutMainLoop();
