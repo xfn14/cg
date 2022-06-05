@@ -362,7 +362,7 @@ void World::parseTransform(XMLElement * elem, Group *g) {
 
 void Model::initVbo() {
     vector<float> arr_vert2,arr_norm2,arr_text2;
-    
+
     for(Patch patch : patches)
         for (int i = 0; i < patch.getPoints().size(); ++i) {
             arr_vert2.push_back(patch.getPoints()[i].getX());
@@ -398,15 +398,7 @@ void Model::drawModel(Color color) {
 
     ModelColor modelColor = Model::getColor();
 
-    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, modelColor.getDiffuse());
-    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, modelColor.getAmbient());
-    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, modelColor.getEmission());
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, modelColor.getSpecular());
-    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, modelColor.getShininess());
-
-
     if(Model::texture == 1){
-        // glColor3f(color.getR(), color.getG(), color.getB());
         glBindTexture(GL_TEXTURE_2D, texture);
         glBindBuffer(GL_ARRAY_BUFFER, vboId);
         glVertexPointer(3, GL_FLOAT, 0, 0);
@@ -426,6 +418,7 @@ void Model::drawModel(Color color) {
         glDisable(GL_TEXTURE_2D);
         glDisable(GL_LIGHTING);
     } else {
+        glColor3f(color.getR(), color.getG(), color.getB());
         glBindBuffer(GL_ARRAY_BUFFER, vboId);
         glVertexPointer(3, GL_FLOAT, 0, 0);
 

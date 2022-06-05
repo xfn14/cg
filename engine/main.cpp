@@ -63,7 +63,7 @@ void renderAxis() {
     }
 }
 
-void transformacoes(Group group){
+void transformacoes(Group group) {
     vector<Rotate> rotates = group.getRotate();
     if(!rotates.empty())
         for(Rotate rotate : rotates) {

@@ -27,9 +27,11 @@ class Model {
         GLuint texture;
 
         Model(){
+            texture = 0;
         }
 
         Model(string path) {
+            texture = 0;
             Model::readModel(path);
         }
         
