@@ -20,6 +20,11 @@ $ sudo apt-get update
 $ sudo apt-get install freeglut3-dev
 ```
 
+## Images
+
+<img src="https://github.com/xfn14/cg/blob/bd83229b35a84c4ae4a331ebb932b14b64611915/resources/tests/test4/4_7.png"  width="600" height="600">
+<img src="https://github.com/xfn14/cg/blob/8631832083526717addc74538fc35af16442f593/resources/tests/test3/sistemaSolar.png"  width="600" height="600">
+
 ## Usage
 
 ### Generator
